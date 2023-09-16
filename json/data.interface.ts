@@ -13,11 +13,11 @@ interface dataTypes {
     background?: string
     hasAgeRestriction: number
     categories: string[]
-    cats: dataSubtypes
+    cats: dataSubtypes[]
     features: string[]
-    feats: dataSubtypes
+    feats: dataSubtypes[]
     themes: string[]
-    thms: dataSubtypes
+    thms: dataSubtypes[]
 }
 
-export default dataTypes
+export type { dataTypes , dataSubtypes }

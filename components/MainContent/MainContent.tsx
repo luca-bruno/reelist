@@ -3,14 +3,15 @@
 import React, { useState } from "react"
 import GameCardList from "../GameCardList"
 import GameSelectionPane from "../GameSelectionPane"
+import defaultSelectedGameId from "./data"
 
 const MainContent = () => {
-    const [items, setItems] = useState("")
+    const [selectedGameId, setSelectedGameId] = useState(defaultSelectedGameId)
 
     return (
         <>
-            <GameCardList />
-            <GameSelectionPane />
+            <GameCardList setSelectedGameId={setSelectedGameId} selectedGameId={selectedGameId} />
+            <GameSelectionPane selectedGameId={selectedGameId} />
         </>
     )
 }
