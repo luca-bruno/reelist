@@ -21,10 +21,10 @@ const Search: React.FC<{ setQuery: (arg0: string) => void }> = ({ setQuery }) =>
     return (
         <input
             type="text"
-            placeholder="Search"
+            placeholder="Search games..."
             onChange={handleInputChange}
             maxLength={30}
-            className="text-black text-lg p-2 mt-3 rounded-xl flex justify-start items-start w-[50%] ml-3"
+            className="text-black text-lg p-2 rounded-xl w-[50%]"
         />
     )
 }

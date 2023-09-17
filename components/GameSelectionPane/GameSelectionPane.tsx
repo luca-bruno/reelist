@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { dataTypes } from "@/json/data.interface"
 import data from "@/json/data.json"
-import useFilter from "@/hooks/useFilter"
 import GameSelectionPaneBackground from "../GameSelectionPaneBackground"
 import GameSelectionPaneCover from "../GameSelectionPaneCover"
 import GameSelectionPanePlayButton from "../GameSelectionPanePlayButton"
