@@ -8,8 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "lint-fix": "next lint --fix",
-    "format": "prettier --check --ignore-path .gitignore app/ components/ hooks/ models/ styles/ utils/",
-    "format-fix": "prettier --write --ignore-path .gitignore app/ components/ hooks/ models/ styles/ utils/"
+    "format": "prettier --check --ignore-path .gitignore app/ components/ helpers/ hooks/ icons/ json/",
+    "format-fix": "prettier --write --ignore-path .gitignore app/ components/ helpers/ hooks/ icons/ json/"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
