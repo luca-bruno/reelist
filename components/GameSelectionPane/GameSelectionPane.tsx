@@ -62,7 +62,7 @@ const GameSelectionPane: React.FC<{ selectedGameId: string }> = ({ selectedGameI
                     <GameSelectionPanePlayButton />
 
                     <div className="p-5">
-                        <GameSelectionPaneDetails {...{ name, providerTitle }} />
+                        {name && providerTitle && <GameSelectionPaneDetails {...{ name, providerTitle }} />}
                         <GameSelectionPaneTags {...{ categoryTags, featureTags, themeTags }} />
                     </div>
                 </div>

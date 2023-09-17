@@ -1,5 +1,5 @@
 interface GameSelectionPaneDetailsTypes {
-    name?: string
+    name: string
     providerTitle: string
 }
 

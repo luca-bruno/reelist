@@ -7,6 +7,7 @@ const GameSelectionPaneDetails: React.FC<GameSelectionPaneDetailsTypes> = ({ nam
             style={{ textShadow: "8px 6px 16px rgba(0, 0, 0, 1)" }}>
             {name}
         </p>
+
         <p className="text-sm">{`Provided by ${providerTitle}`}</p>
     </>
 )

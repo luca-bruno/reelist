@@ -7,11 +7,11 @@ interface dataSubtypes {
 interface dataTypes {
     id: string
     name: string
-    providerTitle: string
-    iconSmall: string
-    iconLarge?: string
+    provider_title: string
+    icon_2: string
+    icon_3?: string
     background?: string
-    hasAgeRestriction: number
+    has_age_restriction: number
     categories: string[]
     cats: dataSubtypes[]
     features: string[]
