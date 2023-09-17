@@ -6,6 +6,7 @@ import GameSelectionPane from "../GameSelectionPane"
 import defaultSelectedGameId from "./data"
 import Search from "../Search"
 import Filter from "../Filter"
+import ClearFiltersButton from "../ClearFiltersButton"
 
 const MainContent = () => {
     const [selectedGameId, setSelectedGameId] = useState(defaultSelectedGameId)
@@ -15,6 +16,16 @@ const MainContent = () => {
     const [selectedFeatureFilters, setSelectedFeatureFilters] = useState<string[]>([])
     const [selectedThemeFilters, setSelectedThemeFilters] = useState<string[]>([])
 
+    const haveFiltersBeenSelected = selectedProviderFilters.length > 0 || selectedCategoryFilters.length > 0 ||
+    selectedFeatureFilters.length > 0 || selectedThemeFilters.length > 0
+
+    const clearFilters = () => {
+        setSelectedProviderFilters([])
+        setSelectedCategoryFilters([])
+        setSelectedFeatureFilters([])
+        setSelectedThemeFilters([])
+    }
+
     const alignmentStyles = "ml-3 mt-3 flex justify-start items-start"
     const filterWrapperStyles = "text-black [&>*:not(:first-child)]:mx-2"
 
@@ -23,6 +34,7 @@ const MainContent = () => {
             <div className="rounded-xl overflow-y-scroll m-3">
                 <div className={`${alignmentStyles}`}>
                     <Search setQuery={setQuery} />
+                    {haveFiltersBeenSelected && <ClearFiltersButton clearFilters={clearFilters} />}
                 </div>
 
                 <div className={`${alignmentStyles} ${filterWrapperStyles}`}>

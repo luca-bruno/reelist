@@ -1,3 +1,5 @@
+import { faX } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import React, { useEffect, useState } from "react"
 
 const Search: React.FC<{ setQuery: (arg0: string) => void }> = ({ setQuery }) => {
@@ -19,13 +21,25 @@ const Search: React.FC<{ setQuery: (arg0: string) => void }> = ({ setQuery }) =>
     }
 
     return (
-        <input
-            type="text"
-            placeholder="Search games..."
-            onChange={handleInputChange}
-            maxLength={30}
-            className="text-black text-lg p-2 rounded-xl w-[50%]"
-        />
+        <div className="relative w-min">
+            <input
+                type="text"
+                placeholder="Search games..."
+                onChange={handleInputChange}
+                maxLength={30}
+                value={input}
+                className="text-black focus:outline-none focus:ring-0 border-2 focus:border-purple-500 text-lg p-2 rounded-xl w-96"
+            />
+            { input &&
+                <button 
+                    type="button" 
+                    className="h-full absolute text-black right-4"
+                    onClick={() => setInput("")}
+                >
+                    <FontAwesomeIcon className="h-4 w-4 text-gray-400/50" icon={faX} aria-hidden="true" />
+                </button>
+            }
+        </div>
     )
 }
 
