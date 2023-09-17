@@ -24,7 +24,7 @@ const Filter: React.FC<FilterTypes> = ({ type, selectedFilters, setSelectedFilte
             .filter(({ title, id }, index, self) => title && self.findIndex((item => item.id === id)) === index)
     }
 
-    const hasProperties = (obj: object) => Object.prototype.hasOwnProperty.call(obj, "id")
+    // const hasProperties = (obj: object) => Object.prototype.hasOwnProperty.call(obj, "id")
 
     return (
         <div className="w-full">
@@ -57,20 +57,20 @@ const Filter: React.FC<FilterTypes> = ({ type, selectedFilters, setSelectedFilte
                         >
                             {retrieveUniqueFilterOptions(typeToKeyMapper[type as keyof typeof typeToKeyMapper]).map(tag => (
                                 <Listbox.Option
-                                    key={hasProperties(tag) ? tag.id : tag}
+                                    key={Object.prototype.hasOwnProperty.call(tag, "id") ? tag.id : tag}
                                     className={({ active, selected: isOptionSelected }) =>
                                         `relative cursor-select select-none py-2 pl-10 
                                             ${active ? `bg-purple-500/30 ${transitionStyles}` : "text-black"}
                                             ${isOptionSelected ? `bg-purple-300 text-white ${transitionStyles}` : "text-black"}
                                         `}
-                                    value={hasProperties(tag) ? tag.id : tag}
+                                    value={Object.prototype.hasOwnProperty.call(tag, "id") ? tag.id : tag}
                                 >
                                     {({ selected: isOptionSelected }) => (
                                         <>
                                             <span
                                                 className={`block truncate ${isOptionSelected ? "font-medium" : "font-normal"}`}
                                             >
-                                                {hasProperties(tag) ? capitaliseEachWord(tag.title) : tag}
+                                                {Object.prototype.hasOwnProperty.call(tag, "id") ? capitaliseEachWord(tag.title) : tag}
                                             </span>
                                             {isOptionSelected ? (
                                                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
