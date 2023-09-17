@@ -20,4 +20,4 @@ interface dataTypes {
     thms: dataSubtypes[]
 }
 
-export type { dataTypes , dataSubtypes }
+export type { dataTypes, dataSubtypes }
