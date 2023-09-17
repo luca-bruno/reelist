@@ -10,15 +10,17 @@ import typeToKeyMapper from "./data"
 
 const Filter: React.FC<{ type: string }> = ({ type }) => {
 
-    const allTitles = (key: string) => {
-        const X = (data as unknown as dataTypes[])
+    const retrieveUniqueFilterOptions = (key: string) => {
+        const allRecordsOfType = data
             .map(payload => (payload[key as keyof dataTypes]))
             .flat()
 
         if (key === "provider_title") {
-            return X.filter((title, index, self) => title && self.indexOf(title) === index) as string[]
+            return allRecordsOfType.filter((title, index, self) => title && self.indexOf(title) === index) as string[]
         }
-        return X.map(keyItem => (keyItem as dataSubtypes)?.title).filter((title, index, self) => title && self.indexOf(title) === index)
+        return allRecordsOfType
+            .map(keyItem => (keyItem as dataSubtypes)?.title)
+            .filter((title, index, self) => title && self.indexOf(title) === index)
     }
 
     const [selected, setSelected] = useState([])
@@ -52,7 +54,7 @@ const Filter: React.FC<{ type: string }> = ({ type }) => {
                             className="absolute z-20 mt-1 max-h-60 w-full bg-gray-50 overflow-auto rounded-md py-1 text-base 
                                     shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
                         >
-                            {allTitles(typeToKeyMapper[type as keyof typeof typeToKeyMapper]).map(person => (
+                            {retrieveUniqueFilterOptions(typeToKeyMapper[type as keyof typeof typeToKeyMapper]).map(person => (
                                 <Listbox.Option
                                     key={person}
                                     className={({ active, selected: isOptionSelected }) =>
