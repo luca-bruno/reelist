@@ -27,7 +27,7 @@ const MainContent = () => {
     }
 
     const alignmentStyles = "ml-3 mt-3 flex justify-start items-start"
-    const filterWrapperStyles = "text-black [&>*:not(:first-child)]:mx-2"
+    const filterWrapperStyles = "text-black [&>*:not(:first-child)]:mx-2 mr-1"
 
     return (
         <>
