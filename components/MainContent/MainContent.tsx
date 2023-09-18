@@ -17,7 +17,7 @@ const MainContent = () => {
     const [selectedThemeFilters, setSelectedThemeFilters] = useState<string[]>([])
 
     const haveFiltersBeenSelected = selectedProviderFilters.length > 0 || selectedCategoryFilters.length > 0 ||
-    selectedFeatureFilters.length > 0 || selectedThemeFilters.length > 0
+        selectedFeatureFilters.length > 0 || selectedThemeFilters.length > 0
 
     const clearFilters = () => {
         setSelectedProviderFilters([])

@@ -30,6 +30,7 @@ const GameCardList: React.FC<GameCardListTypes> =
         useEffect(() => {
             setGameCardsData(combinedFilter)
         }, [combinedFilter])
+
         return (
             <div className="grid grid-cols-4 m-3 gap-3">
                 {gameCardsData.map(({ id, name, icon_2: iconSmall }) => (

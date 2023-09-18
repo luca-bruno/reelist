@@ -18,6 +18,7 @@ const Filter: React.FC<FilterTypes> = ({ type, selectedFilters, setSelectedFilte
         if (key === "provider_title") {
             return allRecordsOfType.filter((title, index, self) => title && self.indexOf(title) === index) as string[]
         }
+
         return allRecordsOfType
             .map(keyItem => ({ title: (keyItem as dataSubtypes)?.title, id: (keyItem as dataSubtypes)?.id }))
             .filter(({ title, id }, index, self) => title && self.findIndex((item => item.id === id)) === index)
