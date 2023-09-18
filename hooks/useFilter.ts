@@ -7,35 +7,42 @@ const useFilter =
         selectedCategoryFilters: string[],
         selectedFeatureFilters: string[], selectedThemeFilters: string[]}) => {
 
-    // TODO: can probably make a map of them all and parse them by key to avoid redundant code
-
     const combinedFilter = useMemo(() => {
-    let searchResults = data.filter(({ name }) =>
-      name.toLowerCase().includes(query.toLowerCase())
-    )
+      let searchResults = data.filter(({ name }) =>
+        name.toLowerCase().includes(query.toLowerCase())
+      )
 
-    if (selectedProviderFilters.length > 0) {
-        searchResults = searchResults.filter(({ provider_title: providerTitle }) =>
-        selectedProviderFilters.some(filter =>
-            providerTitle.toLowerCase().includes(filter.toLowerCase()))
-    )}
-    if (selectedCategoryFilters.length > 0) {
-       searchResults = searchResults.filter(({ categories }) =>
-            categories.some(tagId => selectedCategoryFilters.includes(tagId))
-    )}
+      if (selectedProviderFilters.length > 0) {
+          searchResults = searchResults.filter(({ provider_title: providerTitle }) =>
+          selectedProviderFilters.some(filter =>
+              providerTitle.toLowerCase().includes(filter.toLowerCase()))
+      )}
 
-    if (selectedFeatureFilters.length > 0) {
-       searchResults = searchResults.filter(({ features }) =>
-            features.some(tagId => selectedFeatureFilters.includes(tagId))
-    )}
+      const arr = [
+        {
+          filterType: "categories",
+          items: selectedCategoryFilters
+        },
+        {
+          filterType: "features",
+          items: selectedFeatureFilters
+        },
+        {
+          filterType: "themes",
+          items: selectedThemeFilters
+        }
+      ]
 
-    if (selectedThemeFilters.length > 0) {
-       searchResults = searchResults.filter(({ themes }) =>
-            themes.some(tagId => selectedThemeFilters.includes(tagId))
-    )}
+      arr.forEach(({ filterType, items }) => {
+        if (items.length > 0) {
+          searchResults = searchResults.filter(games =>
+            (games[filterType as keyof typeof games] as string[])?.some(tagId => items.includes(tagId))
+          )
+        }
+      })
 
     return searchResults
-  }, [data, query, selectedProviderFilters, selectedCategoryFilters, selectedFeatureFilters, selectedThemeFilters])
+  }, [data, query, selectedCategoryFilters, selectedFeatureFilters, selectedProviderFilters, selectedThemeFilters])
 
     return {
         combinedFilter
