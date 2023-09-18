@@ -7,6 +7,7 @@ import { dataTypes } from "@/json/data.interface"
 import GameCard from "../GameCard"
 import GameCardListTypes from "./types/GameCardList.interface"
 
+
 const GameCardList: React.FC<GameCardListTypes> =
     ({
         setSelectedGameId,

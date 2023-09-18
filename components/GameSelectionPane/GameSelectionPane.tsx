@@ -8,6 +8,7 @@ import GameSelectionPanePlayButton from "../GameSelectionPanePlayButton"
 import GameSelectionPaneDetails from "../GameSelectionPaneDetails"
 import GameSelectionPaneTags from "../GameSelectionPaneTags"
 
+
 const GameSelectionPane: React.FC<{ selectedGameId: string }> = ({ selectedGameId }) => {
     const [selectedGame, setSelectedGame] = useState<dataTypes>()
     const { 

@@ -1,6 +1,7 @@
 import { transitionStyles } from "@/helpers"
 import React from "react"
 
+
 const ClearFiltersButton: React.FC<{ clearFilters: () => void }> = ({ clearFilters }) => (
   <button
     type="button" 

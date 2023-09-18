@@ -6,6 +6,7 @@ import Link from "next/link"
 import { transitionStyles } from "@/helpers"
 import NavbarButtonTypes from "./types/NavbarButton.interface"
 
+
 const NavbarButton: React.FC<NavbarButtonTypes> = ({ label, slug }) => {
     const pathname = usePathname()
 

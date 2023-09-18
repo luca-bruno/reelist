@@ -9,6 +9,7 @@ import { transitionStyles, capitaliseEachWord } from "@/helpers"
 import typeToKeyMapper from "./data"
 import FilterTypes from "./types/Filter.interface"
 
+
 const Filter: React.FC<FilterTypes> = ({ type, selectedFilters, setSelectedFilters }) => {
     const retrieveUniqueFilterOptions = (key: string) => {
         const allRecordsOfType = data

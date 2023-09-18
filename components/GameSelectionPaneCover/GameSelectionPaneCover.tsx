@@ -2,6 +2,7 @@ import React from "react"
 import Image from "next/image"
 import GameSelectionPaneCoverTypes from "./types/GameSelectionPaneCover.interface"
 
+
 const GameSelectionPaneCover: React.FC<GameSelectionPaneCoverTypes> =
     ({
         name,

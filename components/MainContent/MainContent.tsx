@@ -8,6 +8,7 @@ import Search from "../Search"
 import Filter from "../Filter"
 import ClearFiltersButton from "../ClearFiltersButton"
 
+
 const MainContent = () => {
     const [selectedGameId, setSelectedGameId] = useState(defaultSelectedGameId)
     const [query, setQuery] = useState("")

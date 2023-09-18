@@ -1,6 +1,7 @@
 import React from "react"
 import GameSelectionPaneDetailsTypes from "./types/GameSelectionPaneDetails.interface"
 
+
 const GameSelectionPaneDetails: React.FC<GameSelectionPaneDetailsTypes> = ({ name, providerTitle }) => (
     <>
         <p className="text-5xl pr-4 py-2 rounded-xl w-max"

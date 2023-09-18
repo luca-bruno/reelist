@@ -4,6 +4,7 @@ import useImage from "@/hooks/useImage"
 import fallbackPlaceholderIcon from "./data"
 import GameCardType from "./types/GameCard.interface"
 
+
 const GameCard: React.FC<GameCardType> = ({ id, name, iconSmall, setSelectedGameId, selectedGameId }) => {
     const {
         hasImageLoaded,
