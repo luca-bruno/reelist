@@ -27,9 +27,6 @@ const GameCardList: React.FC<GameCardListTypes> =
             selectedThemeFilters
         })
 
-
-        console.log(selectedCategoryFilters)
-
         useEffect(() => {
             setGameCardsData(combinedFilter)
         }, [combinedFilter])
