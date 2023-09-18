@@ -1,11 +1,16 @@
-import React, { useState } from "react"
+import React from "react"
 import Image from "next/image"
+import useImage from "@/hooks/useImage"
 import fallbackPlaceholderIcon from "./data"
 import GameCardType from "./types/GameCard.interface"
 
 const GameCard: React.FC<GameCardType> = ({ id, name, iconSmall, setSelectedGameId, selectedGameId }) => {
-    const [hasImageLoaded, setHasImageLoaded] = useState(false)
-    const [hasReturnedError, setHasReturnedError] = useState(false)
+    const {
+        hasImageLoaded,
+        setHasImageLoaded,
+        hasReturnedError,
+        setHasReturnedError
+    } = useImage()
 
     const onCurrentId = (key: string) => selectedGameId === key
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { dataTypes } from "@/json/data.interface"
 import data from "@/json/data.json"
+import useImage from "@/hooks/useImage"
 import GameSelectionPaneBackground from "../GameSelectionPaneBackground"
 import GameSelectionPaneCover from "../GameSelectionPaneCover"
 import GameSelectionPanePlayButton from "../GameSelectionPanePlayButton"
@@ -9,9 +10,14 @@ import GameSelectionPaneTags from "../GameSelectionPaneTags"
 
 const GameSelectionPane: React.FC<{ selectedGameId: string }> = ({ selectedGameId }) => {
     const [selectedGame, setSelectedGame] = useState<dataTypes>()
-    const [hasImageLoaded, setHasImageLoaded] = useState(false)
-    const [hasReturnedError, setHasReturnedError] = useState(false)
-    const [hasBackgroundImageReturnedError, setHasBackgroundImageReturnedError] = useState(false)
+    const { 
+        hasImageLoaded, 
+        setHasImageLoaded,
+        hasReturnedError,
+        setHasReturnedError,
+        hasBackgroundImageReturnedError, 
+        setHasBackgroundImageReturnedError 
+    } = useImage()
 
     const {
         name,
@@ -29,7 +35,7 @@ const GameSelectionPane: React.FC<{ selectedGameId: string }> = ({ selectedGameI
         setHasImageLoaded(false)
         setHasReturnedError(false)
         setHasBackgroundImageReturnedError(false)
-    }, [selectedGameId])
+    }, [selectedGameId, setHasBackgroundImageReturnedError, setHasImageLoaded, setHasReturnedError])
 
     return (
         <div className="flex justify-center col-span-2 rounded-xl overflow-y-auto m-3 overflow-hidden" >
@@ -43,7 +49,6 @@ const GameSelectionPane: React.FC<{ selectedGameId: string }> = ({ selectedGameI
                     }}
                 />
 
-                {/* TODO: handle error of images through custom hook */}
                 <div className="bg-gradient-to-b from-transparent from-1% to-gray-500
                     p-3 absolute bottom-0 rounded-xl z-10 w-full h-[35%]"
                 >
