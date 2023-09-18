@@ -3,12 +3,16 @@ import {
   fas,
   faChevronDown,
   faCheck,
-  faX
+  faX,
+  faList,
+  faGrip
 } from "@fortawesome/free-solid-svg-icons"
 
 library.add(
   fas,
   faChevronDown,
   faCheck,
-  faX
+  faX,
+  faList,
+  faGrip
 )

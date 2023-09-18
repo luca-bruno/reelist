@@ -7,10 +7,12 @@ import defaultSelectedGameId from "./data"
 import Search from "../Search"
 import Filter from "../Filter"
 import ClearFiltersButton from "../ClearFiltersButton"
+import ViewToggleButton from "../ViewToggleButton"
 
 
 const MainContent = () => {
     const [selectedGameId, setSelectedGameId] = useState(defaultSelectedGameId)
+    const [isDisplayingGridView, setIsDisplayingGridView] = useState(true)
     const [query, setQuery] = useState("")
     const [selectedProviderFilters, setSelectedProviderFilters] = useState<string[]>([])
     const [selectedCategoryFilters, setSelectedCategoryFilters] = useState<string[]>([])
@@ -35,7 +37,12 @@ const MainContent = () => {
             <div className="rounded-xl overflow-y-scroll m-3">
                 <div className={`${alignmentStyles}`}>
                     <Search setQuery={setQuery} />
-                    {haveFiltersBeenSelected && <ClearFiltersButton clearFilters={clearFilters} />}
+
+                    <div className="flex m-auto">
+                    <ViewToggleButton isDisplayingGridView={isDisplayingGridView} setIsDisplayingGridView={setIsDisplayingGridView} />
+
+                    <ClearFiltersButton clearFilters={clearFilters} haveFiltersBeenSelected={haveFiltersBeenSelected} />
+                    </div>
                 </div>
 
                 <div className={`${alignmentStyles} ${filterWrapperStyles}`}>
@@ -73,13 +80,16 @@ const MainContent = () => {
                 </div>
 
                 <GameCardList
-                    setSelectedGameId={setSelectedGameId}
-                    selectedGameId={selectedGameId}
-                    query={query}
-                    selectedProviderFilters={selectedProviderFilters}
-                    selectedCategoryFilters={selectedCategoryFilters}
-                    selectedFeatureFilters={selectedFeatureFilters}
-                    selectedThemeFilters={selectedThemeFilters}
+                    {...{
+                        setSelectedGameId,
+                        selectedGameId,
+                        isDisplayingGridView,
+                        query,
+                        selectedProviderFilters,
+                        selectedCategoryFilters,
+                        selectedFeatureFilters,
+                        selectedThemeFilters
+                    }}
                 />
             </div>
             <GameSelectionPane selectedGameId={selectedGameId} />

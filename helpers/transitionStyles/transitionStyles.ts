@@ -1,3 +1,3 @@
-const transitionStyles = "transition hover:text-green-500 ease-in-out duration-100"
+const transitionStyles = "transition ease-in-out duration-200"
 
 export default transitionStyles

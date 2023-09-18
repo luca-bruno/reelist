@@ -16,7 +16,8 @@ const NavbarButton: React.FC<NavbarButtonTypes> = ({ label, slug }) => {
         <Link href={slug}>
             <button
                 type="button"
-                className={`mx-2 text-white ${!isOnCurrentButton ? `${transitionStyles} hover:border-purple-500 border-b-4` : ""} 
+                className={`mx-2 text-white 
+                    ${!isOnCurrentButton ? `${transitionStyles} hover:text-green-500 hover:border-purple-500 border-b-4` : ""} 
                     ${isOnCurrentButton ? "border-purple-500 border-b-4" : "border-transparent border-b-4"}`}
             >
                 {label}

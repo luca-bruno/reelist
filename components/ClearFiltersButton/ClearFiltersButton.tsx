@@ -1,11 +1,11 @@
-import { transitionStyles } from "@/helpers"
+import { buttonStyles } from "@/helpers"
 import React from "react"
 
 
-const ClearFiltersButton: React.FC<{ clearFilters: () => void }> = ({ clearFilters }) => (
+const ClearFiltersButton: React.FC<{ clearFilters: () => void, haveFiltersBeenSelected: boolean }> = ({ clearFilters, haveFiltersBeenSelected }) => (
   <button
     type="button" 
-    className={`h-full p-2 w-28 m-auto bg-purple-500 rounded-xl ${transitionStyles} hover:bg-purple-300`}
+    className={`w-28 ${buttonStyles} ${!haveFiltersBeenSelected ? "opacity-0" : "opacity-100"}`}
     onClick={() => clearFilters()}
   >
       Clear Filters
