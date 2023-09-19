@@ -9,6 +9,7 @@ const config: Config = {
   theme: {
     screens: {
       mobileL: "425px",
+      mobileXL: "700px",
       tablet: "768px",
       laptop: "1024px",
       laptopM: "1310px",

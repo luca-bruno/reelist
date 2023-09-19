@@ -19,12 +19,13 @@ const GameCard: React.FC<GameCardType> = ({ id, name, iconSmall, setSelectedGame
     return (
         <button
             type="button"
-            className={`relative ${!isDisplayingGridView ? `rounded-xl h-[140px] flex ${transitionStyles} hover:scale-105 mx-2 bg-gray-50/10` : ""}`}
+            className={`relative ${!isDisplayingGridView ? `rounded-xl laptop:h-[80px] h-[40px] flex
+                ${transitionStyles} hover:scale-105 mx-2 bg-gray-50/10` : ""}`}
             onClick={() => setSelectedGameId(id)}
         >
             <Image
                 className={`rounded-xl ${transitionStyles}
-                    ${!isDisplayingGridView ? "my-auto h-full" : "hover:scale-105"}
+                    ${!isDisplayingGridView ? "my-auto h-full w-auto" : "hover:scale-105"}
                     ${hasImageLoaded ? "opacity-100" : "opacity-0"} 
                     ${onCurrentId(id) ? "scale-105" : ""}
                 `}
@@ -37,7 +38,7 @@ const GameCard: React.FC<GameCardType> = ({ id, name, iconSmall, setSelectedGame
             />
 
             { !isDisplayingGridView &&
-                <div className="m-auto text-2xl">
+                <div className="px-2 m-auto laptopM:text-2xl laptop:text-lg mobileXL:text-sm text-[0.7rem] truncate">
                     {name}
                 </div>
             }

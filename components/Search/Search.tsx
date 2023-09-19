@@ -30,7 +30,7 @@ const Search: React.FC<{ setQuery: (arg0: string) => void }> = ({ setQuery }) =>
                 maxLength={30}
                 value={input}
                 className="text-black focus:outline-none focus:ring-0 border-2 
-                    focus:border-purple-500 text-lg p-2 rounded-xl laptopXL:w-96 w-full"
+                    focus:border-purple-500 p-2 rounded-xl laptopXL:w-96 w-full text-sm tablet:text-lg"
             />
             { input &&
                 <button 

@@ -34,14 +34,16 @@ const MainContent = () => {
 
     return (
         <>
-            <div className="rounded-xl overflow-y-scroll m-3">
+            <div className="rounded-xl overflow-y-scroll m-3 mobileL:overflow-x overflow-x-none">
                 <div className={`${alignmentStyles} ml-3 mt-3`}>
                     <Search setQuery={setQuery} />
 
-                    <div className="m-auto laptop:flex hidden">
+                    <div className="m-auto mobileL:mr-1 mobileL:flex hidden">
                     <ViewToggleButton isDisplayingGridView={isDisplayingGridView} setIsDisplayingGridView={setIsDisplayingGridView} />
 
-                    <ClearFiltersButton clearFilters={clearFilters} haveFiltersBeenSelected={haveFiltersBeenSelected} />
+                    <span className="laptop:flex hidden">
+                        <ClearFiltersButton clearFilters={clearFilters} haveFiltersBeenSelected={haveFiltersBeenSelected} />
+                    </span>
                     </div>
                 </div>
 
@@ -92,6 +94,7 @@ const MainContent = () => {
                     }}
                 />
             </div>
+
             <GameSelectionPane selectedGameId={selectedGameId} />
         </>
     )
