@@ -31,15 +31,15 @@ const Filter: React.FC<FilterTypes> = ({ type, selectedFilters, setSelectedFilte
                 <div id="filter_listbox_dropdown" className="relative">
                     <Listbox.Button
                         className="w-full h-10 tablet:h-12 cursor-select rounded-xl bg-white py-2 pl-3 pr-10 text-left shadow-md 
-                                    focus:outline-none focus-visible:border-purple-500 focus-visible:ring-2 focus-visible:ring-white 
-                                    focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+                          focus:outline-none focus-visible:border-purple-500 focus-visible:ring-2 focus-visible:ring-white 
+                          focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
                     >
                         <span className="select-none truncate flex m-auto items-center text-xs tablet:text-lg">
                             {type}
                             <div className="flex justify-center items-center w-6 h-6 
-                                bg-purple-400 rounded-full text-white text-xs ml-3 mr-0 mobileXL:mx-3 mx-3 tablet:text-lg"
+                              bg-purple-400 rounded-full text-white text-xs ml-3 mr-0 mobileXL:mx-3 mx-3 tablet:text-lg"
                             >
-                                {selectedFilters.length}
+                              {selectedFilters.length}
                             </div>
                         </span>
                         <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -54,33 +54,33 @@ const Filter: React.FC<FilterTypes> = ({ type, selectedFilters, setSelectedFilte
                     >
                         <Listbox.Options
                             className="absolute z-20 mt-1 max-h-60 w-full bg-gray-50 overflow-auto rounded-md py-1
-                                    shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none text-xs tablet:text-lg"
+                              shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none text-xs tablet:text-lg"
                         >
                             {retrieveUniqueFilterOptions(typeToKeyMapper[type as keyof typeof typeToKeyMapper]).map(tag => (
                                 <Listbox.Option
-                                    key={(typeof tag === "string") ? tag : (tag && tag.id)}
-                                    className={({ active, selected: isOptionSelected }) =>
-                                        `relative cursor-select select-none py-2 pl-10
-                                            ${active ? `bg-purple-500/30 ${transitionStyles}` : "text-black"}
-                                            ${isOptionSelected ? `bg-purple-300 text-white ${transitionStyles}` : "text-black"}
-                                        `}
-                                    value={(typeof tag === "string") ? tag : (tag && tag.id)}
+                                  key={(typeof tag === "string") ? tag : (tag && tag.id)}
+                                  className={({ active, selected: isOptionSelected }) =>
+                                      `relative cursor-select select-none py-2 pl-10
+                                          ${active ? `bg-purple-500/30 ${transitionStyles}` : "text-black"}
+                                          ${isOptionSelected ? `bg-purple-300 text-white ${transitionStyles}` : "text-black"}
+                                      `}
+                                  value={(typeof tag === "string") ? tag : (tag && tag.id)}
                                 >
                                     {({ selected: isOptionSelected }) => (
                                         <>
-                                            <span
-                                                className={`block truncate ${isOptionSelected ? "font-medium" : "font-normal"}`}
-                                            >
+                                            <span className={`block truncate ${isOptionSelected ? "font-medium" : "font-normal"}`}>
                                                 {(typeof tag === "string") ? tag : (tag && capitaliseEachWord(tag.title))}
                                             </span>
+
                                             {isOptionSelected ? (
-                                                <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                                                    <FontAwesomeIcon 
-                                                        className="h-3 w-3 tablet:h-5 tablet:w-5 text-white" 
-                                                        icon={faCheck} 
-                                                        aria-hidden="true" 
-                                                    />
-                                                </span>
+                                              <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                                                <FontAwesomeIcon 
+                                                  className="h-3 w-3 tablet:h-5 tablet:w-5 text-white" 
+                                                  icon={faCheck} 
+                                                  aria-hidden="true" 
+                                                />
+                                              </span>
+
                                             ) : null}
                                         </>
                                     )}
