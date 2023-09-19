@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react"
 import { dataTypes } from "@/json/data.interface"
 import data from "@/json/data.json"
 import useImage from "@/hooks/useImage/useImage"
-import GameSelectionPaneBackground from "../GameSelectionPaneBackground"
-import GameSelectionPaneCover from "../GameSelectionPaneCover"
-import GameSelectionPanePlayButton from "../GameSelectionPanePlayButton"
-import GameSelectionPaneDetails from "../GameSelectionPaneDetails"
-import GameSelectionPaneTags from "../GameSelectionPaneTags"
+import GameSelectionPaneBackground from "./GameSelectionPaneBackground"
+import GameSelectionPaneCover from "./GameSelectionPaneCover"
+import GameSelectionPaneDetails from "./GameSelectionPaneDetails"
+import GameSelectionPanePlayButton from "./GameSelectionPanePlayButton"
+import GameSelectionPaneTags from "./GameSelectionPaneTags"
 
 
 const GameSelectionPane: React.FC<{ selectedGameId: string }> = ({ selectedGameId }) => {
