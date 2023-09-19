@@ -20,7 +20,7 @@ const GameSelectionPaneBackground: React.FC<GameSelectionPaneBackgroundTypes> = 
       alt={`${name || "Game"} background`}
       onError={() => setHasBackgroundImageReturnedError(true)}
       fill
-      objectFit="cover"
+      style={{objectFit:"cover"}}
     />
     <Image
       className="filter blur-sm z-0 mobileXL:hidden block"
@@ -28,7 +28,7 @@ const GameSelectionPaneBackground: React.FC<GameSelectionPaneBackgroundTypes> = 
       alt={`${name || "Game"} background`}
       onError={() => setHasReturnedError(true)}
       fill
-      objectFit="cover"
+      style={{objectFit:"cover"}}
     />
   </>
 )
