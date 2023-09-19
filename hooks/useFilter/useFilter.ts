@@ -1,12 +1,14 @@
 import { useMemo } from "react"
-import { dataTypes } from "@/json/data.interface"
+import useFilterTypes from "./useFilter.interface"
 
-const useFilter = 
-({ data, query, selectedProviderFilters, selectedCategoryFilters, selectedFeatureFilters, selectedThemeFilters }: 
-    { data: dataTypes[], query: string, selectedProviderFilters: string[],
-        selectedCategoryFilters: string[],
-        selectedFeatureFilters: string[], selectedThemeFilters: string[]}) => {
-
+const useFilter = ({ 
+  data, 
+  query, 
+  selectedProviderFilters, 
+  selectedCategoryFilters, 
+  selectedFeatureFilters, 
+  selectedThemeFilters 
+}: useFilterTypes) => {
     const combinedFilter = useMemo(() => {
       let searchResults = data.filter(({ name }) =>
         name.toLowerCase().includes(query.toLowerCase())

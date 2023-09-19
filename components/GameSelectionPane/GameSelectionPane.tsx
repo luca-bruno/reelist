@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { dataTypes } from "@/json/data.interface"
 import data from "@/json/data.json"
-import useImage from "@/hooks/useImage"
+import useImage from "@/hooks/useImage/useImage"
 import GameSelectionPaneBackground from "../GameSelectionPaneBackground"
 import GameSelectionPaneCover from "../GameSelectionPaneCover"
 import GameSelectionPanePlayButton from "../GameSelectionPanePlayButton"

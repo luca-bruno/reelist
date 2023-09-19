@@ -1,6 +1,6 @@
 interface ClearFiltersButtonTypes {
-    clearFilters: () => void
-    haveFiltersBeenSelected: boolean
+  clearFilters: () => void
+  haveFiltersBeenSelected: boolean
 }
 
 export default ClearFiltersButtonTypes
