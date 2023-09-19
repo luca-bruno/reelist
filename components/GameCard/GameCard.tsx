@@ -2,7 +2,7 @@ import React from "react"
 import Image from "next/image"
 import useImage from "@/hooks/useImage"
 import { transitionStyles } from "@/helpers"
-import fallbackPlaceholderIcon from "./data"
+import fallbackPlaceholder from "@/public/fallbackPlaceholder.jpg"
 import GameCardType from "./types/GameCard.interface"
 
 
@@ -23,26 +23,24 @@ const GameCard: React.FC<GameCardType> = ({ id, name, iconSmall, setSelectedGame
             onClick={() => setSelectedGameId(id)}
         >
             <Image
-                className={`rounded-xl ${transitionStyles} object-cover
+                className={`rounded-xl ${transitionStyles}
                     ${!isDisplayingGridView ? "my-auto h-full" : "hover:scale-105"}
                     ${hasImageLoaded ? "opacity-100" : "opacity-0"} 
                     ${onCurrentId(id) ? "scale-105" : ""}
                 `}
-                src={hasReturnedError ? fallbackPlaceholderIcon : iconSmall}
+                src={hasReturnedError ? fallbackPlaceholder : iconSmall}
                 onError={() => setHasReturnedError(true)}
                 onLoadingComplete={() => setHasImageLoaded(true)}
                 alt={name}
-                width={(isDisplayingGridView && hasReturnedError) ? undefined : 200}
-                height={(isDisplayingGridView && hasReturnedError) ? undefined : 155}
-                fill={isDisplayingGridView && !!hasReturnedError}
-                objectFit={(hasReturnedError) ? "cover" : undefined}
+                width={200}
+                height={155}
             />
 
-        { !isDisplayingGridView &&
-            <div className="m-auto text-2xl">
-                {name}
-            </div>
-        }
+            { !isDisplayingGridView &&
+                <div className="m-auto text-2xl">
+                    {name}
+                </div>
+            }
         </button>
     )
 }
