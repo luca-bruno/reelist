@@ -29,7 +29,7 @@ const MainContent = () => {
         setSelectedThemeFilters([])
     }
 
-    const alignmentStyles = " flex justify-start items-start"
+    const alignmentStyles = "flex justify-start items-start"
     const filterWrapperStyles = "text-black laptopM:[&>*:not(:first-child)]:mx-2 laptopM:mr-1 mx-0 mr-3"
 
     return (
@@ -38,7 +38,7 @@ const MainContent = () => {
                 <div className={`${alignmentStyles} ml-3 mt-3`}>
                     <Search setQuery={setQuery} />
 
-                    <div className="flex m-auto">
+                    <div className="m-auto laptop:flex hidden">
                     <ViewToggleButton isDisplayingGridView={isDisplayingGridView} setIsDisplayingGridView={setIsDisplayingGridView} />
 
                     <ClearFiltersButton clearFilters={clearFilters} haveFiltersBeenSelected={haveFiltersBeenSelected} />
