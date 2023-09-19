@@ -29,13 +29,13 @@ const MainContent = () => {
         setSelectedThemeFilters([])
     }
 
-    const alignmentStyles = "ml-3 mt-3 flex justify-start items-start"
-    const filterWrapperStyles = "text-black [&>*:not(:first-child)]:mx-2 mr-1"
+    const alignmentStyles = " flex justify-start items-start"
+    const filterWrapperStyles = "text-black laptopM:[&>*:not(:first-child)]:mx-2 laptopM:mr-1 mx-0 mr-3"
 
     return (
         <>
             <div className="rounded-xl overflow-y-scroll m-3">
-                <div className={`${alignmentStyles}`}>
+                <div className={`${alignmentStyles} ml-3 mt-3`}>
                     <Search setQuery={setQuery} />
 
                     <div className="flex m-auto">
@@ -45,7 +45,7 @@ const MainContent = () => {
                     </div>
                 </div>
 
-                <div className={`${alignmentStyles} ${filterWrapperStyles}`}>
+                <div className={`ml-3 mt-3 ${alignmentStyles} ${filterWrapperStyles} flex-col laptopM:flex-row`}>
                     <Filter
                         {...{
                             type: "Providers",
@@ -62,7 +62,7 @@ const MainContent = () => {
                     />
                 </div>
 
-                <div className={`${alignmentStyles} ${filterWrapperStyles}`}>
+                <div className={`ml-3 mt-0 ${alignmentStyles} ${filterWrapperStyles} flex-col laptopM:flex-row`}>
                     <Filter
                         {...{
                             type: "Features",

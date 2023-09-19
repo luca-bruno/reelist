@@ -5,7 +5,8 @@ import {
   faCheck,
   faX,
   faList,
-  faGrip
+  faGrip,
+  faFilterCircleXmark
 } from "@fortawesome/free-solid-svg-icons"
 
 library.add(
@@ -14,5 +15,6 @@ library.add(
   faCheck,
   faX,
   faList,
-  faGrip
+  faGrip,
+  faFilterCircleXmark
 )

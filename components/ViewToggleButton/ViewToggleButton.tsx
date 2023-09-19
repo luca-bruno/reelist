@@ -4,6 +4,7 @@ import { faList, faGrip } from "@fortawesome/free-solid-svg-icons"
 import { buttonStyles } from "@/helpers"
 import { ViewToggleButtonTypes } from "./types/ViewToggleButton.interface"
 
+
 const ViewToggleButton: React.FC<ViewToggleButtonTypes> = ({ isDisplayingGridView, setIsDisplayingGridView }) => (
     <button 
         type="button" 

@@ -26,7 +26,7 @@ const Filter: React.FC<FilterTypes> = ({ type, selectedFilters, setSelectedFilte
     }
 
     return (
-        <div className="w-full">
+        <div className="w-full my-1">
             <Listbox value={selectedFilters} onChange={setSelectedFilters} multiple>
                 <div id="filter_listbox_dropdown" className="relative">
                     <Listbox.Button
