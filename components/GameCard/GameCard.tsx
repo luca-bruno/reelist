@@ -6,7 +6,14 @@ import fallbackPlaceholder from "@/public/fallbackPlaceholder.jpg"
 import GameCardType from "./types/GameCard.interface"
 
 
-const GameCard: React.FC<GameCardType> = ({ id, name, iconSmall, setSelectedGameId, selectedGameId, isDisplayingGridView }) => {
+const GameCard: React.FC<GameCardType> = ({ 
+    id, 
+    name, 
+    iconSmall, 
+    setSelectedGameId, 
+    selectedGameId, 
+    isDisplayingGridView 
+}) => {
     const {
         hasImageLoaded,
         setHasImageLoaded,

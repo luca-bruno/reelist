@@ -1,6 +1,6 @@
 interface GameSelectionPaneDetailsTypes {
-    name: string
-    providerTitle: string
+  name: string
+  providerTitle: string
 }
 
 export default GameSelectionPaneDetailsTypes

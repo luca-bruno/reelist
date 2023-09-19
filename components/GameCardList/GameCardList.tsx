@@ -8,17 +8,16 @@ import GameCard from "../GameCard"
 import GameCardListTypes from "./types/GameCardList.interface"
 
 
-const GameCardList: React.FC<GameCardListTypes> =
-    ({
-        setSelectedGameId,
-        selectedGameId,
-        isDisplayingGridView,
-        query,
-        selectedProviderFilters,
-        selectedCategoryFilters,
-        selectedFeatureFilters,
-        selectedThemeFilters
-    }) => {
+const GameCardList: React.FC<GameCardListTypes> = ({
+    setSelectedGameId,
+    selectedGameId,
+    isDisplayingGridView,
+    query,
+    selectedProviderFilters,
+    selectedCategoryFilters,
+    selectedFeatureFilters,
+    selectedThemeFilters
+}) => {
         const [gameCardsData, setGameCardsData] = useState<dataTypes[]>(data)
         const { combinedFilter } = useFilter({
             data,
