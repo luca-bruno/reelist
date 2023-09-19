@@ -32,7 +32,7 @@ const GameCard: React.FC<GameCardType> = ({ id, name, iconSmall, setSelectedGame
                 src={hasReturnedError ? fallbackPlaceholder : iconSmall}
                 onError={() => setHasReturnedError(true)}
                 onLoadingComplete={() => setHasImageLoaded(true)}
-                alt={name}
+                alt={`${name || "Game"} icon`}
                 width={200}
                 height={155}
             />

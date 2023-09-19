@@ -14,9 +14,10 @@ const GameSelectionPaneBackground: React.FC<GameSelectionPaneBackgroundTypes> =
         <Image
             className="filter blur-sm z-0"
             src={hasBackgroundImageReturnedError ? fallbackPlaceholder : background || ""}
-            alt={`${name} background` || "Game background"}
+            alt={`${name || "Game"} background`}
             onError={() => setHasBackgroundImageReturnedError(true)}
             fill
+            objectFit="cover"
         />
     )
 

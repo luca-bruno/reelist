@@ -17,7 +17,7 @@ const GameSelectionPaneCover: React.FC<GameSelectionPaneCoverTypes> =
             <Image
                 className="absolute rounded-xl py-3 px-8 right-0"
                 src={hasReturnedError ? "" : (iconLarge || iconSmall) || ""}
-                alt={`${name} icon` || "Game icon"}
+                alt={`${name || "Game"} icon`}
                 onError={() => setHasReturnedError(true)}
                 onLoadingComplete={() => setHasImageLoaded(true)}
                 width={250}
