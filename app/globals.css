@@ -39,3 +39,8 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.5);
 }
+
+::selection {
+  color: rgb(255, 255, 255);
+  background: rgb(187, 164, 255);
+}
