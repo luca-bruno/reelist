@@ -4,8 +4,8 @@ import React, { useEffect, useState } from "react"
 import data from "@/json/data.json"
 import useFilter from "@/hooks/useFilter/useFilter"
 import { dataTypes } from "@/json/data.interface"
-import GameCard from "../GameCard"
 import GameCardListTypes from "./types/GameCardList.interface"
+import GameCard from "./GameCard"
 
 
 const GameCardList: React.FC<GameCardListTypes> = ({
