@@ -30,24 +30,25 @@ const MainContent = () => {
     }
 
     const alignmentStyles = "flex justify-start items-start"
-    const filterWrapperStyles = "text-black laptopM:[&>*:not(:first-child)]:mx-2 laptopM:mr-1 mx-0 mr-3"
+    const filterWrapperStyles = 
+        "text-black laptopM:[&>*:not(:first-child)]:mx-2 mobileXL:[&>*:not(:first-child)]:mx-0 [&>*:not(:first-child)]:mx-2 laptopM:mr-1 mx-0 mr-3"
 
     return (
         <>
             <div className="rounded-xl overflow-y-scroll m-3 mobileL:overflow-x overflow-x-none">
-                <div className={`${alignmentStyles} ml-3 mt-3`}>
+                <div className={`${alignmentStyles} ml-3 mt-3 mr-2`}>
                     <Search setQuery={setQuery} />
 
-                    <div className="m-auto mobileL:mr-1 mobileL:flex hidden">
+                    <div className="m-auto mobileL:mr-1 mobileXL:h-10 h-max flex ml-0">
                     <ViewToggleButton isDisplayingGridView={isDisplayingGridView} setIsDisplayingGridView={setIsDisplayingGridView} />
 
-                    <span className="laptop:flex hidden">
-                        <ClearFiltersButton clearFilters={clearFilters} haveFiltersBeenSelected={haveFiltersBeenSelected} />
-                    </span>
+                        <span className="laptop:flex mobileXL:hidden flex">
+                            <ClearFiltersButton clearFilters={clearFilters} haveFiltersBeenSelected={haveFiltersBeenSelected} />
+                        </span>
                     </div>
                 </div>
 
-                <div className={`ml-3 mt-3 ${alignmentStyles} ${filterWrapperStyles} flex-col laptopM:flex-row`}>
+                <div className={`ml-3 mt-3 ${alignmentStyles} ${filterWrapperStyles} flex-row mobileXL:flex-col laptopM:flex-row`}>
                     <Filter
                         {...{
                             type: "Providers",
@@ -64,7 +65,7 @@ const MainContent = () => {
                     />
                 </div>
 
-                <div className={`ml-3 mt-0 ${alignmentStyles} ${filterWrapperStyles} flex-col laptopM:flex-row`}>
+                <div className={`ml-3 mt-0 ${alignmentStyles} ${filterWrapperStyles} flex-row mobileXL:flex-col laptopM:flex-row`}>
                     <Filter
                         {...{
                             type: "Features",

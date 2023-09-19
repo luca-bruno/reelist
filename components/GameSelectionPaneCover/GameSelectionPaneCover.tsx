@@ -13,7 +13,7 @@ const GameSelectionPaneCover: React.FC<GameSelectionPaneCoverTypes> =
         iconLarge,
         iconSmall
     }) => (
-        <div className={`flex justify-center m-auto items-center ${hasImageLoaded ? "opacity-100" : "opacity-0"}`}>
+        <div className={`justify-center m-auto items-center mobileXL:flex hidden ${hasImageLoaded ? "opacity-100" : "opacity-0"}`}>
             <Image
                 className="absolute rounded-xl py-3 px-8 right-0"
                 src={hasReturnedError ? "" : (iconLarge || iconSmall) || ""}

@@ -19,7 +19,7 @@ const GameCard: React.FC<GameCardType> = ({ id, name, iconSmall, setSelectedGame
     return (
         <button
             type="button"
-            className={`relative ${!isDisplayingGridView ? `rounded-xl laptop:h-[80px] h-[40px] flex
+            className={`relative m-auto ${!isDisplayingGridView ? `rounded-xl laptop:h-[80px] h-[40px] flex
                 ${transitionStyles} hover:scale-105 mx-2 bg-gray-50/10` : ""}`}
             onClick={() => setSelectedGameId(id)}
         >

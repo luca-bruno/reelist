@@ -39,19 +39,23 @@ const GameSelectionPane: React.FC<{ selectedGameId: string }> = ({ selectedGameI
     }, [selectedGameId, setHasBackgroundImageReturnedError, setHasImageLoaded, setHasReturnedError])
 
     return (
-        <div className="flex justify-center col-span-2 rounded-xl overflow-y-auto m-3 overflow-hidden" >
+        <div className="flex justify-center col-span-1 mobileXL:col-span-2 rounded-xl m-3 overflow-hidden" >
             <div className="relative h-full w-full">
                 <GameSelectionPaneBackground
                     {...{
                         name,
                         background,
                         hasBackgroundImageReturnedError,
-                        setHasBackgroundImageReturnedError
+                        setHasBackgroundImageReturnedError,
+                        iconSmall,
+                        iconLarge,
+                        hasReturnedError,
+                        setHasReturnedError
                     }}
                 />
 
                 <div className="bg-gradient-to-b from-transparent from-1% to-gray-500
-                    p-3 absolute bottom-0 rounded-xl z-10 w-full h-[35%]"
+                    p-3 absolute bottom-0 rounded-xl z-10 w-full h-[45%]"
                 >
                     <GameSelectionPaneCover
                         {...{

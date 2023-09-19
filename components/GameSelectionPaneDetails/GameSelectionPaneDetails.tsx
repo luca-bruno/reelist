@@ -4,8 +4,8 @@ import GameSelectionPaneDetailsTypes from "./types/GameSelectionPaneDetails.inte
 
 const GameSelectionPaneDetails: React.FC<GameSelectionPaneDetailsTypes> = ({ name, providerTitle }) => (
     <>
-        <p className="text-5xl pr-4 py-2 rounded-xl w-max"
-            style={{ textShadow: "8px 6px 16px rgba(0, 0, 0, 1)" }}>
+        <p className="laptop:text-5xl tablet:text-4xl text-3xl pr-4 py-2 rounded-xl laptop:w[75%] tablet:w-[50%] mobileXL:w-[75%] w-full flex-wrap"
+            style={{ textShadow: "8px 6px 16px rgba(0, 0, 0, 1)"}}>
             {name}
         </p>
 

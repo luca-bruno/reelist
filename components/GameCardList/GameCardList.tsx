@@ -35,7 +35,7 @@ const GameCardList: React.FC<GameCardListTypes> =
 
         return (
             <div className={`grid m-3 gap-3
-                ${isDisplayingGridView ? "grid-cols-1 mobileL:grid-cols-2 laptopM:grid-cols-4" : "grid-cols-1"}`}
+                ${isDisplayingGridView ? "grid-cols-2 laptopM:grid-cols-4" : "grid-cols-1"}`}
             >
                 {gameCardsData.map(({ id, name, icon_2: iconSmall }) => (
                     <GameCard key={id} {...{ id, name, iconSmall, setSelectedGameId, selectedGameId, isDisplayingGridView }} />
