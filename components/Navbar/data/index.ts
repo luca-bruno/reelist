@@ -1,8 +1,8 @@
 const buttons = [
   {
     key: 1,
-    label: "Lobby",
-    slug: "/lobby"
+    label: "Browse",
+    slug: "/browse"
   }
 ]
 

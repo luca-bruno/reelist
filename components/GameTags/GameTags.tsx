@@ -11,7 +11,7 @@ const GameTags: React.FC<{ tags: dataSubtypes[] }> = ({ tags }) => (
         {tags?.map(({ title, id: categoryId }) => (
           <span
             key={categoryId}
-            className="rounded-full bg-purple-500 bg-opacity-40 text-xs laptop:text-sm max-w-fit px-3 mx-1 flex"
+            className="rounded-full bg-accent-500 bg-opacity-40 text-xs laptop:text-sm max-w-fit px-3 mx-1 flex"
           >
             <p className="justify-center items-center m-auto">
               {capitaliseEachWord(title)}

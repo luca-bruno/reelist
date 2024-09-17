@@ -1,17 +1,19 @@
 "use client"
 
 import React, { useState } from "react"
+import { faList, faGrip, faFilter } from "@fortawesome/free-solid-svg-icons"
 import GameCardList from "../GameCardList"
 import GameSelectionPane from "../GameSelectionPane"
 import defaultSelectedGameId from "./data"
 import Search from "../Search"
 import Filter from "../Filter"
 import ClearFiltersButton from "../ClearFiltersButton"
-import ViewToggleButton from "../ViewToggleButton"
+import ViewToggleButton from "../ToggleButton"
 
-const MainContent = () => {
+const Browse = () => {
   const [selectedGameId, setSelectedGameId] = useState(defaultSelectedGameId)
   const [isDisplayingGridView, setIsDisplayingGridView] = useState(true)
+  const [isDisplayingFilters, setIsDisplayingFilters] = useState(true)
   const [query, setQuery] = useState("")
   const [selectedProviderFilters, setSelectedProviderFilters] = useState<string[]>([])
   const [selectedCategoryFilters, setSelectedCategoryFilters] = useState<string[]>([])
@@ -37,24 +39,47 @@ const MainContent = () => {
 
   return (
     <>
-      <div className="rounded-xl overflow-y-scroll m-3 mobileL:overflow-x overflow-x-none">
+      {/* <p className="text-content-500">
+    Select a movie!
+    </p> */}
+      <div className="rounded-xl m-3 mobileL:overflow-x overflow-x-none bg-neutral-500">
         <div className={`${alignmentStyles} ml-3 mt-3 mr-2`}>
           <Search setQuery={setQuery} />
 
+          {/* TODO: save to session after each api call - Search term - save title and poster */}
+
           <div className="m-auto mobileL:mr-1 mobileXL:h-10 h-max flex ml-0">
             <ViewToggleButton
-              isDisplayingGridView={isDisplayingGridView}
-              setIsDisplayingGridView={setIsDisplayingGridView}
+              state={isDisplayingGridView}
+              stateSetter={setIsDisplayingGridView}
+              onIcon={faList}
+              offIcon={faGrip}
             />
 
-            <span className="laptop:flex mobileXL:hidden flex">
-              <ClearFiltersButton
-                clearFilters={clearFilters}
-                haveFiltersBeenSelected={haveFiltersBeenSelected}
-              />
-            </span>
+            {/* FilterToggleButton */}
+            <ViewToggleButton
+              state={isDisplayingFilters}
+              stateSetter={setIsDisplayingFilters}
+              onIcon={faFilter}
+            />
+
+            {/* <span className="laptop:flex mobileXL:hidden flex">
+            <ClearFiltersButton
+              clearFilters={clearFilters}
+              haveFiltersBeenSelected={haveFiltersBeenSelected}
+            />
+          </span> */}
           </div>
         </div>
+
+
+
+
+
+
+
+
+
 
         <div
           className={`ml-3 mt-3 ${alignmentStyles} ${filterWrapperStyles} flex-row mobileXL:flex-col laptopM:flex-row`}
@@ -113,4 +138,4 @@ const MainContent = () => {
   )
 }
 
-export default MainContent
+export default Browse
