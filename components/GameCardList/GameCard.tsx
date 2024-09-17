@@ -42,6 +42,7 @@ const GameCard: React.FC<GameCardType> = ({
             alt={`${name || "Game"} icon`}
             width={200}
             height={155}
+            draggable={false}
           />
 
           { !isDisplayingGridView &&

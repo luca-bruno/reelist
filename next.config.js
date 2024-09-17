@@ -1,17 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-      domains: []
-    },
-    async redirects() {
-      return [
-        {
-          source: "/",
-          destination: "/lobby",
-          permanent: true
-        }
-      ]
+      domains: ["m.media-amazon.com"]
     }
   }
-  
+
   module.exports = nextConfig

@@ -16,11 +16,12 @@
 
 body {
   color: white;
-  background: linear-gradient(
+  background: #FBE9D0;
+  /* background: linear-gradient(
     to bottom,
     rgb(255, 138, 88),
     rgb(112, 81, 203) 54%
-  );
+  ); */
 }
 
 ::-webkit-scrollbar {
@@ -42,5 +43,6 @@ body {
 
 ::selection {
   color: rgb(255, 255, 255);
-  background: rgb(187, 164, 255);
+  /* background: rgb(187, 164, 255); */
+  background: #ec7b69;
 }

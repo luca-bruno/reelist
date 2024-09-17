@@ -6,7 +6,7 @@ import { Inter } from "next/font/google"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Casino Portal",
+  title: "Reelist",
   description: "Browse through the hottest games through the Casino Lobby!"
 }
 
@@ -17,8 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className}`}>
-        <Navbar />
+      <body className={`max-w-[1280px] m-auto w-full h-auto overflow-y-auto overflow-x-hidden ${inter.className}`}>
         {children}
       </body>
     </html>
