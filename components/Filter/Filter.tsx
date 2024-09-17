@@ -30,14 +30,14 @@ const Filter: React.FC<FilterTypes> = ({ type, selectedFilters, setSelectedFilte
             <Listbox value={selectedFilters} onChange={setSelectedFilters} multiple>
                 <div id="filter_listbox_dropdown" className="relative">
                     <Listbox.Button
-                        className="w-full h-10 tablet:h-12 cursor-select rounded-xl bg-white py-2 pl-3 pr-10 text-left shadow-md 
-                          focus:outline-none focus-visible:border-purple-500 focus-visible:ring-2 focus-visible:ring-white 
+                        className="laptopM:w-[185px] w-full h-10 tablet:h-12 cursor-select rounded-xl bg-white py-2 pl-3 pr-10 text-left shadow-md 
+                          focus:outline-none focus-visible:border-accent-500 focus-visible:ring-2 focus-visible:ring-white 
                           focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
                     >
                         <span className="select-none truncate flex m-auto items-center text-xs tablet:text-lg">
                             {type}
                             <div className="flex justify-center items-center w-6 h-6 
-                              bg-purple-400 rounded-full text-white text-xs ml-3 mr-0 mobileXL:mx-3 mx-3 tablet:text-lg"
+                              bg-accent-400 rounded-full text-white text-xs ml-3 mr-0 mobileXL:mx-3 mx-3 tablet:text-lg"
                             >
                               {selectedFilters.length}
                             </div>
@@ -61,8 +61,8 @@ const Filter: React.FC<FilterTypes> = ({ type, selectedFilters, setSelectedFilte
                                   key={(typeof tag === "string") ? tag : (tag && tag.id)}
                                   className={({ active, selected: isOptionSelected }) =>
                                       `relative cursor-select select-none py-2 pl-10
-                                          ${active ? `bg-purple-500/30 ${transitionStyles}` : "text-black"}
-                                          ${isOptionSelected ? `bg-purple-300 text-white ${transitionStyles}` : "text-black"}
+                                          ${active ? `bg-accent-500/30 ${transitionStyles}` : "text-black"}
+                                          ${isOptionSelected ? `bg-accent-300 text-white ${transitionStyles}` : "text-black"}
                                       `}
                                   value={(typeof tag === "string") ? tag : (tag && tag.id)}
                                 >
