@@ -16,7 +16,7 @@ const GameSelectionPaneCover: React.FC<GameSelectionPaneCoverTypes> = ({
       hasImageLoaded ? "opacity-100" : "opacity-0"
     }`}
   >
-    <Image
+    {/* <Image
       className="absolute rounded-xl py-3 px-8 right-0"
       src={hasReturnedError ? "" : iconLarge || iconSmall || ""}
       alt={`${name || "Game"} icon`}
@@ -24,7 +24,8 @@ const GameSelectionPaneCover: React.FC<GameSelectionPaneCoverTypes> = ({
       onLoadingComplete={() => setHasImageLoaded(true)}
       width={250}
       height={211}
-    />
+      draggable={false}
+    /> */}
   </div>
 )
 

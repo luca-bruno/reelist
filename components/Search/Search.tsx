@@ -23,15 +23,15 @@ const Search: React.FC<{ setQuery: (arg0: string) => void }> = ({ setQuery }) =>
   }
 
   return (
-    <div className="relative mr-3">
+    <div className="relative mr-3 w-full">
       <input
         type="text"
-        placeholder="Search games..."
+        placeholder="Search movies..."
         onChange={handleInputChange}
-        maxLength={30}
+        // maxLength={30}
         value={input}
         className="text-black focus:outline-none focus:ring-0 border-2 
-                    focus:border-purple-500 p-2 rounded-xl laptopXL:w-96 w-full text-sm tablet:text-lg"
+                    focus:border-accent-500 p-2 rounded-xl laptopXL:w-96 w-full text-sm tablet:text-lg"
       />
       {input && (
         <button

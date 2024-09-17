@@ -14,14 +14,15 @@ const GameSelectionPaneBackground: React.FC<GameSelectionPaneBackgroundTypes> = 
   setHasReturnedError
 }) => (
   <>
-    <Image
+    {/* <Image
       className="filter blur-sm z-0 mobileXL:block hidden"
       src={hasBackgroundImageReturnedError ? fallbackPlaceholder : background || ""}
       alt={`${name || "Game"} background`}
       onError={() => setHasBackgroundImageReturnedError(true)}
       fill
       style={{objectFit:"cover"}}
-    />
+      draggable={false}
+    /> */}
     <Image
       className="filter blur-sm z-0 mobileXL:hidden block"
       src={hasReturnedError ? fallbackPlaceholder : iconLarge || iconSmall || ""}
@@ -29,6 +30,7 @@ const GameSelectionPaneBackground: React.FC<GameSelectionPaneBackgroundTypes> = 
       onError={() => setHasReturnedError(true)}
       fill
       style={{objectFit:"cover"}}
+      draggable={false}
     />
   </>
 )
