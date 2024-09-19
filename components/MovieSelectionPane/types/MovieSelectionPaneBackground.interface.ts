@@ -1,5 +1,5 @@
-interface GameSelectionPaneBackgroundTypes {
-  name?: string
+interface MovieSelectionPaneBackgroundTypes {
+  title?: string
   background?: string
   hasBackgroundImageReturnedError: boolean
   setHasBackgroundImageReturnedError: (arg0: boolean) => void
@@ -9,4 +9,4 @@ interface GameSelectionPaneBackgroundTypes {
   setHasReturnedError: (arg0: boolean) => void
 }
 
-export default GameSelectionPaneBackgroundTypes
+export default MovieSelectionPaneBackgroundTypes

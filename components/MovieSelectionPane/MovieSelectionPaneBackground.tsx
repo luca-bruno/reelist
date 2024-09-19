@@ -1,10 +1,10 @@
 import React from "react"
 import Image from "next/image"
 import fallbackPlaceholder from "@/public/fallbackPlaceholder.jpg"
-import GameSelectionPaneBackgroundTypes from "./types/GameSelectionPaneBackground.interface"
+import MovieSelectionPaneBackgroundTypes from "./types/MovieSelectionPaneBackground.interface"
 
-const GameSelectionPaneBackground: React.FC<GameSelectionPaneBackgroundTypes> = ({
-  name,
+const MovieSelectionPaneBackground: React.FC<MovieSelectionPaneBackgroundTypes> = ({
+  title,
   background,
   hasBackgroundImageReturnedError,
   setHasBackgroundImageReturnedError,
@@ -14,19 +14,21 @@ const GameSelectionPaneBackground: React.FC<GameSelectionPaneBackgroundTypes> = 
   setHasReturnedError
 }) => (
   <>
-    {/* <Image
+    <Image
       className="filter blur-sm z-0 mobileXL:block hidden"
-      src={hasBackgroundImageReturnedError ? fallbackPlaceholder : background || ""}
-      alt={`${name || "Game"} background`}
+      // src={hasBackgroundImageReturnedError ? fallbackPlaceholder : background || ""}
+      src={`https://image.tmdb.org/t/p/original/${background}`}
+      alt={`${title || "Movie"} background`}
       onError={() => setHasBackgroundImageReturnedError(true)}
       fill
       style={{objectFit:"cover"}}
       draggable={false}
-    /> */}
+    />
     <Image
       className="filter blur-sm z-0 mobileXL:hidden block"
-      src={hasReturnedError ? fallbackPlaceholder : iconLarge || iconSmall || ""}
-      alt={`${name || "Game"} background`}
+      // src={hasReturnedError ? fallbackPlaceholder : iconLarge || iconSmall || ""}
+      src={`https://image.tmdb.org/t/p/original/${background}`}
+      alt={`${title || "Movie"} background`}
       onError={() => setHasReturnedError(true)}
       fill
       style={{objectFit:"cover"}}
@@ -35,4 +37,4 @@ const GameSelectionPaneBackground: React.FC<GameSelectionPaneBackgroundTypes> = 
   </>
 )
 
-export default GameSelectionPaneBackground
+export default MovieSelectionPaneBackground

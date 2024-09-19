@@ -1,9 +1,9 @@
 import React from "react"
 import Image from "next/image"
-import GameSelectionPaneCoverTypes from "./types/GameSelectionPaneCover.interface"
+import MovieSelectionPaneCoverTypes from "./types/MovieSelectionPaneCover.interface"
 
-const GameSelectionPaneCover: React.FC<GameSelectionPaneCoverTypes> = ({
-  name,
+const MovieSelectionPaneCover: React.FC<MovieSelectionPaneCoverTypes> = ({
+  title,
   hasImageLoaded,
   setHasImageLoaded,
   hasReturnedError,
@@ -29,4 +29,4 @@ const GameSelectionPaneCover: React.FC<GameSelectionPaneCoverTypes> = ({
   </div>
 )
 
-export default GameSelectionPaneCover
+export default MovieSelectionPaneCover

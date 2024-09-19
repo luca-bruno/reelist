@@ -1,6 +1,6 @@
 import React from "react"
 
-const GameSelectionPanePlayButton = () => (
+const MovieSelectionPanePlayButton = () => (
   <button
     type="button"
     className="bg-accent-500 absolute rounded-xl py-4 tablet:py-6 px-8 tablet:px-12
@@ -10,4 +10,4 @@ const GameSelectionPanePlayButton = () => (
   </button>
 )
 
-export default GameSelectionPanePlayButton
+export default MovieSelectionPanePlayButton

@@ -1,9 +1,9 @@
 import { dataSubtypes } from "@/json/data.interface"
 
-interface GameSelectionPaneTagsTypes {
+interface MovieSelectionPaneTagsTypes {
   categoryTags?: dataSubtypes[]
   featureTags?: dataSubtypes[]
   themeTags?: dataSubtypes[]
 }
 
-export default GameSelectionPaneTagsTypes
+export default MovieSelectionPaneTagsTypes

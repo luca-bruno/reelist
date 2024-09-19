@@ -1,18 +1,21 @@
+"use client"
+
 import React from "react"
-import Image from "next/image"
+import Image from 
+"next/image"
 import useImage from "@/hooks/useImage/useImage"
 import { transitionStyles } from "@/helpers"
 import fallbackPlaceholder from "@/public/fallbackPlaceholder.jpg"
-import GameCardType from "./types/GameCard.interface"
+import MovieCardType from "./types/MovieCard.interface"
 
 
-const GameCard: React.FC<GameCardType> = ({ 
+const MovieCard: React.FC<MovieCardType> = ({ 
   id, 
   name, 
   iconSmall, 
-  setSelectedGameId, 
-  selectedGameId, 
-  isDisplayingGridView 
+  setSelectedMovieId, 
+  selectedMovieId, 
+  isDisplayingGridView = true
 }) => {
   const {
     hasImageLoaded,
@@ -21,14 +24,14 @@ const GameCard: React.FC<GameCardType> = ({
     setHasReturnedError
   } = useImage()
 
-    const onCurrentId = (key: string) => selectedGameId === key
+    const onCurrentId = (key: string) => selectedMovieId === key
 
     return (
         <button
           type="button"
           className={`relative m-auto ${!isDisplayingGridView ? `rounded-xl laptop:h-[80px] h-[40px] flex
             ${transitionStyles} hover:scale-105 mx-2 bg-gray-50/10` : ""}`}
-          onClick={() => setSelectedGameId(id)}
+          onClick={() => setSelectedMovieId(id)}
         >
           <Image
             className={`rounded-xl ${transitionStyles}
@@ -36,10 +39,11 @@ const GameCard: React.FC<GameCardType> = ({
               ${hasImageLoaded ? "opacity-100" : "opacity-0"} 
               ${onCurrentId(id) ? "scale-105" : ""}
             `}
-            src={hasReturnedError ? fallbackPlaceholder : iconSmall}
+            // src={hasReturnedError ? fallbackPlaceholder : iconSmall}
+            src={`https://image.tmdb.org/t/p/original/${iconSmall}`}
             onError={() => setHasReturnedError(true)}
             onLoadingComplete={() => setHasImageLoaded(true)}
-            alt={`${name || "Game"} icon`}
+            alt={`${name || "Movie"} icon`}
             width={200}
             height={155}
             draggable={false}
@@ -54,4 +58,4 @@ const GameCard: React.FC<GameCardType> = ({
     )
 }
 
-export default GameCard
+export default MovieCard

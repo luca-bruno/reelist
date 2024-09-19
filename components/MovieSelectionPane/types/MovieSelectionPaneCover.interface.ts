@@ -1,5 +1,5 @@
-interface GameSelectionPaneCoverTypes {
-  name?: string
+interface MovieSelectionPaneCoverTypes {
+  title?: string
   hasImageLoaded: boolean
   setHasImageLoaded: (arg0: boolean) => void
   hasReturnedError: boolean
@@ -8,4 +8,4 @@ interface GameSelectionPaneCoverTypes {
   iconSmall?: string
 }
 
-export default GameSelectionPaneCoverTypes
+export default MovieSelectionPaneCoverTypes
