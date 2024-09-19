@@ -1,5 +1,6 @@
 import { movieResponseTypes } from "@/json/data.interface"
 
+// NOTE: For fetching from server components
 const fetchMovies = async (searchTerm?: string) => {
   const baseUrl = "https://api.themoviedb.org/3/"
   const discoverQuery = "discover/movie?" 

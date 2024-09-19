@@ -1,6 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import fetchMovies from "@/services/fetchMovies/fetchMovies"
 
+// NOTE: For fetching from client components
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url)
     const searchTerm = searchParams.get("q") || ""
