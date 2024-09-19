@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar"
 import "./globals.css"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
@@ -7,7 +6,7 @@ const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Reelist",
-  description: "Browse through the hottest games through the Casino Lobby!"
+  description: "Your personal movie hub - discover, personalise, show off. Powered by the TMDb API."
 }
 
 export default function RootLayout({
