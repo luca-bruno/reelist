@@ -29,20 +29,19 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgb(236, 123, 105, 0.3);
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 5px;
+  background: rgb(236, 123, 105, 0.3);
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.5);
+  background: rgb(236, 123, 105, 0.8);
 }
 
 ::selection {
-  color: rgb(255, 255, 255);
-  /* background: rgb(187, 164, 255); */
-  background: #ec7b69;
+  background: rgb(236, 123, 105);
 }
