@@ -21,7 +21,7 @@ export interface spokenLanguageTypes {
   name: string
 }
 
-export interface castTypes {
+export interface creditTypes {
   adult: boolean
   gender: number
   id: number
@@ -30,10 +30,18 @@ export interface castTypes {
   original_name: string
   popularity: number
   profile_path: string
+  credit_id: string
+}
+
+export interface castTypes {
   cast_id: number
   character: string
-  credit_id: string
   order: number
+}
+
+export interface crewTypes {
+  department: string
+  job: string
 }
 
 export interface movieTypes {
@@ -64,6 +72,7 @@ export interface movieTypes {
   vote_average: number
   vote_count: number
   credits: {
-    cast: castTypes[]
+    cast: (creditTypes & castTypes)[]
+    crew: (creditTypes & crewTypes)[] 
   }
 }
