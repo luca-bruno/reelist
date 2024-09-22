@@ -1,46 +1,40 @@
 import { movieResponseTypes } from "@/json/data.interface"
 
 // NOTE: For fetching from server components
-const fetchMovies = async (searchTerm?: string) => {
+const fetchMovies = async (
+  searchTerm?: string,
+  genreTerm?: string,
+  castTerm?: string
+) => {
   const baseUrl = "https://api.themoviedb.org/3/"
-  const discoverQuery = "discover/movie?" 
+  const discoverQuery = "discover/movie?"
   const searchQuery = `search/movie?query=${searchTerm}`
+  const genreQuery = genreTerm ? `&with_genres=${genreTerm}` : ""
+  const castQuery = castTerm ? `&with_cast=${castTerm}` : ""
 
   const options = {
     method: "GET",
     headers: {
       accept: "application/json",
-      Authorization: `Bearer ${process.env.API_KEY}`
+      Authorization: `Bearer ${process.env.TMDB_BEARER_TOKEN}`
     }
   }
-  // const url = `${baseUrl}${discoverQuery}${searchQuery}${movieIdQuery}`
-  const url = searchTerm ? `${baseUrl}${searchQuery}` : `${baseUrl}${discoverQuery}`
 
-
-   // const url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc"
-  // const url = `https://api.themoviedb.org/3/movie/550/images`
-  // https://api.themoviedb.org/3/search/movie?query
-
-
-
-
-    // get/movie/{movie_id}/watch/providers
-  // &watch_region={iso_3166_1}
+  const url = searchTerm
+    ? `${baseUrl}${searchQuery}`
+    : `${baseUrl}${discoverQuery}${genreQuery}${castQuery}`
+  console.log(url)
 
   try {
     const response = await fetch(url, options)
-    const data = await response.json() as movieResponseTypes
-    // const x = searchTerm ? data.results.sort((a, b) => b.popularity - a.popularity) : data
+    const data = (await response.json()) as movieResponseTypes
+
+    // Manually sorting by popularity from non-discover (i.e. search) endpoint (since not available natively from API)
     return data.results.sort((a, b) => b.popularity - a.popularity)
-    // return x
-    // setMovies(sorted)
   } catch (error) {
     return error
-    // TODO: check error handling ruin bearer
+    // TODO: Test error handling ruin API key
   }
-    // } finally {
-  //   setLoading(false)
-  // }
 }
 
 export default fetchMovies

@@ -52,6 +52,7 @@ module.exports = {
     "react/jsx-wrap-multilines": "off",
     "react/jsx-curly-newline": "off",
     "react/react-in-jsx-scope": "off",
+    "react/require-default-props": "off",
     "react/jsx-no-useless-fragment": "off",
     "comma-dangle": [2, "never"],
     "react/jsx-closing-bracket-location": "off",

@@ -1,16 +1,14 @@
 /* eslint-disable import/prefer-default-export */
-import fetchMovies from "@/services/fetchMovies/fetchMovies"
+import fetchMovie from "@/services/fetchMovie/fetchMovie"
 
 // NOTE: For fetching from client components
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
-  const searchTerm = searchParams.get("q") || ""
-  const genreTerm = searchParams.get("g") || ""
-  const castTerm = searchParams.get("c") || ""
+  const searchTerm = searchParams.get("id") || ""
 
   try {
-    const movies = await fetchMovies(searchTerm, genreTerm, castTerm)
-    return new Response(JSON.stringify(movies), {
+    const movie = await fetchMovie(searchTerm)
+    return new Response(JSON.stringify(movie), {
       status: 200,
       headers: { "Content-Type": "application/json" }
     })
