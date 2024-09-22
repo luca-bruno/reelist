@@ -1,4 +1,4 @@
-import { movieTypes } from "@/types/movies.interface"
+import { movieTypes } from "@/types/movie.interface"
 
 interface CarouselTypes {
   title: string

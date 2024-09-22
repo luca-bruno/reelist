@@ -1,4 +1,4 @@
-import { movieDiscoverResponseTypes } from "@/types/movies.interface"
+import { moviesTypes } from "@/types/movies.interface"
 
 // NOTE: For fetching from server components
 const fetchMovie = async (searchTerm?: string) => {
@@ -18,7 +18,7 @@ const fetchMovie = async (searchTerm?: string) => {
 
   try {
     const response = await fetch(url, options)
-    const data = (await response.json()) as movieDiscoverResponseTypes
+    const data = (await response.json()) as moviesTypes
 
     return data
   } catch (error) {

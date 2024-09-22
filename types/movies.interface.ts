@@ -1,24 +1,8 @@
-interface movieTypes {
-  adult: boolean
-  backdrop_path: string
-  genre_ids: number[]
-  id: number
-  original_language: string
-  overview: string
-  popularity: number
-  poster_path: string
-  release_date: string
-  title: string
-  video: boolean
-  vote_average: number
-  vote_count: number
-}
+import { movieTypes } from "./movie.interface"
 
-interface movieDiscoverResponseTypes {
+export interface moviesTypes {
   page: number
   results: movieTypes[]
   total_pages: number
   total_results: number
 }
-
-export type { movieTypes, movieDiscoverResponseTypes }

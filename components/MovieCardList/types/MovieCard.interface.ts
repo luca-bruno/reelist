@@ -1,5 +1,5 @@
 import MovieCardListTypes from "@/components/MovieCardList/types/MovieCardList.interface"
-import { movieTypes } from "@/types/movies.interface"
+import { movieTypes } from "@/types/movie.interface"
 
 interface MovieCardTypes {
     id: movieTypes["id"]
