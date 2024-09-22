@@ -5,7 +5,7 @@ import { faChevronRight } from "@fortawesome/free-solid-svg-icons/faChevronRight
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { transitionStyles } from "@/helpers"
 import Link from "next/link"
-import { movieTypes } from "@/json/data.interface"
+import { movieTypes } from "@/types/movies.interface"
 import { IS_BROWSER } from "@/constants"
 import { CarouselTypes } from "./types/Carousel.interface"
 import CarouselItem from "./CarouselItem"

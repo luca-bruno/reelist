@@ -1,5 +1,5 @@
 import React from "react"
-import { dataSubtypes } from "@/json/data.interface"
+import { dataSubtypes } from "@/types/movies.interface"
 import { capitaliseEachWord } from "@/helpers"
 
 const GameTags: React.FC<{ tags: dataSubtypes[] }> = ({ tags }) => (

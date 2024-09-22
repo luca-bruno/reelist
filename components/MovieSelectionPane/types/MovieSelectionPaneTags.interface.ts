@@ -1,4 +1,4 @@
-import { dataSubtypes } from "@/json/data.interface"
+import { dataSubtypes } from "@/types/movies.interface"
 
 interface MovieSelectionPaneTagsTypes {
   categoryTags?: dataSubtypes[]

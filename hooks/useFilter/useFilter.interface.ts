@@ -1,4 +1,4 @@
-import { movieSummaryTypes, movieFullTypes } from "@/json/data.interface"
+import { movieSummaryTypes, movieFullTypes } from "@/types/movies.interface"
 
 interface useFilterTypes {
     data: (movieFullTypes & movieSummaryTypes)[]

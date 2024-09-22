@@ -1,4 +1,4 @@
-import { movieResponseTypes } from "@/json/data.interface"
+import { movieDiscoverResponseTypes } from "@/types/movies.interface"
 
 // NOTE: For fetching from server components
 const fetchMovies = async (
@@ -27,7 +27,7 @@ const fetchMovies = async (
 
   try {
     const response = await fetch(url, options)
-    const data = (await response.json()) as movieResponseTypes
+    const data = (await response.json()) as movieDiscoverResponseTypes
 
     // Manually sorting by popularity from non-discover (i.e. search) endpoint (since not available natively from API)
     return data.results.sort((a, b) => b.popularity - a.popularity)

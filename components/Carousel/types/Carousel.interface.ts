@@ -1,4 +1,4 @@
-import { movieTypes } from "@/json/data.interface"
+import { movieTypes } from "@/types/movies.interface"
 
 interface CarouselTypes {
   title: string

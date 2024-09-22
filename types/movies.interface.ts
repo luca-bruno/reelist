@@ -4,7 +4,6 @@ interface movieTypes {
   genre_ids: number[]
   id: number
   original_language: string
-  original_title: string
   overview: string
   popularity: number
   poster_path: string
@@ -15,11 +14,11 @@ interface movieTypes {
   vote_count: number
 }
 
-interface movieResponseTypes {
+interface movieDiscoverResponseTypes {
   page: number
   results: movieTypes[]
   total_pages: number
   total_results: number
 }
 
-export type { movieTypes, movieResponseTypes }
+export type { movieTypes, movieDiscoverResponseTypes }
