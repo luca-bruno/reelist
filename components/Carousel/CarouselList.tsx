@@ -1,13 +1,14 @@
 "use client"
 
 import React, { useEffect, useState } from "react"
+import { IS_BROWSER } from "@/constants"
 import Carousel from "./Carousel"
 
 const CarouselList = ({ movies }) => {
     const [x, setX] = useState<boolean>()
 
     useEffect(() => {
-        if (typeof window !== "undefined") {
+        if (IS_BROWSER) {
             const hasUserPreviouslyVisited = localStorage.getItem("has-user-previously-visited")
             if (hasUserPreviouslyVisited) {
                 setX(JSON.parse(hasUserPreviouslyVisited))
