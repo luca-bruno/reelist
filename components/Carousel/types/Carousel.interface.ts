@@ -1,12 +1,10 @@
-interface CarouselListItemTypes {
-    label: string
-    src: string
-}
+import { movieTypes } from "@/json/data.interface"
 
 interface CarouselTypes {
     title: string
     subtitle?: string
-    list: CarouselListItemTypes[]
+    list?: movieTypes[]
+    listKey?: string
 }
 
 export default CarouselTypes
