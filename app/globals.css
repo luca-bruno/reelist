@@ -44,4 +44,13 @@ body {
 
 ::selection {
   background: rgb(236, 123, 105);
+  color: rgb(255, 255, 255);
+}
+
+.movie-card__button:hover div {
+  transform: scale(1.05);
+}
+
+.movie-card__button div:hover {
+  transform: none;
 }

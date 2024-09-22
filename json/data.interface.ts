@@ -22,5 +22,4 @@ interface movieResponseTypes {
   total_results: number
 }
 
-
 export type { movieTypes, movieResponseTypes }

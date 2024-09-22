@@ -1,10 +1,16 @@
 import { movieTypes } from "@/json/data.interface"
 
 interface CarouselTypes {
-    title: string
-    subtitle?: string
-    list?: movieTypes[]
-    listKey?: string
+  title: string
+  subtitle?: string
+  list?: movieTypes[]
+  listKey?: string
 }
 
-export default CarouselTypes
+interface CarouselItemTypes {
+  id: movieTypes["id"]
+  posterPath: movieTypes["poster_path"]
+  title: movieTypes["title"]
+}
+
+export type { CarouselTypes, CarouselItemTypes }

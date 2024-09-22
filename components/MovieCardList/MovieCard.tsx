@@ -1,11 +1,12 @@
 "use client"
 
 import React from "react"
-import Image from 
-"next/image"
+import Image from "next/image"
 import useImage from "@/hooks/useImage/useImage"
 import { transitionStyles } from "@/helpers"
 import fallbackPlaceholder from "@/public/fallbackPlaceholder.jpg"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCheck, faHeart } from "@fortawesome/free-solid-svg-icons"
 import MovieCardType from "./types/MovieCard.interface"
 
 
@@ -29,7 +30,7 @@ const MovieCard: React.FC<MovieCardType> = ({
     return (
         <button
           type="button"
-          className={`relative m-auto ${!isDisplayingGridView ? `rounded-xl laptop:h-[80px] h-[40px] flex
+          className={`movie-card__button relative m-auto ${!isDisplayingGridView ? `rounded-xl laptop:h-[80px] h-[40px] flex
             ${transitionStyles} hover:scale-105 mx-2 bg-gray-50/10` : ""}`}
           onClick={() => setSelectedMovieId(id)}
         >
