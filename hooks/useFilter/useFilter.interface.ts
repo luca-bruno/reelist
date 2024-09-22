@@ -1,7 +1,7 @@
-import { dataTypes } from "@/json/data.interface"
+import { movieSummaryTypes, movieFullTypes } from "@/json/data.interface"
 
 interface useFilterTypes {
-    data: dataTypes[]
+    data: (movieFullTypes & movieSummaryTypes)[]
     query: string
     selectedProviderFilters: string[]
     selectedCategoryFilters: string[]
