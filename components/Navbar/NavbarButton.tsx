@@ -7,16 +7,15 @@ import { transitionStyles } from "@/helpers"
 import NavbarButtonTypes from "./types/NavbarButton.interface"
 
 const NavbarButton: React.FC<NavbarButtonTypes> = ({ label, slug }) => {
-  const pathname = usePathname()
+    const pathname = usePathname()
 
-  const isOnCurrentButton = slug === pathname
+    const isOnCurrentButton = slug === pathname
 
     return (
         <Link href={slug}>
             <button
                 type="button"
-                className={`text-accent-500 
-                    ${!isOnCurrentButton ? `${transitionStyles} hover:text-accent-500` : ""} 
+                className={`text-accent-500 ${transitionStyles} hover:text-accent-300
                     ${isOnCurrentButton ? "border-accent-500 border-b-4" : "border-transparent border-b-4"}`}
             >
                 {label}

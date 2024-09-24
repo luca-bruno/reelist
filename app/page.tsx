@@ -1,8 +1,8 @@
-/* eslint-disable max-len */
 // eslint-disable-next-line camelcase
 import { Oleo_Script, Atkinson_Hyperlegible } from "next/font/google"
 import fetchMovies from "@/services/fetchMovies/fetchMovies"
 import CarouselList from "@/components/Carousel/CarouselList"
+import { movieTypes } from "@/types/movie.interface"
 
 const oleoScript = Oleo_Script({
   subsets: ["latin"],
@@ -16,9 +16,7 @@ const atkinsonHyperlegible = Atkinson_Hyperlegible({
 
 
 const HomePage = async () => {
-  const movies = await fetchMovies()
-  console.log(movies)
-
+  const movies = await fetchMovies() as movieTypes[]
 
   return (
     <main className={`${atkinsonHyperlegible.className}`}>
@@ -42,46 +40,7 @@ const HomePage = async () => {
         </div>
       </div>
 
-
-
       <CarouselList {...{ movies }} />
-      {/* Render if returning user, load from session data */}
-
-      {/* <Carousel
-      {...{
-        title: "Jump Back In 🤙",
-        list: stuff
-      }}
-    />
-
-    <Carousel
-      {...{
-        title: "Your Favourites ❤️",
-        list: stuff
-      }}
-    />
-
-    <Carousel
-      {...{
-        title: "Your Last Search",
-        subtitle: "– \"God\" 🔍 ",
-        list: stuff
-      }}
-    />
-
-    <Carousel
-      {...{
-        title: "Watchlist 🍿",
-        list: stuff
-      }}
-    />
-
-    <Carousel
-      {...{
-        title: "Emma's Halloween 👻🎃✨",
-        list: stuff
-      }}
-    /> */}
     </main>
   )
 }

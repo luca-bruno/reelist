@@ -9,7 +9,7 @@ const CarouselItem: FC<CarouselItemTypes> = ({ id, posterPath, title }) => (
   <Link href="browse/[id]" as={`browse/${id}`} legacyBehavior>
     <Image
       id={id as unknown as string}
-      className={`rounded-xl ${transitionStyles} hover:scale-105 cursor-pointer`}
+      className={`rounded-xl ${transitionStyles} hover:scale-105 cursor-pointer m-3`}
       //    ${hasImageLoaded ? "opacity-100" : "opacity-0"}
       //    ${onCurrentId(id) ? "scale-105" : ""}
       src={`${TMDB_IMAGE_PATH}${posterPath}`}
