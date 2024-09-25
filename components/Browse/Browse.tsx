@@ -1,54 +1,133 @@
 "use client"
 
-import React, { useState } from "react"
+import { FC, useEffect, useState } from "react"
 import { faList, faGrip, faFilter } from "@fortawesome/free-solid-svg-icons"
-import GameCardList from "../GameCardList"
-import GameSelectionPane from "../GameSelectionPane"
-import defaultSelectedGameId from "./data"
+import { movieTypes } from "@/types/movie.interface"
 import Search from "../Search"
 import Filter from "../Filter"
 import ClearFiltersButton from "../ClearFiltersButton"
 import ViewToggleButton from "../ToggleButton"
+import MovieCardList from "../MovieCardList"
+import MovieSelectionPane from "../MovieSelectionPane"
 
-const Browse = () => {
-  const [selectedGameId, setSelectedGameId] = useState(defaultSelectedGameId)
-  const [isDisplayingGridView, setIsDisplayingGridView] = useState(true)
-  const [isDisplayingFilters, setIsDisplayingFilters] = useState(true)
+// TODO: maybe use as fallback? needs testing
+// const scoreMovies = (movies, currentMovie) => {
+//   const scoredMovies = movies.map(movie => {
+//       let score = 0
+
+//       // Count genre matches (assuming you have genre IDs)
+//       const genreMatches = movie.genre_ids.filter(genre => currentMovie.genres.includes(genre))
+//       score += genreMatches.length * 2 // Higher weight for genre matches
+
+//       // Count cast matches (assuming you have cast member IDs)
+//       const castMatches = movie.cast?.filter(actor => currentMovie.cast.includes(actor))
+//       score += castMatches?.length // Lower weight for cast matches
+
+//       return { movie, score }
+//   })
+
+//   // Sort by score
+//   return scoredMovies.sort((a, b) => b.score - a.score).map(item => item.movie)
+// }
+
+const Browse: FC<{ params?: { id: string } }> = ({ params }) => {
+  const { id } = params || {}
+
   const [query, setQuery] = useState("")
-  const [selectedProviderFilters, setSelectedProviderFilters] = useState<string[]>([])
-  const [selectedCategoryFilters, setSelectedCategoryFilters] = useState<string[]>([])
-  const [selectedFeatureFilters, setSelectedFeatureFilters] = useState<string[]>([])
-  const [selectedThemeFilters, setSelectedThemeFilters] = useState<string[]>([])
+  const [movies, setMovies] = useState<movieTypes[]>()
+  const [defaultMovieDetails, setDefaultMovieDetails] = useState<
+    movieTypes | undefined
+  >()
+  const [selectedMovieId, setSelectedMovieId] = useState<number>()
 
-  const haveFiltersBeenSelected =
-    selectedProviderFilters.length > 0 ||
-    selectedCategoryFilters.length > 0 ||
-    selectedFeatureFilters.length > 0 ||
-    selectedThemeFilters.length > 0
+  const formattedCastMembers = defaultMovieDetails?.credits?.cast
+    .map(castMember => castMember.id)
+    .join("|")
 
-  const clearFilters = () => {
-    setSelectedProviderFilters([])
-    setSelectedCategoryFilters([])
-    setSelectedFeatureFilters([])
-    setSelectedThemeFilters([])
-  }
+  useEffect(() => {
+    localStorage.setItem("has-user-previously-visited", "true")
+  }, [])
+
+  // const [isDisplayingGridView, setIsDisplayingGridView] = useState(true)
+  // const [isDisplayingFilters, setIsDisplayingFilters] = useState(true)
+  // const [selectedProviderFilters, setSelectedProviderFilters] = useState<string[]>([])
+  // const [selectedCategoryFilters, setSelectedCategoryFilters] = useState<string[]>([])
+  // const [selectedFeatureFilters, setSelectedFeatureFilters] = useState<string[]>([])
+  // const [selectedThemeFilters, setSelectedThemeFilters] = useState<string[]>([])
+
+  // const haveFiltersBeenSelected =
+  //   selectedProviderFilters.length > 0 ||
+  //   selectedCategoryFilters.length > 0 ||
+  //   selectedFeatureFilters.length > 0 ||
+  //   selectedThemeFilters.length > 0
+
+  // const clearFilters = () => {
+  //   setSelectedProviderFilters([])
+  //   setSelectedCategoryFilters([])
+  //   setSelectedFeatureFilters([])
+  //   setSelectedThemeFilters([])
+  // }
 
   const alignmentStyles = "flex justify-start items-start"
   const filterWrapperStyles =
     "text-black laptopM:[&>*:not(:first-child)]:mx-2 mobileXL:[&>*:not(:first-child)]:mx-0 [&>*:not(:first-child)]:mx-2 laptopM:mr-1 mx-0 mr-3"
 
+  useEffect(() => {
+    async function fetchMovieById() {
+      const response = await fetch(`../api/movie?id=${id}`)
+      const data = await response.json()
+      setDefaultMovieDetails(data)
+    }
+  
+    async function fetchMoviesByQuery() {
+      const response = await fetch(`../api/movies?q=${query}`)
+      const data = await response.json()
+  
+      if (query !== "") {
+        localStorage.setItem("Latest Search Results", JSON.stringify(data))
+      }
+      setMovies(data)
+    }
+  
+    if (query) {
+      // If query is not empty, fetch movies by query (this takes precedence)
+      fetchMoviesByQuery()
+    } else if (id) {
+      // If query is empty but we have an id, fetch the movie by id
+      fetchMovieById()
+    }
+  }, [id, query])
+  
+  useEffect(() => {
+    async function fetchMoviesByIdAndGenre() {
+      const groqGenreResponse = await fetch(`../api/genre?movie=${defaultMovieDetails?.title}`)
+      const groqGenreResponseData = await groqGenreResponse.json()
+  
+      const response = await fetch(`../api/movies?g=${groqGenreResponseData}&c=${formattedCastMembers}`)
+      const data = await response.json()
+  
+      const isMovieAlreadyInList = data.some((movie: movieTypes) => movie.id === defaultMovieDetails?.id)
+  
+      setMovies(
+        defaultMovieDetails && !isMovieAlreadyInList
+          ? [defaultMovieDetails, ...data]
+          : data
+      )
+    }
+  
+    if (defaultMovieDetails && formattedCastMembers && !query) {
+      // Only fetch genre-based movies if we have the movie details, cast, and query is empty
+      fetchMoviesByIdAndGenre()
+    }
+  }, [defaultMovieDetails, formattedCastMembers, query])
+
   return (
     <>
-      {/* <p className="text-content-500">
-    Select a movie!
-    </p> */}
       <div className="rounded-xl m-3 mobileL:overflow-x overflow-x-none bg-neutral-500">
         <div className={`${alignmentStyles} ml-3 mt-3 mr-2`}>
           <Search setQuery={setQuery} />
 
-          {/* TODO: save to session after each api call - Search term - save title and poster */}
-
-          <div className="m-auto mobileL:mr-1 mobileXL:h-10 h-max flex ml-0">
+          {/* <div className="m-auto mobileL:mr-1 mobileXL:h-10 h-max flex ml-0">
             <ViewToggleButton
               state={isDisplayingGridView}
               stateSetter={setIsDisplayingGridView}
@@ -56,32 +135,15 @@ const Browse = () => {
               offIcon={faGrip}
             />
 
-            {/* FilterToggleButton */}
             <ViewToggleButton
               state={isDisplayingFilters}
               stateSetter={setIsDisplayingFilters}
               onIcon={faFilter}
             />
-
-            {/* <span className="laptop:flex mobileXL:hidden flex">
-            <ClearFiltersButton
-              clearFilters={clearFilters}
-              haveFiltersBeenSelected={haveFiltersBeenSelected}
-            />
-          </span> */}
-          </div>
+          </div> */}
         </div>
 
-
-
-
-
-
-
-
-
-
-        <div
+        {/* <div
           className={`ml-3 mt-3 ${alignmentStyles} ${filterWrapperStyles} flex-row mobileXL:flex-col laptopM:flex-row`}
         >
           <Filter
@@ -117,23 +179,25 @@ const Browse = () => {
               setSelectedFilters: setSelectedThemeFilters
             }}
           />
-        </div>
+        </div> */}
 
-        <GameCardList
+        <MovieCardList
           {...{
-            setSelectedGameId,
-            selectedGameId,
-            isDisplayingGridView,
+            setSelectedMovieId,
+            selectedMovieId,
             query,
-            selectedProviderFilters,
-            selectedCategoryFilters,
-            selectedFeatureFilters,
-            selectedThemeFilters
+            // genres,
+            movies,
+            isDisplayingGridView: true
+            //   selectedProviderFilters,
+            //   selectedCategoryFilters,
+            //   selectedFeatureFilters,
+            //   selectedThemeFilters
           }}
         />
       </div>
 
-      <GameSelectionPane selectedGameId={selectedGameId} />
+      <MovieSelectionPane {...{ selectedMovieId, movies }} />
     </>
   )
 }
