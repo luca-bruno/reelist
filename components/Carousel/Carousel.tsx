@@ -1,33 +1,43 @@
 "use client"
 
 import { FC, useEffect, useRef, useState } from "react"
-import { faChevronRight } from "@fortawesome/free-solid-svg-icons/faChevronRight"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { CarouselTypes } from "./types/Carousel.interface"
 import { transitionStyles } from "@/helpers"
 import Link from "next/link"
 import { movieTypes } from "@/types/movie.interface"
 import { IS_BROWSER } from "@/constants"
-import { CarouselTypes } from "./types/Carousel.interface"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import CarouselItem from "./CarouselItem"
+import { faChevronRight } from "@fortawesome/free-solid-svg-icons/faChevronRight"
 
-const Carousel: FC<CarouselTypes> = ({ title, subtitle, list, listKey }) => {
-  const scrollContainerRef = useRef(null)
+const Carousel: FC<CarouselTypes> = ({
+  title,
+  subtitle,
+  list,
+  listKey,
+  playlists,
+  setPlaylists
+}) => {
+  const isCustomPlaylist =
+    title !== "Get Started" &&
+    title !== "Jump Back In" &&
+    title !== "Your Latest Search" &&
+    title !== "Your Favourites ❤️" &&
+    title !== "Watchlist 🍿"
 
-  const [overrideList, setOverrideList] = useState<movieTypes[]>()
+  const [overrideList, setOverrideList] = useState<movieTypes[] | undefined>(
+    list
+  )
   const [isHovered, setIsHovered] = useState(false)
-  const [scrollAmount, setScrollAmount] = useState(0)
+  const [, setScrollAmount] = useState(0)
 
-  // useEffect(() => {
-  //   let value
-  //   // Get the value from local storage if it exists
-  //   value = localStorage.setItem("Favourites", JSON.stringify(movies)) || ""
-  // }, [movies])
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (IS_BROWSER && listKey) {
-      const storedPreferences = localStorage.getItem(listKey)
-      if (storedPreferences) {
-        setOverrideList(JSON.parse(storedPreferences))
+      const storedSelectedPlaylistMovies = localStorage.getItem(listKey)
+      if (storedSelectedPlaylistMovies) {
+        setOverrideList(JSON.parse(storedSelectedPlaylistMovies))
       }
     }
   }, [listKey])
@@ -71,9 +81,12 @@ const Carousel: FC<CarouselTypes> = ({ title, subtitle, list, listKey }) => {
           className="flex gap-8 py-[10px] overflow-x-scroll whitespace-nowrap"
           onScroll={handleScroll} // Track manual scrolling
         >
-          {(overrideList || list)?.map(
+          {overrideList?.map(
             ({ id, poster_path: posterPath, title: movieTitle }) => (
-              <CarouselItem key={id} {...{ id, posterPath, title: movieTitle }} />
+              <CarouselItem
+                key={id}
+                {...{ id, posterPath, title: movieTitle }}
+              />
             )
           )}
         </div>
