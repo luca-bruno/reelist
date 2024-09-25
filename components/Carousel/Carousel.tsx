@@ -9,6 +9,7 @@ import { IS_BROWSER } from "@/constants"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import CarouselItem from "./CarouselItem"
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons/faChevronRight"
+import { faX } from "@fortawesome/free-solid-svg-icons"
 
 const Carousel: FC<CarouselTypes> = ({
   title,
@@ -30,6 +31,7 @@ const Carousel: FC<CarouselTypes> = ({
   )
   const [isHovered, setIsHovered] = useState(false)
   const [, setScrollAmount] = useState(0)
+  const [isHoveringOnCarousel, setIsHoveringOnCarousel] = useState(false)
 
   const scrollContainerRef = useRef<HTMLDivElement>(null)
 
@@ -68,10 +70,35 @@ const Carousel: FC<CarouselTypes> = ({
     }
   }
 
+  // TODO: move to helper?
+  const deletePlaylist = () => {
+    const playlistPostDeletion = playlists?.filter(item => item !== title) || []
+
+    localStorage.setItem(
+      "custom-playlists",
+      JSON.stringify(playlistPostDeletion)
+    )
+    localStorage.removeItem(title)
+
+    setPlaylists?.(playlistPostDeletion)
+  }
+
   return (
-    <div className="mb-12">
+    <div
+      className={`mb-12 ${transitionStyles}`}
+      onMouseEnter={() => setIsHoveringOnCarousel(true)}
+      onMouseLeave={() => setIsHoveringOnCarousel(false)}
+    >
       <h3 className="text-3xl font-medium text-accent-500 my-4">
         {title} {subtitle}
+        {isCustomPlaylist && isHoveringOnCarousel && (
+          <button type="button" onClick={() => deletePlaylist()}>
+            <FontAwesomeIcon
+              icon={faX}
+              className={`text-lg mx-4 flex items-center hover:text-accent-300 ${transitionStyles}`}
+            />
+          </button>
+        )}
       </h3>
       <div className="flex">
         <div
