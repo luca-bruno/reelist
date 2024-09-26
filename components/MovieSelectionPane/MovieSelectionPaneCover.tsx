@@ -1,8 +1,8 @@
-import React from "react"
+import { FC } from "react"
 import Image from "next/image"
 import MovieSelectionPaneCoverTypes from "./types/MovieSelectionPaneCover.interface"
 
-const MovieSelectionPaneCover: React.FC<MovieSelectionPaneCoverTypes> = ({
+const MovieSelectionPaneCover: FC<MovieSelectionPaneCoverTypes> = ({
   title,
   hasImageLoaded,
   setHasImageLoaded,

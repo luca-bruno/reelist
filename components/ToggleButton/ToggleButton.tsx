@@ -1,10 +1,10 @@
-import React from "react"
+import { FC } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { buttonStyles } from "@/helpers"
 import { ToggleButtonTypes } from "./types/ToggleButton.interface"
 
 
-const ToggleButton: React.FC<ToggleButtonTypes> = ({ state, stateSetter, onIcon, offIcon }) => (
+const ToggleButton: FC<ToggleButtonTypes> = ({ state, stateSetter, onIcon, offIcon }) => (
     <button
         type="button"
         className={`w-10 ${buttonStyles}`}

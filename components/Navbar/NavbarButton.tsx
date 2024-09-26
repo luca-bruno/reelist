@@ -1,12 +1,12 @@
 "use client"
 
-import React from "react"
+import { FC } from "react"
 import { usePathname } from "next/navigation"
 import Link from "next/link"
 import { transitionStyles } from "@/helpers"
 import NavbarButtonTypes from "./types/NavbarButton.interface"
 
-const NavbarButton: React.FC<NavbarButtonTypes> = ({ label, slug }) => {
+const NavbarButton: FC<NavbarButtonTypes> = ({ label, slug }) => {
     const pathname = usePathname()
 
     const isOnCurrentButton = slug === pathname

@@ -1,4 +1,4 @@
-import React, { Fragment } from "react"
+import { FC, Fragment } from "react"
 import { Listbox, Transition } from "@headlessui/react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCheck, faChevronDown } from "@fortawesome/free-solid-svg-icons"
@@ -9,8 +9,7 @@ import { transitionStyles, capitaliseEachWord } from "@/helpers"
 import typeToKeyMapper from "./data"
 import FilterTypes from "./types/Filter.interface"
 
-
-const Filter: React.FC<FilterTypes> = ({ type, selectedFilters, setSelectedFilters }) => {
+const Filter: FC<FilterTypes> = ({ type, selectedFilters, setSelectedFilters }) => {
     const retrieveUniqueFilterOptions = (key: string) => {
         const allRecordsOfType = data
             .map(payload => (payload[key as keyof dataTypes]))

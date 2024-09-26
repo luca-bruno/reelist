@@ -6,7 +6,7 @@ import { movieTypes } from "@/types/movie.interface"
 import Search from "../Search"
 import Filter from "../Filter"
 import ClearFiltersButton from "../ClearFiltersButton"
-import ViewToggleButton from "../ToggleButton"
+import ToggleButton from "../ToggleButton"
 import MovieCardList from "../MovieCardList"
 import MovieSelectionPane from "../MovieSelectionPane"
 
@@ -128,14 +128,14 @@ const Browse: FC<{ params?: { id: string } }> = ({ params }) => {
           <Search setQuery={setQuery} />
 
           {/* <div className="m-auto mobileL:mr-1 mobileXL:h-10 h-max flex ml-0">
-            <ViewToggleButton
+            <ToggleButton
               state={isDisplayingGridView}
               stateSetter={setIsDisplayingGridView}
               onIcon={faList}
               offIcon={faGrip}
             />
 
-            <ViewToggleButton
+            <ToggleButton
               state={isDisplayingFilters}
               stateSetter={setIsDisplayingFilters}
               onIcon={faFilter}

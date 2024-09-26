@@ -1,4 +1,3 @@
-import React from "react"
 import buttons from "./data"
 import NavbarButton from "./NavbarButton"
 

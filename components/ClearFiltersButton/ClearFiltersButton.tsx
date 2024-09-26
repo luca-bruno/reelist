@@ -1,10 +1,10 @@
+import { FC } from "react"
 import { buttonStyles } from "@/helpers"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faFilterCircleXmark } from "@fortawesome/free-solid-svg-icons"
-import React from "react"
 import ClearFiltersButtonTypes from "./types/ClearFiltersButton.interface"
 
-const ClearFiltersButton: React.FC<ClearFiltersButtonTypes> = ({ clearFilters, haveFiltersBeenSelected }) => (
+const ClearFiltersButton: FC<ClearFiltersButtonTypes> = ({ clearFilters, haveFiltersBeenSelected }) => (
   <button
     type="button"
     className={`w-40 mobileXL:w-10 laptopL:w-40 ${buttonStyles} ${

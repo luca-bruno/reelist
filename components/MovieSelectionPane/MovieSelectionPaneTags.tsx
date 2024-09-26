@@ -1,8 +1,8 @@
-import React from "react"
 import GameTags from "../GameTags"
+import { FC } from "react"
 import MovieSelectionPaneTagsTypes from "./types/MovieSelectionPaneTags.interface"
 
-const MovieSelectionPaneTags: React.FC<MovieSelectionPaneTagsTypes> = ({
+const MovieSelectionPaneTags: FC<MovieSelectionPaneTagsTypes> = ({
   categoryTags,
   featureTags,
   themeTags
