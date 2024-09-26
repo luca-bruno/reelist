@@ -37,10 +37,8 @@ const Carousel: FC<CarouselTypes> = ({
 
   useEffect(() => {
     if (IS_BROWSER && listKey) {
-      const storedSelectedPlaylistMovies = localStorage.getItem(listKey)
-      if (storedSelectedPlaylistMovies) {
-        setOverrideList(JSON.parse(storedSelectedPlaylistMovies))
-      }
+      const storedSelectedPlaylistMovies = JSON.parse(localStorage.getItem(listKey) as string)
+      setOverrideList(storedSelectedPlaylistMovies)
     }
   }, [listKey])
 

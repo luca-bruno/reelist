@@ -9,7 +9,7 @@ const CarouselList: FC<CarouselListTypes> = ({ movies }) => {
   const [hasUserPreviouslyVisited, setHasUserPreviouslyVisited] =
     useState(false)
   const [hasFavourites, setHasFavourites] = useState(false)
-  const [hasWatched, setHasWatched] = useState(false)
+  const [hasWatchlist, setHasWatchlist] = useState(false)
   const [latestSearchTerm, setLatestSearchTerm] = useState<string>()
   const [playlists, setPlaylists] = useState<string[]>([])
 
@@ -18,22 +18,24 @@ const CarouselList: FC<CarouselListTypes> = ({ movies }) => {
       const storedHasUserPreviouslyVisited = localStorage.getItem(
         "has-user-previously-visited"
       )
-      const storedHasFavourites =
+      const hasStoredFavourites =
         (JSON.parse(localStorage.getItem("Favourites") as string) || [])
           .length > 0
 
-      const storedHasWatched =
+      const hasStoredWatchlist =
         (JSON.parse(localStorage.getItem("Watchlist") as string) || []).length >
         0
 
-      const latestSearchTerm = localStorage.getItem("latest-search-term")
-      const customPlaylists = localStorage.getItem("custom-playlists")
+      const storedLatestSearchTerm = localStorage.getItem("latest-search-term")
+      const storedPlaylists = JSON.parse(
+        localStorage.getItem("custom-playlists") as string
+      )
 
       if (storedHasUserPreviouslyVisited) setHasUserPreviouslyVisited(true)
-      if (storedHasFavourites) setHasFavourites(true)
-      if (storedHasWatched) setHasWatched(true)
-      if (latestSearchTerm) setLatestSearchTerm(latestSearchTerm)
-      if (customPlaylists) setPlaylists(JSON.parse(customPlaylists))
+      if (hasStoredFavourites) setHasFavourites(true)
+      if (hasStoredWatchlist) setHasWatchlist(true)
+      if (storedLatestSearchTerm) setLatestSearchTerm(storedLatestSearchTerm)
+      if (storedPlaylists) setPlaylists(storedPlaylists)
     }
   }, [])
 
@@ -57,7 +59,7 @@ const CarouselList: FC<CarouselListTypes> = ({ movies }) => {
             />
           )}
 
-          {hasWatched && (
+          {hasWatchlist && (
             <Carousel {...{ title: "Watchlist 🍿", listKey: "Watchlist" }} />
           )}
 
