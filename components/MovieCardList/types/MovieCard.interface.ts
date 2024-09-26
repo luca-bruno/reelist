@@ -4,7 +4,7 @@ import { movieTypes } from "@/types/movie.interface"
 interface MovieCardTypes {
     id: movieTypes["id"]
     title: movieTypes["title"]
-    iconSmall: movieTypes["poster_path"]
+    posterPath: movieTypes["poster_path"]
     setSelectedMovieId: MovieCardListTypes["setSelectedMovieId"]
     selectedMovieId: MovieCardListTypes["selectedMovieId"]
     isDisplayingGridView: MovieCardListTypes["isDisplayingGridView"]

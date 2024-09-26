@@ -1,12 +1,16 @@
+import { Dispatch, SetStateAction } from "react"
+import { movieTypes } from "@/types/movie.interface"
+
 interface MovieCardListTypes {
-  setSelectedMovieId: (arg0: string) => void
-  selectedMovieId: string
+  setSelectedMovieId: Dispatch<SetStateAction<number | undefined>>
+  selectedMovieId?: number
   query: string
+  movies?: movieTypes[]
   isDisplayingGridView: boolean
-  selectedProviderFilters: string[]
-  selectedCategoryFilters: string[]
-  selectedFeatureFilters: string[]
-  selectedThemeFilters: string[]
+  // selectedProviderFilters: string[]
+  // selectedCategoryFilters: string[]
+  // selectedFeatureFilters: string[]
+  // selectedThemeFilters: string[]
 }
 
 export default MovieCardListTypes
