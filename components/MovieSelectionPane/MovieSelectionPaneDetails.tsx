@@ -32,6 +32,8 @@ const MovieSelectionPaneDetails: FC<MovieSelectionPaneDetailsTypes> = ({
     boxSizing: "border-box"
   }
 
+  const separator = <span className="opacity-20 font-semibold px-4">|</span>
+
   return (
     <>
       <h1
@@ -50,17 +52,31 @@ const MovieSelectionPaneDetails: FC<MovieSelectionPaneDetailsTypes> = ({
 
       <div>
         <div className="flex flex-row items-center">
-          <p>{moment(releaseDate, "YYYY-MM-DD").year()}</p>
-          <span className="opacity-20 font-semibold px-4">|</span>
-          <p className={`${isRuntimeValid ? "" : "opacity-0"}`}>{`${runtime?.toString()} min`}</p>
-          <span className="opacity-20 font-semibold px-4">|</span>
-          <span className="flex gap-4 text-3xl select-none">
-            {originCountry?.map(country => (
-              <span className="mx-1.5" key={country}>
-                {getCountryEmoji(country)}
-              </span>
-            ))}
-          </span>
+          {releaseDate && (
+            <>
+              <p>{moment(releaseDate, "YYYY-MM-DD").year()}</p>
+              {separator}
+            </>
+          )}
+
+          {runtime && (
+            <>
+              <p
+                className={`${isRuntimeValid ? "" : "opacity-0"}`}
+              >{`${runtime?.toString()} min`}</p>
+              {separator}
+            </>
+          )}
+
+          {originCountry && (
+            <span className="flex gap-4 text-3xl select-none">
+              {originCountry?.map(country => (
+                <span className="mx-1.5" key={country}>
+                  {getCountryEmoji(country)}
+                </span>
+              ))}
+            </span>
+          )}
         </div>
       </div>
 
