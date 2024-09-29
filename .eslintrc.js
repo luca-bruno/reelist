@@ -31,7 +31,6 @@ module.exports = {
     "eslint-plugin-react-hooks"
   ],
   settings: {
-    "import/extensions": [".js", ".jsx", ".ts", ".tsx"],
     "import/parsers": {
       "@typescript-eslint/parser": [".ts", ".tsx"]
     },
@@ -60,6 +59,7 @@ module.exports = {
     "max-len": [2, { code: 150, ignoreUrls: true }],
     "import/no-unresolved": "error",
     "linebreak-style": 0,
+    "import/extensions": "off",
     "import/no-extraneous-dependencies": "off",
     "react/function-component-definition": "off",
     "arrow-parens": ["error", "as-needed"],
