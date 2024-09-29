@@ -13,7 +13,7 @@ const fetchMovie = async (searchTerm?: string) => {
     }
   }
 
-  const url = `${baseUrl}${searchQuery}?api_key=${process.env.TMDB_API_KEY}&append_to_response=credits`
+  const url = `${baseUrl}${searchQuery}?api_key=${process.env.TMDB_API_KEY}&append_to_response=credits,release_dates`
   console.log(url)
 
   try {
