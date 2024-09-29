@@ -50,6 +50,7 @@
     "postcss": "8.4.29",
     "prettier": "^3.0.3",
     "sharp": "^0.32.6",
+    "stylelint": "^16.9.0",
     "typescript": "5.2.2"
   }
 }
