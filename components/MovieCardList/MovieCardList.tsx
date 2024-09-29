@@ -1,14 +1,13 @@
-import { FC, useEffect, useState } from "react"
-import useFilter from "@/hooks/useFilter/useFilter"
-import fallbackPlaceholder from "@/public/fallbackPlaceholder.jpg"
-import { movieTypes } from "@/types/movie.interface"
+import { FC } from "react"
+// import useFilter from "@/hooks/useFilter/useFilter"
+// import fallbackPlaceholder from "@/public/fallbackPlaceholder.jpg"
 import MovieCardListTypes from "./types/MovieCardList.interface"
 import MovieCard from "./MovieCard"
 
 const MovieCardList: FC<MovieCardListTypes> = ({
   setSelectedMovieId,
   selectedMovieId,
-  query,
+  // query,
   // genres,
   movies,
   isDisplayingGridView = true
@@ -17,6 +16,7 @@ const MovieCardList: FC<MovieCardListTypes> = ({
   // selectedFeatureFilters,
   // selectedThemeFilters
 }) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const x = ""
   // TODO: SWR or react-query + make into custom hook
 

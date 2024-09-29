@@ -1,19 +1,16 @@
 import { FC } from "react"
 import Image from "next/image"
-import MovieSelectionPanePosterTypes from "./types/MovieSelectionPanePoster.interface"
 import { TMDB_IMAGE_PATH } from "@/constants"
-import { getCountryEmoji } from "@/helpers"
-import moment from "moment"
+import MovieSelectionPanePosterTypes from "./types/MovieSelectionPanePoster.interface"
 
 const MovieSelectionPanePoster: FC<MovieSelectionPanePosterTypes> = ({
   title,
   hasImageLoaded,
   setHasImageLoaded,
-  hasReturnedError,
+  // hasReturnedError,
   setHasReturnedError,
   poster
-}) => {
-  return (
+}) => (
     <div
       // className={`justify-center m-auto items-center mobileXL:flex hidden ${
       className={`absolute right-8 top-3/4 transform -translate-y-3/4 m-auto mobileXL:flex mobileXL:flex-col hidden
@@ -34,6 +31,5 @@ const MovieSelectionPanePoster: FC<MovieSelectionPanePosterTypes> = ({
       />
     </div>
   )
-}
 
 export default MovieSelectionPanePoster

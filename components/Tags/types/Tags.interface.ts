@@ -1,10 +1,16 @@
 import { movieTypes } from "@/types/movie.interface"
 
-interface tagTitleType {
+interface Tag<T> {
   title: string
+  payload?: T
 }
 
-export interface TagsTypes {
-  languageTags?: tagTitleType & { payload: movieTypes["spoken_languages"] }
-  genreTags?: tagTitleType & { payload: movieTypes["spoken_languages"] }
-}
+type languageTagType = Tag<movieTypes["spoken_languages"]>
+type genreTagType = Tag<movieTypes["genres"]>
+
+export type TagsTypes = languageTagType | genreTagType
+
+export interface TagGroups {
+  languageTags?: languageTagType
+  genreTags?: genreTagType
+} 

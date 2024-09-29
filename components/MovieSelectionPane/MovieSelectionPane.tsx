@@ -10,25 +10,19 @@ import MovieSelectionPaneActions from "./MovieSelectionPaneActions"
 
 interface MovieSelectionPaneTypes {
   selectedMovieId?: number
-  movies?: movieTypes[]
 }
 
 const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({
-  selectedMovieId,
-  // selectedMovie,
-  // movies
+  selectedMovieId
 }) => {
   const [selectedMovie, setSelectedMovie] = useState<movieTypes>()
-
-  console.log(selectedMovieId)
 
   // TODO: CLEAN UP ASAP@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
   // TODO: SWR or react-query + make into custom hook
   useEffect(() => {
     if (selectedMovieId) {
-      async function fetchMovie() {
+      const fetchMovie = async() => {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movie?id=${selectedMovieId}`)
-        console.log(response)
         const data = await response.json()
         setSelectedMovie(data)
       }
@@ -74,12 +68,10 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({
 
 
   useEffect(() => {
-    // setSelectedMovie(movies && movies[0])
     setHasImageLoaded(false)
     setHasReturnedError(false)
     setHasBackgroundImageReturnedError(false)
   }, [
-    // movies,
     setHasBackgroundImageReturnedError,
     setHasImageLoaded,
     setHasReturnedError
@@ -111,7 +103,6 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({
               setHasImageLoaded,
               hasReturnedError,
               setHasReturnedError,
-              // iconLarge,
               poster
             }}
           />

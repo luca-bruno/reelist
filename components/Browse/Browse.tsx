@@ -1,13 +1,13 @@
 "use client"
 
 import { FC, useEffect, useState } from "react"
-import { faList, faGrip, faFilter } from "@fortawesome/free-solid-svg-icons"
+// import { faList, faGrip, faFilter } from "@fortawesome/free-solid-svg-icons"
 import { movieTypes } from "@/types/movie.interface"
 import { IS_BROWSER } from "@/constants"
 import Search from "../Search"
-import Filter from "../Filter"
-import ClearFiltersButton from "../ClearFiltersButton"
-import ToggleButton from "../ToggleButton"
+// import Filter from "../Filter"
+// import ClearFiltersButton from "../ClearFiltersButton"
+// import ToggleButton from "../ToggleButton"
 import MovieCardList from "../MovieCardList"
 import MovieSelectionPane from "../MovieSelectionPane"
 
@@ -70,8 +70,8 @@ const Browse: FC<{ params?: { id?: string, key?: string } }> = ({ params }) => {
   // }
 
   const alignmentStyles = "flex justify-start items-start"
-  const filterWrapperStyles =
-    "text-black laptopM:[&>*:not(:first-child)]:mx-2 mobileXL:[&>*:not(:first-child)]:mx-0 [&>*:not(:first-child)]:mx-2 laptopM:mr-1 mx-0 mr-3"
+  // const filterWrapperStyles =
+  //   "text-black laptopM:[&>*:not(:first-child)]:mx-2 mobileXL:[&>*:not(:first-child)]:mx-0 [&>*:not(:first-child)]:mx-2 laptopM:mr-1 mx-0 mr-3"
 
   useEffect(() => {
     async function fetchMovieById() {

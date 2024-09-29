@@ -4,11 +4,10 @@ import { FC, useEffect, useState } from "react"
 import Image from "next/image"
 import useImage from "@/hooks/useImage/useImage"
 import { addToPlaylist, transitionStyles } from "@/helpers"
-import fallbackPlaceholder from "@/public/fallbackPlaceholder.jpg"
+// import fallbackPlaceholder from "@/public/fallbackPlaceholder.jpg"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   faCheck,
-  faCirclePlus,
   faHeart,
   faHeartCirclePlus,
   faPlus
@@ -34,7 +33,7 @@ const MovieCard: FC<MovieCardType> = ({
   const {
     hasImageLoaded,
     setHasImageLoaded,
-    hasReturnedError,
+    // hasReturnedError,
     setHasReturnedError
   } = useImage()
 

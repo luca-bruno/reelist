@@ -1,16 +1,17 @@
 import { FC } from "react"
 import Image from "next/image"
-import fallbackPlaceholder from "@/public/fallbackPlaceholder.jpg"
+// import fallbackPlaceholder from "@/public/fallbackPlaceholder.jpg"
 import { TMDB_IMAGE_PATH } from "@/constants"
 import MovieSelectionPaneBackgroundTypes from "./types/MovieSelectionPaneBackground.interface"
 
 const MovieSelectionPaneBackground: FC<MovieSelectionPaneBackgroundTypes> = ({
   title,
-  background,
-  hasBackgroundImageReturnedError,
-  setHasBackgroundImageReturnedError,
-  hasReturnedError,
-  setHasReturnedError
+  background
+  // ,
+  // hasBackgroundImageReturnedError,
+  // setHasBackgroundImageReturnedError,
+  // hasReturnedError,
+  // setHasReturnedError
 }) => (
   <>
     <Image

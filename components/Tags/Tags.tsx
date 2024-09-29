@@ -2,12 +2,11 @@ import { FC } from "react"
 import { capitaliseEachWord } from "@/helpers"
 import { TagsTypes } from "./types/Tags.interface"
 
-const Tags: FC<{ tags: TagsTypes["languageTags"] }> = ({ tags }) => {
-  const { title, payload } = tags || {}
+const Tags: FC<{ tags: TagsTypes }> = ({ tags }) => {
+  const { title, payload } = tags
 
   return (
-    <>
-      {payload && payload.length > 0 && (
+      payload && payload.length > 0 && (
         <div className="flex my-2 justify-start items-center flex-wrap row-start-1 gap-2 text-xs laptop:text-sm">
           <p className="pr-2">{`${title}: `}</p>
 
@@ -22,8 +21,7 @@ const Tags: FC<{ tags: TagsTypes["languageTags"] }> = ({ tags }) => {
             </span>
           ))}
         </div>
-      )}
-    </>
+      )
   )
 }
 

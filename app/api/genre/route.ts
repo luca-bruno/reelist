@@ -13,7 +13,6 @@ export async function GET(request: Request) {
       headers: { "Content-Type": "text/plain" } // Adjust as necessary
     })
   } catch (error) {
-    console.error("Error fetching genre:", error)
     return new Response("Error fetching genre", { status: 500 })
   }
 }

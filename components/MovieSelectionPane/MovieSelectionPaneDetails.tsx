@@ -1,8 +1,8 @@
 import { FC } from "react"
-import MovieSelectionPaneDetailsTypes from "./types/MovieSelectionPaneDetails.interface"
-import Tags from "../Tags"
 import { getCountryEmoji } from "@/helpers"
 import moment from "moment"
+import MovieSelectionPaneDetailsTypes from "./types/MovieSelectionPaneDetails.interface"
+import Tags from "../Tags"
 
 const MovieSelectionPaneDetails: FC<MovieSelectionPaneDetailsTypes> = ({
   originCountry,
@@ -20,7 +20,7 @@ const MovieSelectionPaneDetails: FC<MovieSelectionPaneDetailsTypes> = ({
   const isAnEnglishMovie =
     originCountry?.includes("GB") || originCountry?.includes("US")
 
-  const isTitleIdenticalToOriginalTitle = title == originalTitle
+  const isTitleIdenticalToOriginalTitle = title === originalTitle
 
   const truncationStyles: React.CSSProperties = {
     width: "100%",

@@ -23,7 +23,6 @@ const fetchMovies = async (
   const url = searchTerm
     ? `${baseUrl}${searchQuery}`
     : `${baseUrl}${discoverQuery}${genreQuery}${castQuery}`
-  console.log(url)
 
   try {
     const response = await fetch(url, options)

@@ -1,15 +1,15 @@
 "use client"
 
 import { FC, useEffect, useRef, useState } from "react"
-import { CarouselTypes } from "./types/Carousel.interface"
 import { transitionStyles } from "@/helpers"
 import Link from "next/link"
 import { movieTypes } from "@/types/movie.interface"
 import { IS_BROWSER } from "@/constants"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import CarouselItem from "./CarouselItem"
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons/faChevronRight"
 import { faX } from "@fortawesome/free-solid-svg-icons"
+import CarouselItem from "./CarouselItem"
+import { CarouselTypes } from "./types/Carousel.interface"
 
 const Carousel: FC<CarouselTypes> = ({
   title,

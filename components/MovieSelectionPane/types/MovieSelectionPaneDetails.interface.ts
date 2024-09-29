@@ -1,4 +1,4 @@
-import { TagsTypes } from "@/components/Tags/types/Tags.interface"
+import { TagGroups } from "@/components/Tags/types/Tags.interface"
 import { movieTypes } from "@/types/movie.interface"
 
 interface MovieSelectionPaneDetailsTypes {
@@ -10,7 +10,7 @@ interface MovieSelectionPaneDetailsTypes {
   overview?: movieTypes["overview"]
   tagline?: movieTypes["tagline"]
   title: movieTypes["title"]
-  tags?: TagsTypes
+  tags?: TagGroups
 }
 
 export default MovieSelectionPaneDetailsTypes

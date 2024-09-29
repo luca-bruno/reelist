@@ -2,16 +2,19 @@ import { addToPlaylist, transitionStyles } from "@/helpers"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { FC, useEffect, useState } from "react"
 import {
-  faCheck,
-  faChevronDown,
-  faChevronUp
+  faCheck
+  // ,
+  // faChevronDown,
+  // faChevronUp
 } from "@fortawesome/free-solid-svg-icons"
 import { movieTypes } from "@/types/movie.interface"
 import createNewPlaylist from "@/helpers/createNewPlaylist/createNewPlaylist"
 
 const MovieSelectionPaneActions: FC<{ selectedMovie?: movieTypes }> = ({ selectedMovie }) => {
   const [playlistName, setPlaylistName] = useState<string>("")
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [isDropdownOpen 
+    // , setIsDropdownOpen
+  ] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [playlists, setPlaylists] = useState<string[]>()
 

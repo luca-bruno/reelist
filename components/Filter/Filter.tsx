@@ -2,17 +2,17 @@ import { FC, Fragment } from "react"
 import { Listbox, Transition } from "@headlessui/react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCheck, faChevronDown } from "@fortawesome/free-solid-svg-icons"
-import data from "@/json/data.json"
 import "./styles/styles.css"
-import { dataSubtypes, dataTypes } from "@/json/data.interface"
 import { transitionStyles, capitaliseEachWord } from "@/helpers"
+import { moviesTypes } from "@/types/movies.interface"
+import { movieTypes } from "@/types/movie.interface"
 import typeToKeyMapper from "./data"
 import FilterTypes from "./types/Filter.interface"
 
 const Filter: FC<FilterTypes> = ({ type, selectedFilters, setSelectedFilters }) => {
     const retrieveUniqueFilterOptions = (key: string) => {
-        const allRecordsOfType = data
-            .map(payload => (payload[key as keyof dataTypes]))
+        const allRecordsOfType = []
+            .map(payload => (payload[key as keyof moviesTypes]))
             .flat()
 
         if (key === "provider_title") {
@@ -20,7 +20,7 @@ const Filter: FC<FilterTypes> = ({ type, selectedFilters, setSelectedFilters }) 
         }
 
         return allRecordsOfType
-            .map(keyItem => ({ title: (keyItem as dataSubtypes)?.title, id: (keyItem as dataSubtypes)?.id }))
+            .map(keyItem => ({ title: (keyItem as movieTypes)?.title, id: (keyItem as movieTypes)?.id }))
             .filter(({ title, id }, index, self) => title && self.findIndex((item => item.id === id)) === index)
     }
 

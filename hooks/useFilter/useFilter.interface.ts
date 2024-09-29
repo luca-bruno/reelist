@@ -1,7 +1,9 @@
-import { movieSummaryTypes, movieFullTypes } from "@/types/movies.interface"
+import { moviesTypes } from "@/types/movies.interface"
+import { movieTypes } from "@/types/movie.interface"
 
 interface useFilterTypes {
-    data: (movieFullTypes & movieSummaryTypes)[]
+    // data: (moviesTypes & movieTypes)[]
+    data: any[]
     query: string
     selectedProviderFilters: string[]
     selectedCategoryFilters: string[]
