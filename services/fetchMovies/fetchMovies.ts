@@ -16,6 +16,8 @@ const fetchMovies = async (
     method: "GET",
     headers: {
       accept: "application/json",
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
       Authorization: `Bearer ${process.env.TMDB_BEARER_TOKEN}`
     }
   }

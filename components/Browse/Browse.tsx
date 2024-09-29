@@ -75,13 +75,13 @@ const Browse: FC<{ params?: { id?: string, key?: string } }> = ({ params }) => {
 
   useEffect(() => {
     async function fetchMovieById() {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movie?id=${id}`)
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movie?id=${id}`, { headers: { "Access-Control-Allow-Origin": "*" } })
       const data = await response.json()
       setDefaultMovieDetails(data)
     }
 
     async function fetchMoviesByQuery() {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?q=${query}`)
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?q=${query}`, { headers: { "Access-Control-Allow-Origin": "*" } })
       const data = await response.json()
 
       if (query !== "") {
@@ -107,12 +107,14 @@ const Browse: FC<{ params?: { id?: string, key?: string } }> = ({ params }) => {
   useEffect(() => {
     async function fetchMoviesByIdAndGenre() {
       const groqGenreResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/genre?movie=${defaultMovieDetails?.title}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/genre?movie=${defaultMovieDetails?.title}`,
+        { headers: { "Access-Control-Allow-Origin": "*" } }
       )
       const groqGenreResponseData = await groqGenreResponse.json()
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?g=${groqGenreResponseData}&c=${formattedCastMembers}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?g=${groqGenreResponseData}&c=${formattedCastMembers}`,
+        { headers: { "Access-Control-Allow-Origin": "*" } }
       )
       const data = await response.json()
 

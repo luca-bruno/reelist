@@ -56,7 +56,8 @@ const MovieCard: FC<MovieCardType> = ({
   ) => {
     e.stopPropagation()
 
-    const response = await fetch(`../api/movie?id=${id}`)
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movie?id=${id}`, 
+      { headers: { "Access-Control-Allow-Origin": "*" } })
     const movieDetails = await response.json()
 
     addToPlaylist(listKey, movieDetails, true)
