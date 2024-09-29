@@ -115,7 +115,7 @@ const Carousel: FC<CarouselTypes> = ({
             )
           )}
         </div>
-        <Link href="browse">
+        <Link href={listKey ? "browse/playlist/[listKey]" : "browse"} as={listKey ? `browse/playlist/${listKey}` : "browse"}>
           <button
             type="button"
             className={`bg-accent-200 rounded-md h-full w-full mx-5 hover:bg-accent-500 ${transitionStyles}`}
