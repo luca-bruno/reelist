@@ -14,16 +14,14 @@ export const metadata: Metadata = {
   description: "Your personal movie hub - discover, personalise, show off. Powered by the TMDb API."
 }
 
-export default function RootLayout({
-  children
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   const { className: interFont } = inter
 
   return (
     <html lang="en">
-      <body className={`max-w-[1280px] m-auto w-full h-auto overflow-y-auto overflow-x-hidden ${interFont}`}>
+      <body
+        className={`max-w-[1280px] m-auto w-full h-auto overflow-y-auto overflow-x-hidden ${interFont}`}
+      >
         {children}
       </body>
     </html>

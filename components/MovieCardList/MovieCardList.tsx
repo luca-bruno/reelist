@@ -39,11 +39,7 @@ const MovieCardList: FC<MovieCardListTypes> = ({
   return (
     <div
       className={`grid m-3 gap-6 p-2 overflow-y-scroll h-[70vh]
-        ${
-          isDisplayingGridView
-            ? "mobileL:grid-cols-5 mobileXL:grid-cols-2 grid-cols-2"
-            : "grid-cols-1"
-        }
+        ${isDisplayingGridView ? "mobileL:grid-cols-5 mobileXL:grid-cols-2 grid-cols-2" : "grid-cols-1"}
             `}
     >
       {movies?.map(({ id, poster_path: posterPath, title }) => (

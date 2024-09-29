@@ -17,8 +17,7 @@ const MovieSelectionPaneDetails: FC<MovieSelectionPaneDetailsTypes> = ({
 
   const isRuntimeValid = runtime !== 0
 
-  const isAnEnglishMovie =
-    originCountry?.includes("GB") || originCountry?.includes("US")
+  const isAnEnglishMovie = originCountry?.includes("GB") || originCountry?.includes("US")
 
   const isTitleIdenticalToOriginalTitle = title === originalTitle
 
@@ -53,13 +52,13 @@ const MovieSelectionPaneDetails: FC<MovieSelectionPaneDetailsTypes> = ({
         <div className="flex flex-row items-center">
           <p>{moment(releaseDate, "YYYY-MM-DD").year()}</p>
           <span className="opacity-20 font-semibold px-4">|</span>
-          <p
-            className={`${isRuntimeValid ? "" : "opacity-0"}`}
-          >{`${runtime?.toString()} min`}</p>
+          <p className={`${isRuntimeValid ? "" : "opacity-0"}`}>{`${runtime?.toString()} min`}</p>
           <span className="opacity-20 font-semibold px-4">|</span>
           <span className="flex gap-4 text-3xl select-none">
             {originCountry?.map(country => (
-              <span className="mx-1.5" key={country}>{getCountryEmoji(country)}</span>
+              <span className="mx-1.5" key={country}>
+                {getCountryEmoji(country)}
+              </span>
             ))}
           </span>
         </div>

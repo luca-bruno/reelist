@@ -33,14 +33,12 @@ import MovieSelectionPane from "../MovieSelectionPane"
 //   return scoredMovies.sort((a, b) => b.score - a.score).map(item => item.movie)
 // }
 
-const Browse: FC<{ params?: { id?: string, key?: string } }> = ({ params }) => {
+const Browse: FC<{ params?: { id?: string; key?: string } }> = ({ params }) => {
   const { id, key } = params || {}
 
   const [query, setQuery] = useState("")
   const [movies, setMovies] = useState<movieTypes[]>()
-  const [defaultMovieDetails, setDefaultMovieDetails] = useState<
-    movieTypes | undefined
-  >()
+  const [defaultMovieDetails, setDefaultMovieDetails] = useState<movieTypes | undefined>()
   const [selectedMovieId, setSelectedMovieId] = useState<number>()
 
   const formattedCastMembers = defaultMovieDetails?.credits?.cast
@@ -77,7 +75,8 @@ const Browse: FC<{ params?: { id?: string, key?: string } }> = ({ params }) => {
 
   useEffect(() => {
     async function fetchMovieById() {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movie?id=${id}`, 
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/movie?id=${id}`,
         HEADERS_ALLOW_ORIGIN
       )
       const data = await response.json()
@@ -85,7 +84,8 @@ const Browse: FC<{ params?: { id?: string, key?: string } }> = ({ params }) => {
     }
 
     async function fetchMoviesByQuery() {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?q=${query}`, 
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?q=${query}`,
         HEADERS_ALLOW_ORIGIN
       )
       const data = await response.json()
@@ -102,7 +102,7 @@ const Browse: FC<{ params?: { id?: string, key?: string } }> = ({ params }) => {
     } else if (id) {
       // If query is empty but we have an id, fetch the movie by id
       fetchMovieById()
-    } else if(IS_BROWSER && key) {
+    } else if (IS_BROWSER && key) {
       const storedSelectedPlaylistMovies = JSON.parse(localStorage.getItem(key) as string)
       setMovies(storedSelectedPlaylistMovies)
     } else {
@@ -129,9 +129,7 @@ const Browse: FC<{ params?: { id?: string, key?: string } }> = ({ params }) => {
       )
 
       setMovies(
-        defaultMovieDetails && !isMovieAlreadyInList
-          ? [defaultMovieDetails, ...data]
-          : data
+        defaultMovieDetails && !isMovieAlreadyInList ? [defaultMovieDetails, ...data] : data
       )
     }
 
@@ -219,7 +217,9 @@ const Browse: FC<{ params?: { id?: string, key?: string } }> = ({ params }) => {
 
       {/* // TODO: CLEAN UP ASAP THIS SELECTEDMOVIE AND DEFAULTMOVIEDETAILS STUFF */}
       <MovieSelectionPane
-        {...{ selectedMovieId: selectedMovieId || defaultMovieDetails?.id || movies?.[0].id }}
+        {...{
+          selectedMovieId: selectedMovieId || defaultMovieDetails?.id || movies?.[0].id
+        }}
       />
     </main>
   )

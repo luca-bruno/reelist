@@ -16,9 +16,7 @@ const addToPlaylist = (
     existingPlaylist.push(selectedMovie)
   } else if (toggledAddition) {
     console.log("hello")
-    const itemIndex = existingPlaylist.findIndex(
-      item => item?.id === selectedMovie.id
-    )
+    const itemIndex = existingPlaylist.findIndex(item => item?.id === selectedMovie.id)
     existingPlaylist.splice(itemIndex, 1)
   }
   localStorage.setItem(playlistKey, JSON.stringify(existingPlaylist))

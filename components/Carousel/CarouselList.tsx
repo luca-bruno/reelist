@@ -6,8 +6,7 @@ import Carousel from "./Carousel"
 import { CarouselListTypes } from "./types/Carousel.interface"
 
 const CarouselList: FC<CarouselListTypes> = ({ movies }) => {
-  const [hasUserPreviouslyVisited, setHasUserPreviouslyVisited] =
-    useState(false)
+  const [hasUserPreviouslyVisited, setHasUserPreviouslyVisited] = useState(false)
   const [hasFavourites, setHasFavourites] = useState(false)
   const [hasWatchlist, setHasWatchlist] = useState(false)
   const [latestSearchTerm, setLatestSearchTerm] = useState<string>()
@@ -15,21 +14,15 @@ const CarouselList: FC<CarouselListTypes> = ({ movies }) => {
 
   useEffect(() => {
     if (IS_BROWSER) {
-      const storedHasUserPreviouslyVisited = localStorage.getItem(
-        "has-user-previously-visited"
-      )
+      const storedHasUserPreviouslyVisited = localStorage.getItem("has-user-previously-visited")
       const hasStoredFavourites =
-        (JSON.parse(localStorage.getItem("Favourites") as string) || [])
-          .length > 0
+        (JSON.parse(localStorage.getItem("Favourites") as string) || []).length > 0
 
       const hasStoredWatchlist =
-        (JSON.parse(localStorage.getItem("Watchlist") as string) || []).length >
-        0
+        (JSON.parse(localStorage.getItem("Watchlist") as string) || []).length > 0
 
       const storedLatestSearchTerm = localStorage.getItem("latest-search-term")
-      const storedPlaylists = JSON.parse(
-        localStorage.getItem("custom-playlists") as string
-      )
+      const storedPlaylists = JSON.parse(localStorage.getItem("custom-playlists") as string)
 
       if (storedHasUserPreviouslyVisited) setHasUserPreviouslyVisited(true)
       if (hasStoredFavourites) setHasFavourites(true)
@@ -54,14 +47,10 @@ const CarouselList: FC<CarouselListTypes> = ({ movies }) => {
       {hasUserPreviouslyVisited && (
         <>
           {hasFavourites && (
-            <Carousel
-              {...{ title: "Your Favourites ❤️", listKey: "Favourites" }}
-            />
+            <Carousel {...{ title: "Your Favourites ❤️", listKey: "Favourites" }} />
           )}
 
-          {hasWatchlist && (
-            <Carousel {...{ title: "Watchlist 🍿", listKey: "Watchlist" }} />
-          )}
+          {hasWatchlist && <Carousel {...{ title: "Watchlist 🍿", listKey: "Watchlist" }} />}
 
           {latestSearchTerm && (
             <Carousel

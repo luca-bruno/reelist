@@ -13,18 +13,18 @@ interface MovieSelectionPaneTypes {
   selectedMovieId?: number
 }
 
-const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({
-  selectedMovieId
-}) => {
+const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) => {
   const [selectedMovie, setSelectedMovie] = useState<movieTypes>()
 
   // TODO: CLEAN UP ASAP@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
   // TODO: SWR or react-query + make into custom hook
   useEffect(() => {
     if (selectedMovieId) {
-      const fetchMovie = async() => {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movie?id=${selectedMovieId}`, 
-          HEADERS_ALLOW_ORIGIN)
+      const fetchMovie = async () => {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/movie?id=${selectedMovieId}`,
+          HEADERS_ALLOW_ORIGIN
+        )
         const data = await response.json()
         setSelectedMovie(data)
       }
@@ -68,17 +68,11 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({
     title
   } = selectedMovie || {}
 
-
   useEffect(() => {
     setHasImageLoaded(false)
     setHasReturnedError(false)
     setHasBackgroundImageReturnedError(false)
-  }, [
-    setHasBackgroundImageReturnedError,
-    setHasImageLoaded,
-    setHasReturnedError
-  ])
-
+  }, [setHasBackgroundImageReturnedError, setHasImageLoaded, setHasReturnedError])
 
   return (
     <div className="flex justify-center col-span-1 mobileXL:col-span-2 rounded-xl m-3 overflow-hidden">
@@ -125,8 +119,11 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({
                     overview,
                     tagline,
                     title,
-                    tags: { 
-                      languageTags: { title: "Languages", payload: spokenLanguages },
+                    tags: {
+                      languageTags: {
+                        title: "Languages",
+                        payload: spokenLanguages
+                      },
                       genreTags: { title: "Genres", payload: genres }
                     }
                   }}

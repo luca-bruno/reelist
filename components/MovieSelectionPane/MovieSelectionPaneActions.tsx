@@ -12,7 +12,8 @@ import createNewPlaylist from "@/helpers/createNewPlaylist/createNewPlaylist"
 
 const MovieSelectionPaneActions: FC<{ selectedMovie?: movieTypes }> = ({ selectedMovie }) => {
   const [playlistName, setPlaylistName] = useState<string>("")
-  const [isDropdownOpen 
+  const [
+    isDropdownOpen
     // , setIsDropdownOpen
   ] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
@@ -20,18 +21,9 @@ const MovieSelectionPaneActions: FC<{ selectedMovie?: movieTypes }> = ({ selecte
 
   const miscKeywords = ["Get Started", "Jump Back In", "Your Latest Search"]
   const favouriteKeywords = ["Favorite", "Favourite", "Favorites", "Favourites"]
-  const watchlistKeywords = [
-    "Watchlist",
-    "Watch list",
-    "Watchlists",
-    "Watch lists"
-  ]
+  const watchlistKeywords = ["Watchlist", "Watch list", "Watchlists", "Watch lists"]
 
-  const reservedKeywords = [
-    ...miscKeywords,
-    ...favouriteKeywords,
-    ...watchlistKeywords
-  ]
+  const reservedKeywords = [...miscKeywords, ...favouriteKeywords, ...watchlistKeywords]
 
   useEffect(() => {
     setPlaylists(JSON.parse(localStorage.getItem("custom-playlists") as string))
@@ -72,7 +64,7 @@ const MovieSelectionPaneActions: FC<{ selectedMovie?: movieTypes }> = ({ selecte
         >
           ADD TO FAVOURITES
         </button> */}
-        
+
         {/* <button
           type="button"
           onClick={() => addToPlaylist("Watchlist", selectedMovie)}
@@ -82,8 +74,8 @@ const MovieSelectionPaneActions: FC<{ selectedMovie?: movieTypes }> = ({ selecte
           ADD TO WATCHLIST
         </button> */}
 
-         <span className="relative flex flex-col w-52">
-        {/*  <button
+        <span className="relative flex flex-col w-52">
+          {/*  <button
             type="button"
             onClick={() => setIsDropdownOpen(prev => !prev)}
             className="bg-accent-500 rounded-xl py-4 px-8"
@@ -119,19 +111,14 @@ const MovieSelectionPaneActions: FC<{ selectedMovie?: movieTypes }> = ({ selecte
                         : "bg-gray-300"
                     }`}
                     //     className="bg-accent-500 rounded-xl py-4 tablet:py-6 px-8 tablet:px-12
-                    // bottom-4 tablet:bottom-24 right-4 tablet:right-8 mx-1.5 text-xl tablet:text-3xl 
+                    // bottom-4 tablet:bottom-24 right-4 tablet:right-8 mx-1.5 text-xl tablet:text-3xl
                     // font-medium shadow-lg shadow-black/50 animate-bounce-slow"
                   >
-                    <FontAwesomeIcon
-                      icon={faCheck}
-                      className={`px-2 ${transitionStyles}`}
-                    />
+                    <FontAwesomeIcon icon={faCheck} className={`px-2 ${transitionStyles}`} />
                   </button>
                 }
 
-                {errorMessage && (
-                  <p className="text-green-500">{errorMessage}</p>
-                )}
+                {errorMessage && <p className="text-green-500">{errorMessage}</p>}
               </div>
 
               {playlists?.map(playlist => (
@@ -143,7 +130,7 @@ const MovieSelectionPaneActions: FC<{ selectedMovie?: movieTypes }> = ({ selecte
                   onClick={() => addToPlaylist(playlist, selectedMovie)}
                   className={`bg-accent-500 hover:bg-accent-300 ${transitionStyles} last-of-type:rounded-b-xl py-2`}
                   //     className="bg-accent-500 rounded-xl py-4 tablet:py-6 px-8 tablet:px-12
-                  // bottom-4 tablet:bottom-24 right-4 tablet:right-8 mx-1.5 text-xl tablet:text-3xl 
+                  // bottom-4 tablet:bottom-24 right-4 tablet:right-8 mx-1.5 text-xl tablet:text-3xl
                   // font-medium shadow-lg shadow-black/50 animate-bounce-slow"
                 >
                   {playlist}

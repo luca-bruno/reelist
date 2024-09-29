@@ -13,4 +13,4 @@ export type TagsTypes = languageTagType | genreTagType
 export interface TagGroups {
   languageTags?: languageTagType
   genreTags?: genreTagType
-} 
+}

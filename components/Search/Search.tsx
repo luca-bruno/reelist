@@ -43,11 +43,7 @@ const Search: FC<SearchTypes> = ({ setQuery }) => {
           className="h-full absolute text-black right-4"
           onClick={() => setInput("")}
         >
-          <FontAwesomeIcon
-            className="h-4 w-4 text-gray-400/50"
-            icon={faX}
-            aria-hidden="true"
-          />
+          <FontAwesomeIcon className="h-4 w-4 text-gray-400/50" icon={faX} aria-hidden="true" />
         </button>
       )}
     </div>

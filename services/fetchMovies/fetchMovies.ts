@@ -1,11 +1,7 @@
 import { moviesTypes } from "@/types/movies.interface"
 
 // NOTE: For fetching from server components
-const fetchMovies = async (
-  searchTerm?: string,
-  genreTerm?: string,
-  castTerm?: string
-) => {
+const fetchMovies = async (searchTerm?: string, genreTerm?: string, castTerm?: string) => {
   const baseUrl = "https://api.themoviedb.org/3/"
   const discoverQuery = "discover/movie?"
   const searchQuery = `search/movie?query=${searchTerm}`

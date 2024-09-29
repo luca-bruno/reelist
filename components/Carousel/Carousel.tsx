@@ -26,9 +26,7 @@ const Carousel: FC<CarouselTypes> = ({
     title !== "Your Favourites ❤️" &&
     title !== "Watchlist 🍿"
 
-  const [overrideList, setOverrideList] = useState<movieTypes[] | undefined>(
-    list
-  )
+  const [overrideList, setOverrideList] = useState<movieTypes[] | undefined>(list)
   const [isHovered, setIsHovered] = useState(false)
   const [, setScrollAmount] = useState(0)
   const [isHoveringOnCarousel, setIsHoveringOnCarousel] = useState(false)
@@ -72,10 +70,7 @@ const Carousel: FC<CarouselTypes> = ({
   const deletePlaylist = () => {
     const playlistPostDeletion = playlists?.filter(item => item !== title) || []
 
-    localStorage.setItem(
-      "custom-playlists",
-      JSON.stringify(playlistPostDeletion)
-    )
+    localStorage.setItem("custom-playlists", JSON.stringify(playlistPostDeletion))
     localStorage.removeItem(title)
 
     setPlaylists?.(playlistPostDeletion)
@@ -106,16 +101,14 @@ const Carousel: FC<CarouselTypes> = ({
           className="flex gap-8 py-[10px] overflow-x-scroll whitespace-nowrap"
           onScroll={handleScroll} // Track manual scrolling
         >
-          {overrideList?.map(
-            ({ id, poster_path: posterPath, title: movieTitle }) => (
-              <CarouselItem
-                key={id}
-                {...{ id, posterPath, title: movieTitle }}
-              />
-            )
-          )}
+          {overrideList?.map(({ id, poster_path: posterPath, title: movieTitle }) => (
+            <CarouselItem key={id} {...{ id, posterPath, title: movieTitle }} />
+          ))}
         </div>
-        <Link href={listKey ? "browse/playlist/[listKey]" : "browse"} as={listKey ? `browse/playlist/${listKey}` : "browse"}>
+        <Link
+          href={listKey ? "browse/playlist/[listKey]" : "browse"}
+          as={listKey ? `browse/playlist/${listKey}` : "browse"}
+        >
           <button
             type="button"
             className={`bg-accent-200 rounded-md h-full w-full mx-5 hover:bg-accent-500 ${transitionStyles}`}

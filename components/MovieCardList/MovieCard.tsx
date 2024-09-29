@@ -6,12 +6,7 @@ import useImage from "@/hooks/useImage/useImage"
 import { addToPlaylist, transitionStyles } from "@/helpers"
 // import fallbackPlaceholder from "@/public/fallbackPlaceholder.jpg"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import {
-  faCheck,
-  faHeart,
-  faHeartCirclePlus,
-  faPlus
-} from "@fortawesome/free-solid-svg-icons"
+import { faCheck, faHeart, faHeartCirclePlus, faPlus } from "@fortawesome/free-solid-svg-icons"
 import { HEADERS_ALLOW_ORIGIN, IS_BROWSER, TMDB_IMAGE_PATH } from "@/constants"
 import { movieTypes } from "@/types/movie.interface"
 import MovieCardType from "./types/MovieCard.interface"
@@ -56,16 +51,16 @@ const MovieCard: FC<MovieCardType> = ({
   ) => {
     e.stopPropagation()
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movie?id=${id}`, 
-      HEADERS_ALLOW_ORIGIN)
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/movie?id=${id}`,
+      HEADERS_ALLOW_ORIGIN
+    )
     const movieDetails = await response.json()
 
     addToPlaylist(listKey, movieDetails, true)
 
-    if (listKey === "Favourites")
-      setFavourites(JSON.parse(localStorage.getItem(listKey) as string))
-    if (listKey === "Watchlist")
-      setWatchlist(JSON.parse(localStorage.getItem(listKey) as string))
+    if (listKey === "Favourites") setFavourites(JSON.parse(localStorage.getItem(listKey) as string))
+    if (listKey === "Watchlist") setWatchlist(JSON.parse(localStorage.getItem(listKey) as string))
   }
 
   const onCurrentId = (key: number) => selectedMovieId === key
@@ -83,11 +78,7 @@ const MovieCard: FC<MovieCardType> = ({
     >
       <Image
         className={`rounded-xl ${transitionStyles}
-              ${
-                !isDisplayingGridView
-                  ? "my-auto h-full w-auto"
-                  : "hover:scale-105"
-              }
+              ${!isDisplayingGridView ? "my-auto h-full w-auto" : "hover:scale-105"}
               ${hasImageLoaded ? "opacity-100" : "opacity-0"} 
               ${onCurrentId(id) ? "scale-105" : ""}
             `}
@@ -106,18 +97,14 @@ const MovieCard: FC<MovieCardType> = ({
         <FontAwesomeIcon
           icon={!isMovieInPlaylist(favourites) ? faHeartCirclePlus : faHeart}
           className={`${
-            !isMovieInPlaylist(favourites)
-              ? unaddedStyles
-              : alreadyAddedStyles
+            !isMovieInPlaylist(favourites) ? unaddedStyles : alreadyAddedStyles
           } rounded-full p-2 ${transitionStyles}`}
           onClick={e => handleAddToPlaylist(e, "Favourites")}
         />
         <FontAwesomeIcon
           icon={!isMovieInPlaylist(watchlist) ? faPlus : faCheck}
           className={`${
-            !isMovieInPlaylist(watchlist)
-              ? unaddedStyles
-              : alreadyAddedStyles
+            !isMovieInPlaylist(watchlist) ? unaddedStyles : alreadyAddedStyles
           } rounded-full p-2 ${transitionStyles}`}
           onClick={e => handleAddToPlaylist(e, "Watchlist")}
         />

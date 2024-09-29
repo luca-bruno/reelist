@@ -4,8 +4,7 @@ const getCountryEmoji = (countryCode: string): JSX.Element | string => {
   }
 
   const uppercasedCode = countryCode.toUpperCase()
-  const isSovietUnionOrYugoslavia =
-    uppercasedCode !== "SU" && uppercasedCode !== "CS"
+  const isSovietUnionOrYugoslavia = uppercasedCode !== "SU" && uppercasedCode !== "CS"
 
   const renderUnavailableEmoji = () => (
     <img
@@ -19,9 +18,7 @@ const getCountryEmoji = (countryCode: string): JSX.Element | string => {
     return 127462 + char.charCodeAt(0) - 65
   })
 
-  return isSovietUnionOrYugoslavia
-    ? String.fromCodePoint(...codePoints)
-    : renderUnavailableEmoji()
+  return isSovietUnionOrYugoslavia ? String.fromCodePoint(...codePoints) : renderUnavailableEmoji()
 }
 
 export default getCountryEmoji

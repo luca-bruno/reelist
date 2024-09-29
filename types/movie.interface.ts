@@ -73,6 +73,6 @@ export interface movieTypes {
   vote_count: number
   credits: {
     cast: (creditTypes & castTypes)[]
-    crew: (creditTypes & crewTypes)[] 
+    crew: (creditTypes & crewTypes)[]
   }
 }

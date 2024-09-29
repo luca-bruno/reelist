@@ -14,9 +14,8 @@ const atkinsonHyperlegible = Atkinson_Hyperlegible({
   weight: "400"
 })
 
-
 const HomePage = async () => {
-  const movies = await fetchMovies() as movieTypes[]
+  const movies = (await fetchMovies()) as movieTypes[]
 
   return (
     <main className={`${atkinsonHyperlegible.className}`}>
@@ -28,14 +27,11 @@ const HomePage = async () => {
         <div>
           <h2 className="text-accent-500 text-4xl m-10 mb-4 select-none">
             Welcome to
-            <span className={`${oleoScript.className}`}>
-              {" Reelist"}
-            </span>
-            !
+            <span className={`${oleoScript.className}`}>{" Reelist"}</span>!
           </h2>
           <h2 className="text-accent-500 text-xl m-10 mt-0">
-            Reelist is your personal movie hub - discover new movies, create personalised
-            lists, find where movies are streaming and show off your interests - powered by the TMDb API.
+            Reelist is your personal movie hub - discover new movies, create personalised lists,
+            find where movies are streaming and show off your interests - powered by the TMDb API.
           </h2>
         </div>
       </div>

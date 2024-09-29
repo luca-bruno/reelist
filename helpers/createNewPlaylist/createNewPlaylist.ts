@@ -15,10 +15,7 @@ const createNewPlaylist = (playlistName: string, selectedMovie: movieTypes) => {
 
   // Add the new playlist and update localStorage
   storedCustomPlaylists.push(formattedPlaylistName)
-  localStorage.setItem(
-    "custom-playlists",
-    JSON.stringify(storedCustomPlaylists)
-  )
+  localStorage.setItem("custom-playlists", JSON.stringify(storedCustomPlaylists))
 
   addToPlaylist(playlistName, selectedMovie)
 }
