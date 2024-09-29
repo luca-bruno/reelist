@@ -3,7 +3,7 @@
 import { FC, useEffect, useState } from "react"
 // import { faList, faGrip, faFilter } from "@fortawesome/free-solid-svg-icons"
 import { movieTypes } from "@/types/movie.interface"
-import { IS_BROWSER } from "@/constants"
+import { HEADERS_ALLOW_ORIGIN, IS_BROWSER } from "@/constants"
 import Search from "../Search"
 // import Filter from "../Filter"
 // import ClearFiltersButton from "../ClearFiltersButton"
@@ -75,13 +75,17 @@ const Browse: FC<{ params?: { id?: string, key?: string } }> = ({ params }) => {
 
   useEffect(() => {
     async function fetchMovieById() {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movie?id=${id}`, { headers: { "Access-Control-Allow-Origin": "*" } })
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movie?id=${id}`, 
+        HEADERS_ALLOW_ORIGIN
+      )
       const data = await response.json()
       setDefaultMovieDetails(data)
     }
 
     async function fetchMoviesByQuery() {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?q=${query}`, { headers: { "Access-Control-Allow-Origin": "*" } })
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?q=${query}`, 
+        HEADERS_ALLOW_ORIGIN
+      )
       const data = await response.json()
 
       if (query !== "") {
@@ -108,13 +112,13 @@ const Browse: FC<{ params?: { id?: string, key?: string } }> = ({ params }) => {
     async function fetchMoviesByIdAndGenre() {
       const groqGenreResponse = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/genre?movie=${defaultMovieDetails?.title}`,
-        { headers: { "Access-Control-Allow-Origin": "*" } }
+        HEADERS_ALLOW_ORIGIN
       )
       const groqGenreResponseData = await groqGenreResponse.json()
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?g=${groqGenreResponseData}&c=${formattedCastMembers}`,
-        { headers: { "Access-Control-Allow-Origin": "*" } }
+        HEADERS_ALLOW_ORIGIN
       )
       const data = await response.json()
 
