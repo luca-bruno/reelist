@@ -8,8 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "lint-fix": "next lint --fix",
-    "format": "prettier --check --ignore-path .gitignore app/ components/ helpers/ hooks/ json/",
-    "format-fix": "prettier --write --ignore-path .gitignore app/ components/ helpers/ hooks/ json/",
+    "format": "prettier --check --ignore-path .gitignore app/ components/ constants/ helpers/ hooks/ services/ types/",
+    "format-fix": "prettier --write --ignore-path .gitignore app/ components/ constants/ helpers/ hooks/ services/ types/",
     "prepare": "husky"
   },
   "dependencies": {

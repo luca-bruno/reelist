@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import fetchMovie from "@/services/fetchMovie/fetchMovie"
+import fetchMovie from "@/services/fetchMovie/fetchMovie.ts"
 
 // NOTE: For fetching from client components
 export async function GET(request: Request) {

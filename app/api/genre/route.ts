@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import promptGroq from "@/services/promptGroq/promptGroq"
+import promptGroq from "@/services/promptGroq/promptGroq.ts"
 
 // NOTE: For fetching from client components
 export async function GET(request: Request) {
@@ -14,4 +14,3 @@ export async function GET(request: Request) {
     return new Response("Error fetching genre", { status: 500 })
   }
 }
-
