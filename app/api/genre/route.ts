@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import promptGroq from "@/services/promptGroq/promptGroq.ts"
+import promptGroq from "@/services/promptGroq/promptGroq"
 
 // NOTE: For fetching from client components
 export async function GET(request: Request) {
