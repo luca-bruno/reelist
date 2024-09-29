@@ -7,7 +7,7 @@ import { movieTypes } from "@/types/movie.interface"
 import { IS_BROWSER } from "@/constants"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons/faChevronRight"
-import { faX } from "@fortawesome/free-solid-svg-icons"
+import { faX } from "@fortawesome/free-solid-svg-icons/faX"
 import CarouselItem from "./CarouselItem"
 import { CarouselTypes } from "./types/Carousel.interface"
 

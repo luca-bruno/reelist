@@ -1,7 +1,9 @@
 "use client"
 
 import { FC, useEffect, useState } from "react"
-// import { faList, faGrip, faFilter } from "@fortawesome/free-solid-svg-icons"
+// import { faList } from "@fortawesome/free-solid-svg-icons/faList"
+// import { faGrip } from "@fortawesome/free-solid-svg-icons/faGrip"
+// import { faFilter } from "@fortawesome/free-solid-svg-icons/faFilter"
 import { movieTypes } from "@/types/movie.interface"
 import { HEADERS_ALLOW_ORIGIN, IS_BROWSER } from "@/constants"
 import Search from "../Search"

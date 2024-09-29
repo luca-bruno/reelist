@@ -2,7 +2,7 @@
 
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faX } from "@fortawesome/free-solid-svg-icons"
+import { faX } from "@fortawesome/free-solid-svg-icons/faX"
 
 interface SearchTypes {
   setQuery: Dispatch<SetStateAction<string>>
