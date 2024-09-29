@@ -3,6 +3,7 @@
 import { FC, useEffect, useState } from "react"
 import { faList, faGrip, faFilter } from "@fortawesome/free-solid-svg-icons"
 import { movieTypes } from "@/types/movie.interface"
+import { IS_BROWSER } from "@/constants"
 import Search from "../Search"
 import Filter from "../Filter"
 import ClearFiltersButton from "../ClearFiltersButton"
@@ -30,8 +31,8 @@ import MovieSelectionPane from "../MovieSelectionPane"
 //   return scoredMovies.sort((a, b) => b.score - a.score).map(item => item.movie)
 // }
 
-const Browse: FC<{ params?: { id: string } }> = ({ params }) => {
-  const { id } = params || {}
+const Browse: FC<{ params?: { id?: string, key?: string } }> = ({ params }) => {
+  const { id, key } = params || {}
 
   const [query, setQuery] = useState("")
   const [movies, setMovies] = useState<movieTypes[]>()
@@ -82,21 +83,27 @@ const Browse: FC<{ params?: { id: string } }> = ({ params }) => {
     async function fetchMoviesByQuery() {
       const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?q=${query}`)
       const data = await response.json()
+
       if (query !== "") {
         localStorage.setItem("Latest Search Results", JSON.stringify(data))
       }
       setMovies(data)
     }
-  
+
     if (query) {
       // If query is not empty, fetch movies by query (this takes precedence)
       fetchMoviesByQuery()
     } else if (id) {
       // If query is empty but we have an id, fetch the movie by id
       fetchMovieById()
+    } else if(IS_BROWSER && key) {
+      const storedSelectedPlaylistMovies = JSON.parse(localStorage.getItem(key) as string)
+      setMovies(storedSelectedPlaylistMovies)
+    } else {
+      fetchMoviesByQuery()
     }
-  }, [id, query])
-  
+  }, [id, key, query])
+
   useEffect(() => {
     async function fetchMoviesByIdAndGenre() {
       const groqGenreResponse = await fetch(
@@ -119,7 +126,7 @@ const Browse: FC<{ params?: { id: string } }> = ({ params }) => {
           : data
       )
     }
-  
+
     if (defaultMovieDetails && formattedCastMembers && !query) {
       // Only fetch genre-based movies if we have the movie details, cast, and query is empty
       fetchMoviesByIdAndGenre()
@@ -127,7 +134,7 @@ const Browse: FC<{ params?: { id: string } }> = ({ params }) => {
   }, [defaultMovieDetails, formattedCastMembers, query])
 
   return (
-    <>
+    <main className="grid grid-flow-row grid-rows-2 mobileXL:grid-rows-none mobileXL:grid-cols-3 h-[calc(100vh-48px)]">
       <div className="rounded-xl m-3 mobileL:overflow-x overflow-x-none bg-neutral-500">
         <div className={`${alignmentStyles} ml-3 mt-3 mr-2`}>
           <Search setQuery={setQuery} />
@@ -202,8 +209,11 @@ const Browse: FC<{ params?: { id: string } }> = ({ params }) => {
         />
       </div>
 
-      <MovieSelectionPane {...{ selectedMovieId, movies }} />
-    </>
+      {/* // TODO: CLEAN UP ASAP THIS SELECTEDMOVIE AND DEFAULTMOVIEDETAILS STUFF */}
+      <MovieSelectionPane
+        {...{ selectedMovieId: selectedMovieId || defaultMovieDetails?.id || movies?.[0].id }}
+      />
+    </main>
   )
 }
 
