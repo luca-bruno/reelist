@@ -1,6 +1,6 @@
 /* The following import prevents a Font Awesome icon server-side rendering bug, */
 /* where the icons flash from a very large icon down to a properly sized one: */
-/* @import "@fortawesome/fontawesome-svg-core/styles.css"; */
+@import "@fortawesome/fontawesome-svg-core/styles.css";
 
 @tailwind base;
 @tailwind components;
@@ -21,7 +21,7 @@ body {
     rgb(112, 81, 203) 54%
   ); */
 }
-/* 
+
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -140,7 +140,7 @@ body {
 
 .glow {
   animation: glow 2.5s 10;
-} */
+}
 
 .movie-card__button:hover div {
   transform: scale(1.05);
