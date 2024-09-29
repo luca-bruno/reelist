@@ -8,10 +8,7 @@ import MovieSelectionPaneBackground from "./MovieSelectionPaneBackground"
 import MovieSelectionPanePoster from "./MovieSelectionPanePoster"
 import MovieSelectionPaneDetails from "./MovieSelectionPaneDetails"
 import MovieSelectionPaneActions from "./MovieSelectionPaneActions"
-
-interface MovieSelectionPaneTypes {
-  selectedMovieId?: number
-}
+import { MovieSelectionPaneTypes } from "./types/MovieSelectionPane.interface"
 
 const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) => {
   const [selectedMovie, setSelectedMovie] = useState<movieTypes>()

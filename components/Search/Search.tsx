@@ -1,12 +1,9 @@
 "use client"
 
-import { Dispatch, FC, SetStateAction, useEffect, useState } from "react"
+import { FC, useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faX } from "@fortawesome/free-solid-svg-icons/faX"
-
-interface SearchTypes {
-  setQuery: Dispatch<SetStateAction<string>>
-}
+import { SearchTypes } from "./types/Search.interface"
 
 const Search: FC<SearchTypes> = ({ setQuery }) => {
   const [input, setInput] = useState("")
