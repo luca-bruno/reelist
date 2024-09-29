@@ -21,7 +21,7 @@ body {
     rgb(112, 81, 203) 54%
   ); */
 }
-
+/* 
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -140,7 +140,7 @@ body {
 
 .glow {
   animation: glow 2.5s 10;
-}
+} */
 
 .movie-card__button:hover div {
   transform: scale(1.05);
