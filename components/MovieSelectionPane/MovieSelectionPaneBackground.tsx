@@ -14,25 +14,29 @@ const MovieSelectionPaneBackground: FC<MovieSelectionPaneBackgroundTypes> = ({
 }) => (
   <>
     <Image
-      className="filter blur-sm z-0 mobileXL:block hidden"
+      className="filter z-0 mobileXL:block hidden"
       // TODO: img fallbacks
       // src={hasBackgroundImageReturnedError ? fallbackPlaceholder : background || ""}
       src={`${TMDB_IMAGE_PATH}${background}`}
       alt={`${title || "Movie"} background`}
-      onError={() => setHasBackgroundImageReturnedError(true)}
-      fill
-      style={{ objectFit: "cover" }}
+      // onError={() => setHasBackgroundImageReturnedError(true)}
+      sizes="100vw"
+      width={0}
+      height={0}
+      style={{ height: "55%", width: "100%", objectFit: "cover" }}
       draggable={false}
     />
     <Image
-      className="filter blur-sm z-0 mobileXL:hidden block"
+      className="filter z-0 mobileXL:hidden block"
       // TODO: img fallbacks
       // src={hasReturnedError ? fallbackPlaceholder : iconLarge || iconSmall || ""}
       src={`${TMDB_IMAGE_PATH}${background}`}
       alt={`${title || "Movie"} background`}
-      onError={() => setHasReturnedError(true)}
-      fill
-      style={{ objectFit: "cover" }}
+      // onError={() => setHasReturnedError(true)}
+      sizes="100vw"
+      width={0}
+      height={0}
+      style={{ height: "55%", width: "100%", objectFit: "cover" }}
       draggable={false}
     />
   </>
