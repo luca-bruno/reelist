@@ -3,6 +3,7 @@
 import { FC, useState, useEffect } from "react"
 import { movieTypes } from "@/types/movie.interface"
 import useImage from "@/hooks/useImage/useImage"
+import { HEADERS_ALLOW_ORIGIN } from "@/constants"
 import MovieSelectionPaneBackground from "./MovieSelectionPaneBackground"
 import MovieSelectionPanePoster from "./MovieSelectionPanePoster"
 import MovieSelectionPaneDetails from "./MovieSelectionPaneDetails"
@@ -23,7 +24,7 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({
     if (selectedMovieId) {
       const fetchMovie = async() => {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movie?id=${selectedMovieId}`, 
-          { headers: { "Access-Control-Allow-Origin": "*" } })
+          HEADERS_ALLOW_ORIGIN)
         const data = await response.json()
         setSelectedMovie(data)
       }

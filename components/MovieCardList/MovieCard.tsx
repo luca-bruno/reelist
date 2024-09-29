@@ -12,7 +12,7 @@ import {
   faHeartCirclePlus,
   faPlus
 } from "@fortawesome/free-solid-svg-icons"
-import { IS_BROWSER, TMDB_IMAGE_PATH } from "@/constants"
+import { HEADERS_ALLOW_ORIGIN, IS_BROWSER, TMDB_IMAGE_PATH } from "@/constants"
 import { movieTypes } from "@/types/movie.interface"
 import MovieCardType from "./types/MovieCard.interface"
 
@@ -57,7 +57,7 @@ const MovieCard: FC<MovieCardType> = ({
     e.stopPropagation()
 
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movie?id=${id}`, 
-      { headers: { "Access-Control-Allow-Origin": "*" } })
+      HEADERS_ALLOW_ORIGIN)
     const movieDetails = await response.json()
 
     addToPlaylist(listKey, movieDetails, true)
