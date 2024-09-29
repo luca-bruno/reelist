@@ -1,98 +1,150 @@
 "use client"
 
-import React, { useEffect, useState } from "react"
-import { movieTypes } from "@/json/data.interface"
+import { FC, useState, useEffect } from "react"
+import { movieTypes } from "@/types/movie.interface"
 import useImage from "@/hooks/useImage/useImage"
-import useFetchMovies from "@/hooks/useFetchMovies/useFetchMovies"
 import MovieSelectionPaneBackground from "./MovieSelectionPaneBackground"
-import MovieSelectionPaneCover from "./MovieSelectionPaneCover"
+import MovieSelectionPanePoster from "./MovieSelectionPanePoster"
 import MovieSelectionPaneDetails from "./MovieSelectionPaneDetails"
-import MovieSelectionPanePlayButton from "./MovieSelectionPanePlayButton"
+import MovieSelectionPaneActions from "./MovieSelectionPaneActions"
 
-const MovieSelectionPane: React.FC<{ selectedMovieId: string, query?: string }> = ({ selectedMovieId, query }) => {
-    const [selectedMovie, setSelectedMovie] = useState<movieTypes>()
-    // const searchTerm = "God"
-    // const { movies } = useFetchMovies(true, query)
-    const [movies, setMovies] = useState()
+interface MovieSelectionPaneTypes {
+  selectedMovieId?: number
+  movies?: movieTypes[]
+}
 
-    // TODO: SWR or react-query + make into custom hook
-    useEffect(() => {
-      async function fetchMovies() {
-        const response = await fetch(`api/movies?q=${query}`)
+const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({
+  selectedMovieId,
+  // selectedMovie,
+  // movies
+}) => {
+  const [selectedMovie, setSelectedMovie] = useState<movieTypes>()
+
+  console.log(selectedMovieId)
+
+  // TODO: CLEAN UP ASAP@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+  // TODO: SWR or react-query + make into custom hook
+  useEffect(() => {
+    if (selectedMovieId) {
+      async function fetchMovie() {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movie?id=${selectedMovieId}`)
+        console.log(response)
         const data = await response.json()
-        setMovies(data)
+        setSelectedMovie(data)
       }
-      fetchMovies()
-    }, [query])
-  
 
-    const {
-        hasImageLoaded,
-        setHasImageLoaded,
-        hasReturnedError,
-        setHasReturnedError,
-        hasBackgroundImageReturnedError,
-        setHasBackgroundImageReturnedError
-    } = useImage()
+      fetchMovie()
+    }
+  }, [selectedMovieId])
 
-    const {
-        original_title: title,
-        // provider_title: providerTitle,
-        poster_path: poster,
-        backdrop_path: backdrop
-        // cats: categoryTags,
-        // feats: featureTags,
-        // thms: themeTags
-    } = selectedMovie || {}
+  // // TODO: CLEAN UP ASAP@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+  // // TODO: SWR or react-query + make into custom hook
+  // useEffect(() => {
+  //   async function fetchMovie() {
+  //     const response = await fetch(`../api/movie?id=${selectedMovieId}`)
+  //     const data = await response.json()
+  //     setSelectedMovie(data)
+  //   }
 
-    useEffect(() => {
-        setSelectedMovie(movies?.filter(movie => movie.id === selectedMovieId)[0])
-        setHasImageLoaded(false)
-        setHasReturnedError(false)
-        setHasBackgroundImageReturnedError(false)
-    }, [movies, selectedMovieId, setHasBackgroundImageReturnedError, setHasImageLoaded, setHasReturnedError])
+  //   fetchMovie()
+  // }, [selectedMovieId])
 
-    return (
-        <div className="flex justify-center col-span-1 mobileXL:col-span-2 rounded-xl m-3 overflow-hidden" >
-            <div className="relative h-full w-full">
-                <MovieSelectionPaneBackground
-                    {...{
-                        title,
-                        background: backdrop,
-                        hasBackgroundImageReturnedError,
-                        setHasBackgroundImageReturnedError,
-                        iconSmall: backdrop,
-                        // iconLarge,
-                        hasReturnedError,
-                        setHasReturnedError
-                    }}
+  const {
+    hasImageLoaded,
+    setHasImageLoaded,
+    hasReturnedError,
+    setHasReturnedError,
+    hasBackgroundImageReturnedError,
+    setHasBackgroundImageReturnedError
+  } = useImage()
+
+  const {
+    backdrop_path: backdrop,
+    origin_country: originCountry,
+    original_title: originalTitle,
+    overview,
+    genres,
+    poster_path: poster,
+    release_date: releaseDate,
+    runtime,
+    spoken_languages: spokenLanguages,
+    tagline,
+    title
+  } = selectedMovie || {}
+
+
+  useEffect(() => {
+    // setSelectedMovie(movies && movies[0])
+    setHasImageLoaded(false)
+    setHasReturnedError(false)
+    setHasBackgroundImageReturnedError(false)
+  }, [
+    // movies,
+    setHasBackgroundImageReturnedError,
+    setHasImageLoaded,
+    setHasReturnedError
+  ])
+
+
+  return (
+    <div className="flex justify-center col-span-1 mobileXL:col-span-2 rounded-xl m-3 overflow-hidden">
+      <div className="relative h-full w-full">
+        <MovieSelectionPaneBackground
+          {...{
+            title,
+            background: backdrop,
+            hasBackgroundImageReturnedError,
+            setHasBackgroundImageReturnedError,
+            hasReturnedError,
+            setHasReturnedError
+          }}
+        />
+
+        <div
+          className="bg-gradient-to-b from-transparent from-1% to-primary-500 to-50% 
+            p-3 absolute bottom-0 rounded-b-xl z-10 w-full h-full"
+        >
+          <MovieSelectionPanePoster
+            {...{
+              title,
+              hasImageLoaded,
+              setHasImageLoaded,
+              hasReturnedError,
+              setHasReturnedError,
+              // iconLarge,
+              poster
+            }}
+          />
+
+          <MovieSelectionPaneActions {...{ selectedMovie }} />
+
+          <div className="flex-col h-[600px] p-5 grid grid-rows-3 gap-4 w-[70%]">
+            <div />
+            <div />
+            <div>
+              {title && (
+                <MovieSelectionPaneDetails
+                  {...{
+                    originCountry,
+                    originalTitle,
+                    runtime,
+                    releaseDate,
+                    overview,
+                    tagline,
+                    title,
+                    tags: { 
+                      languageTags: { title: "Languages", payload: spokenLanguages },
+                      genreTags: { title: "Genres", payload: genres }
+                    }
+                  }}
                 />
-
-                <div className="bg-gradient-to-b from-transparent from-1% to-gray-500
-                    p-3 absolute bottom-0 rounded-xl z-10 w-full h-[45%]"
-                >
-                    <MovieSelectionPaneCover
-                        {...{
-                            title,
-                            hasImageLoaded,
-                            setHasImageLoaded,
-                            hasReturnedError,
-                            setHasReturnedError,
-                            // iconLarge,
-                            iconSmall: poster
-                        }}
-                    />
-
-                    <MovieSelectionPanePlayButton />
-
-                    <div className="p-5">
-                        {title && <MovieSelectionPaneDetails {...{ title }} />}
-                        {/* <MovieSelectionPaneTags {...{ categoryTags, featureTags, themeTags }} /> */}
-                    </div>
-                </div>
+              )}
             </div>
+          </div>
         </div>
-    )
+      </div>
+    </div>
+  )
 }
 
 export default MovieSelectionPane
