@@ -18,10 +18,6 @@ const config: Config = {
       "4K": "2560px"
     },
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))"
       colors: {
         primary: {
           100: "#d3dee4",
@@ -82,6 +78,11 @@ const config: Config = {
       gridTemplateColumns: {
         "3.5": "repeat(3.5, minmax(0, 1fr))"
       },
+      // backgroundImage: {
+      //   "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+      //   "gradient-conic":
+      //     "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))"
+      // },
       keyframes: {
         bounceSlow: {
           "0%, 100%": {
