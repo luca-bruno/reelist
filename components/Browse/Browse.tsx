@@ -74,15 +74,14 @@ const Browse: FC<{ params?: { id: string } }> = ({ params }) => {
 
   useEffect(() => {
     async function fetchMovieById() {
-      const response = await fetch(`../api/movie?id=${id}`)
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movie?id=${id}`)
       const data = await response.json()
       setDefaultMovieDetails(data)
     }
-  
+
     async function fetchMoviesByQuery() {
-      const response = await fetch(`../api/movies?q=${query}`)
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?q=${query}`)
       const data = await response.json()
-  
       if (query !== "") {
         localStorage.setItem("Latest Search Results", JSON.stringify(data))
       }
@@ -100,14 +99,20 @@ const Browse: FC<{ params?: { id: string } }> = ({ params }) => {
   
   useEffect(() => {
     async function fetchMoviesByIdAndGenre() {
-      const groqGenreResponse = await fetch(`../api/genre?movie=${defaultMovieDetails?.title}`)
+      const groqGenreResponse = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/genre?movie=${defaultMovieDetails?.title}`
+      )
       const groqGenreResponseData = await groqGenreResponse.json()
-  
-      const response = await fetch(`../api/movies?g=${groqGenreResponseData}&c=${formattedCastMembers}`)
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?g=${groqGenreResponseData}&c=${formattedCastMembers}`
+      )
       const data = await response.json()
-  
-      const isMovieAlreadyInList = data.some((movie: movieTypes) => movie.id === defaultMovieDetails?.id)
-  
+
+      const isMovieAlreadyInList = data.some(
+        (movie: movieTypes) => movie.id === defaultMovieDetails?.id
+      )
+
       setMovies(
         defaultMovieDetails && !isMovieAlreadyInList
           ? [defaultMovieDetails, ...data]
