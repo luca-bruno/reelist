@@ -19,9 +19,10 @@ const getCountryEmoji = (countryCode: string): JSX.Element | string => {
     />
   )
 
-  const codePoints = uppercasedCode.split("").map(char => 
-    // 'A'.charCodeAt(0) is 65, and the regional indicator A starts at 127462
-     127462 + char.charCodeAt(0) - 65
+  const codePoints = uppercasedCode.split("").map(
+    char =>
+      // 'A'.charCodeAt(0) is 65, and the regional indicator A starts at 127462
+      127462 + char.charCodeAt(0) - 65
   )
 
   return isSovietUnionOrYugoslavia ? String.fromCodePoint(...codePoints) : renderUnavailableEmoji()
