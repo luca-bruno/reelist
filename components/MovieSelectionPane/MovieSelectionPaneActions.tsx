@@ -1,21 +1,15 @@
 import { addToPlaylist, transitionStyles } from "@/helpers"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { FC, useEffect, useState } from "react"
-import {
-  faCheck
-  // ,
-  // faChevronDown,
-  // faChevronUp
-} from "@fortawesome/free-solid-svg-icons"
+import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck"
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons/faChevronDown"
+import { faChevronUp } from "@fortawesome/free-solid-svg-icons/faChevronUp"
 import { movieTypes } from "@/types/movie.interface"
 import createNewPlaylist from "@/helpers/createNewPlaylist/createNewPlaylist"
 
 const MovieSelectionPaneActions: FC<{ selectedMovie?: movieTypes }> = ({ selectedMovie }) => {
   const [playlistName, setPlaylistName] = useState<string>("")
-  const [
-    isDropdownOpen
-    // , setIsDropdownOpen
-  ] = useState(false)
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [playlists, setPlaylists] = useState<string[]>()
 
@@ -75,7 +69,7 @@ const MovieSelectionPaneActions: FC<{ selectedMovie?: movieTypes }> = ({ selecte
         </button> */}
 
         <span className="relative flex flex-col w-52">
-          {/*  <button
+          <button
             type="button"
             onClick={() => setIsDropdownOpen(prev => !prev)}
             className="bg-accent-500 rounded-xl py-4 px-8"
@@ -85,7 +79,7 @@ const MovieSelectionPaneActions: FC<{ selectedMovie?: movieTypes }> = ({ selecte
               icon={isDropdownOpen ? faChevronUp : faChevronDown}
               className={`pl-2 ${transitionStyles}`}
             />
-          </button> */}
+          </button>
 
           {isDropdownOpen && (
             <div className="absolute mt-14 flex flex-col">
