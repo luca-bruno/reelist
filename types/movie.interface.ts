@@ -15,6 +15,20 @@ export interface productionCountryTypes {
   name: string
 }
 
+export interface ageRatingTypes {
+  results: {
+    iso_3166_1: string
+    release_dates: {
+      certification: string
+      descriptors: string[]
+      iso_639_1: string
+      note: string
+      release_date: string
+      type: number
+    }[]
+  }[]
+}
+
 export interface spokenLanguageTypes {
   english_name: string
   iso_639_1: string
@@ -62,6 +76,7 @@ export interface movieTypes {
   production_companies: productionCompanyTypes[]
   production_countries: productionCountryTypes[]
   release_date: string
+  release_dates: ageRatingTypes
   revenue: number
   runtime: number
   spoken_languages: spokenLanguageTypes[]

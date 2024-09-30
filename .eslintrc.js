@@ -64,6 +64,7 @@ module.exports = {
     "react/function-component-definition": "off",
     "arrow-parens": ["error", "as-needed"],
     "operator-linebreak": "off",
-    "object-curly-newline": "off"
+    "object-curly-newline": "off",
+    "camelcase": "off"
   }
 }
