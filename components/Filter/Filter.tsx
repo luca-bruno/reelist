@@ -15,9 +15,7 @@ const Filter: FC<FilterTypes> = ({ type, selectedFilters, setSelectedFilters }) 
     const allRecordsOfType = [].map(payload => payload[key as keyof moviesTypes]).flat()
 
     if (key === "provider_title") {
-      return allRecordsOfType.filter(
-        (title, index, self) => title && self.indexOf(title) === index
-      ) as string[]
+      return allRecordsOfType.filter((title, index, self) => title && self.indexOf(title) === index) as string[]
     }
 
     return allRecordsOfType
@@ -25,9 +23,7 @@ const Filter: FC<FilterTypes> = ({ type, selectedFilters, setSelectedFilters }) 
         title: (keyItem as movieTypes)?.title,
         id: (keyItem as movieTypes)?.id
       }))
-      .filter(
-        ({ title, id }, index, self) => title && self.findIndex(item => item.id === id) === index
-      )
+      .filter(({ title, id }, index, self) => title && self.findIndex(item => item.id === id) === index)
   }
 
   return (
@@ -49,26 +45,15 @@ const Filter: FC<FilterTypes> = ({ type, selectedFilters, setSelectedFilters }) 
               </div>
             </span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-              <FontAwesomeIcon
-                className="h-3 w-3 tablet:h-5 tablet:w-5 text-black"
-                icon={faChevronDown}
-                aria-hidden="true"
-              />
+              <FontAwesomeIcon className="h-3 w-3 tablet:h-5 tablet:w-5 text-black" icon={faChevronDown} aria-hidden="true" />
             </span>
           </Listbox.Button>
-          <Transition
-            as={Fragment}
-            leave="transition ease-in duration-100"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
+          <Transition as={Fragment} leave="transition ease-in duration-100" leaveFrom="opacity-100" leaveTo="opacity-0">
             <Listbox.Options
               className="absolute z-20 mt-1 max-h-60 w-full bg-gray-50 overflow-auto rounded-md py-1
                               shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none text-xs tablet:text-lg"
             >
-              {retrieveUniqueFilterOptions(
-                typeToKeyMapper[type as keyof typeof typeToKeyMapper]
-              ).map(tag => (
+              {retrieveUniqueFilterOptions(typeToKeyMapper[type as keyof typeof typeToKeyMapper]).map(tag => (
                 <Listbox.Option
                   key={typeof tag === "string" ? tag : tag && tag.id}
                   className={({ active, selected: isOptionSelected }) =>
@@ -81,19 +66,13 @@ const Filter: FC<FilterTypes> = ({ type, selectedFilters, setSelectedFilters }) 
                 >
                   {({ selected: isOptionSelected }) => (
                     <>
-                      <span
-                        className={`block truncate ${isOptionSelected ? "font-medium" : "font-normal"}`}
-                      >
+                      <span className={`block truncate ${isOptionSelected ? "font-medium" : "font-normal"}`}>
                         {typeof tag === "string" ? tag : tag && capitaliseEachWord(tag.title)}
                       </span>
 
                       {isOptionSelected ? (
                         <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                          <FontAwesomeIcon
-                            className="h-3 w-3 tablet:h-5 tablet:w-5 text-white"
-                            icon={faCheck}
-                            aria-hidden="true"
-                          />
+                          <FontAwesomeIcon className="h-3 w-3 tablet:h-5 tablet:w-5 text-white" icon={faCheck} aria-hidden="true" />
                         </span>
                       ) : null}
                     </>

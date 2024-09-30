@@ -11,14 +11,7 @@ import { faX } from "@fortawesome/free-solid-svg-icons/faX"
 import CarouselItem from "./CarouselItem"
 import { CarouselTypes } from "./types/Carousel.interface"
 
-const Carousel: FC<CarouselTypes> = ({
-  title,
-  subtitle,
-  list,
-  listKey,
-  playlists,
-  setPlaylists
-}) => {
+const Carousel: FC<CarouselTypes> = ({ title, subtitle, list, listKey, playlists, setPlaylists }) => {
   const isCustomPlaylist =
     title !== "Get Started" &&
     title !== "Jump Back In" &&
@@ -86,10 +79,7 @@ const Carousel: FC<CarouselTypes> = ({
         {title} {subtitle}
         {isCustomPlaylist && isHoveringOnCarousel && (
           <button type="button" onClick={() => deletePlaylist()}>
-            <FontAwesomeIcon
-              icon={faX}
-              className={`text-lg mx-4 flex items-center hover:text-accent-300 ${transitionStyles}`}
-            />
+            <FontAwesomeIcon icon={faX} className={`text-lg mx-4 flex items-center hover:text-accent-300 ${transitionStyles}`} />
           </button>
         )}
       </h3>
@@ -105,19 +95,9 @@ const Carousel: FC<CarouselTypes> = ({
             <CarouselItem key={id} {...{ id, posterPath, title: movieTitle }} />
           ))}
         </div>
-        <Link
-          href={listKey ? "browse/playlist/[listKey]" : "browse"}
-          as={listKey ? `browse/playlist/${listKey}` : "browse"}
-        >
-          <button
-            type="button"
-            className={`bg-accent-200 rounded-md h-full w-full mx-5 hover:bg-accent-500 ${transitionStyles}`}
-          >
-            <FontAwesomeIcon
-              className="h-10 w-10 text-background-500 m-auto"
-              icon={faChevronRight}
-              aria-hidden="true"
-            />
+        <Link href={listKey ? "browse/playlist/[listKey]" : "browse"} as={listKey ? `browse/playlist/${listKey}` : "browse"}>
+          <button type="button" className={`bg-accent-200 rounded-md h-full w-full mx-5 hover:bg-accent-500 ${transitionStyles}`}>
+            <FontAwesomeIcon className="h-10 w-10 text-background-500 m-auto" icon={faChevronRight} aria-hidden="true" />
           </button>
         </Link>
       </div>

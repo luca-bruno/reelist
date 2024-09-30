@@ -15,11 +15,9 @@ const CarouselList: FC<CarouselListTypes> = ({ movies }) => {
   useEffect(() => {
     if (IS_BROWSER) {
       const storedHasUserPreviouslyVisited = localStorage.getItem("has-user-previously-visited")
-      const hasStoredFavourites =
-        (JSON.parse(localStorage.getItem("Favourites") as string) || []).length > 0
+      const hasStoredFavourites = (JSON.parse(localStorage.getItem("Favourites") as string) || []).length > 0
 
-      const hasStoredWatchlist =
-        (JSON.parse(localStorage.getItem("Watchlist") as string) || []).length > 0
+      const hasStoredWatchlist = (JSON.parse(localStorage.getItem("Watchlist") as string) || []).length > 0
 
       const storedLatestSearchTerm = localStorage.getItem("latest-search-term")
       const storedPlaylists = JSON.parse(localStorage.getItem("custom-playlists") as string)
@@ -37,18 +35,14 @@ const CarouselList: FC<CarouselListTypes> = ({ movies }) => {
       <Carousel
         {...{
           title: hasUserPreviouslyVisited ? "Jump Back In" : "Get Started",
-          subtitle: hasUserPreviouslyVisited
-            ? "– with the latest and hottest picks! ️‍🔥"
-            : "– pick a movie and start browsing! 👋",
+          subtitle: hasUserPreviouslyVisited ? "– with the latest and hottest picks! ️‍🔥" : "– pick a movie and start browsing! 👋",
           list: movies
         }}
       />
 
       {hasUserPreviouslyVisited && (
         <>
-          {hasFavourites && (
-            <Carousel {...{ title: "Your Favourites ❤️", listKey: "Favourites" }} />
-          )}
+          {hasFavourites && <Carousel {...{ title: "Your Favourites ❤️", listKey: "Favourites" }} />}
 
           {hasWatchlist && <Carousel {...{ title: "Watchlist 🍿", listKey: "Watchlist" }} />}
 

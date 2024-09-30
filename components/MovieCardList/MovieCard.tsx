@@ -11,14 +11,7 @@ import { HEADERS_ALLOW_ORIGIN, IS_BROWSER, TMDB_IMAGE_PATH } from "@/constants"
 import { movieTypes } from "@/types/movie.interface"
 import MovieCardType from "./types/MovieCard.interface"
 
-const MovieCard: FC<MovieCardType> = ({
-  id,
-  title,
-  posterPath,
-  setSelectedMovieId,
-  selectedMovieId,
-  isDisplayingGridView = true
-}) => {
+const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, setSelectedMovieId, selectedMovieId, isDisplayingGridView = true }) => {
   const [favourites, setFavourites] = useState<movieTypes[]>()
   const [watchlist, setWatchlist] = useState<movieTypes[]>()
 
@@ -42,19 +35,12 @@ const MovieCard: FC<MovieCardType> = ({
     }
   }, [])
 
-  const isMovieInPlaylist = (playlist?: movieTypes[]) =>
-    playlist && playlist.some(playlistItem => playlistItem?.id === id)
+  const isMovieInPlaylist = (playlist?: movieTypes[]) => playlist && playlist.some(playlistItem => playlistItem?.id === id)
 
-  const handleAddToPlaylist = async (
-    e: React.MouseEvent<SVGSVGElement, MouseEvent>,
-    listKey: string
-  ) => {
+  const handleAddToPlaylist = async (e: React.MouseEvent<SVGSVGElement, MouseEvent>, listKey: string) => {
     e.stopPropagation()
 
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/movie?id=${id}`,
-      HEADERS_ALLOW_ORIGIN
-    )
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movie?id=${id}`, HEADERS_ALLOW_ORIGIN)
     const movieDetails = await response.json()
 
     addToPlaylist(listKey, movieDetails, true)
@@ -96,25 +82,17 @@ const MovieCard: FC<MovieCardType> = ({
       <div className="absolute bottom-[-10px] right-[-5px] flex gap-2">
         <FontAwesomeIcon
           icon={!isMovieInPlaylist(favourites) ? faHeartCirclePlus : faHeart}
-          className={`${
-            !isMovieInPlaylist(favourites) ? unaddedStyles : alreadyAddedStyles
-          } rounded-full p-2 ${transitionStyles}`}
+          className={`${!isMovieInPlaylist(favourites) ? unaddedStyles : alreadyAddedStyles} rounded-full p-2 ${transitionStyles}`}
           onClick={e => handleAddToPlaylist(e, "Favourites")}
         />
         <FontAwesomeIcon
           icon={!isMovieInPlaylist(watchlist) ? faPlus : faCheck}
-          className={`${
-            !isMovieInPlaylist(watchlist) ? unaddedStyles : alreadyAddedStyles
-          } rounded-full p-2 ${transitionStyles}`}
+          className={`${!isMovieInPlaylist(watchlist) ? unaddedStyles : alreadyAddedStyles} rounded-full p-2 ${transitionStyles}`}
           onClick={e => handleAddToPlaylist(e, "Watchlist")}
         />
       </div>
 
-      {!isDisplayingGridView && (
-        <div className="px-2 m-auto laptopM:text-2xl laptop:text-lg mobileXL:text-sm text-[0.7rem] truncate">
-          {title}
-        </div>
-      )}
+      {!isDisplayingGridView && <div className="px-2 m-auto laptopM:text-2xl laptop:text-lg mobileXL:text-sm text-[0.7rem] truncate">{title}</div>}
     </button>
   )
 }

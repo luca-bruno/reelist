@@ -5,8 +5,7 @@ import addToPlaylist from "../addToPlaylist/addToPlaylist"
 const createNewPlaylist = (playlistName: string, selectedMovie: movieTypes) => {
   const formattedPlaylistName = capitalise(playlistName)
 
-  const storedCustomPlaylists: string[] =
-    JSON.parse(localStorage.getItem("custom-playlists") as string) || []
+  const storedCustomPlaylists: string[] = JSON.parse(localStorage.getItem("custom-playlists") as string) || []
 
   // Return early if playlist already exists
   if (storedCustomPlaylists.includes(formattedPlaylistName)) {

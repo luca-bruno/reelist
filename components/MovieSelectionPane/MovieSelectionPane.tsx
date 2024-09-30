@@ -18,10 +18,7 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) =>
   useEffect(() => {
     if (selectedMovieId) {
       const fetchMovie = async () => {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/api/movie?id=${selectedMovieId}`,
-          HEADERS_ALLOW_ORIGIN
-        )
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movie?id=${selectedMovieId}`, HEADERS_ALLOW_ORIGIN)
         const data = await response.json()
         setSelectedMovie(data)
       }

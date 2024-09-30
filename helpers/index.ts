@@ -5,11 +5,4 @@ import buttonStyles from "./buttonStyles/buttonStyles"
 import addToPlaylist from "./addToPlaylist/addToPlaylist"
 import getCountryEmoji from "./getCountryEmoji/getCountryEmoji"
 
-export {
-  capitaliseEachWord,
-  capitalise,
-  transitionStyles,
-  buttonStyles,
-  addToPlaylist,
-  getCountryEmoji
-}
+export { capitaliseEachWord, capitalise, transitionStyles, buttonStyles, addToPlaylist, getCountryEmoji }

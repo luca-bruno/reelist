@@ -20,9 +20,7 @@ const HomePage = async () => {
   return (
     <main className={`${atkinsonHyperlegible.className}`}>
       <div className="flex">
-        <h1 className={`text-accent-500 text-9xl m-10 select-none ${oleoScript.className}`}>
-          Reelist
-        </h1>
+        <h1 className={`text-accent-500 text-9xl m-10 select-none ${oleoScript.className}`}>Reelist</h1>
 
         <div>
           <h2 className="text-accent-500 text-4xl m-10 mb-4 select-none">
@@ -30,8 +28,8 @@ const HomePage = async () => {
             <span className={`${oleoScript.className}`}>{" Reelist"}</span>!
           </h2>
           <h2 className="text-accent-500 text-xl m-10 mt-0">
-            Reelist is your personal movie hub - discover new movies, create personalised lists,
-            find where movies are streaming and show off your interests - powered by the TMDb API.
+            Reelist is your personal movie hub - discover new movies, create personalised lists, find where movies are streaming and show off your
+            interests - powered by the TMDb API.
           </h2>
         </div>
       </div>

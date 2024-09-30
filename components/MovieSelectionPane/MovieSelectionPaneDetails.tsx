@@ -29,12 +29,12 @@ const MovieSelectionPaneDetails: FC<MovieSelectionPaneDetailsTypes> = ({
 
     // Check if the origin country exists and is valid
     if (originCountry?.[0]) {
-        matchingCountryIndex = ageRating?.results.findIndex(country => country.iso_3166_1 === originCountry[0]) || -1
+      matchingCountryIndex = ageRating?.results.findIndex(country => country.iso_3166_1 === originCountry[0]) || -1
     }
 
     // If no match found in the origin country, check the other countries in order of priority
     if (matchingCountryIndex === -1) {
-        matchingCountryIndex = ageRating?.results.findIndex(country => countriesPriority.includes(country.iso_3166_1)) || -1
+      matchingCountryIndex = ageRating?.results.findIndex(country => countriesPriority.includes(country.iso_3166_1)) || -1
     }
 
     // Ensure the matchingCountryIndex is valid
@@ -50,25 +50,25 @@ const MovieSelectionPaneDetails: FC<MovieSelectionPaneDetailsTypes> = ({
 
     // Handle the exception for US cases
     if (originCountry?.[0] === "US" && certification === "NR") {
-        // Check for GB rating if US rating is "NR"
-        const gbIndex = ageRating?.results.findIndex(country => country.iso_3166_1 === "GB") || 0
+      // Check for GB rating if US rating is "NR"
+      const gbIndex = ageRating?.results.findIndex(country => country.iso_3166_1 === "GB") || 0
 
-        // Ensure gbIndex is valid
-        if (gbIndex !== -1) {
-            const gbReleaseDateIndex = ageRating?.results[gbIndex].release_dates.findIndex(release => release.certification !== "")
+      // Ensure gbIndex is valid
+      if (gbIndex !== -1) {
+        const gbReleaseDateIndex = ageRating?.results[gbIndex].release_dates.findIndex(release => release.certification !== "")
 
-            // If a valid GB certification is found, return it
-            if (gbReleaseDateIndex !== undefined && gbReleaseDateIndex !== -1) {
-                return ageRating?.results[gbIndex].release_dates[gbReleaseDateIndex].certification
-            }
+        // If a valid GB certification is found, return it
+        if (gbReleaseDateIndex !== undefined && gbReleaseDateIndex !== -1) {
+          return ageRating?.results[gbIndex].release_dates[gbReleaseDateIndex].certification
         }
+      }
 
-        // If no GB rating available, return "NR"
-        return "NR"
+      // If no GB rating available, return "NR"
+      return "NR"
     }
 
     return certification
-}
+  }
 
   const truncationStyles: React.CSSProperties = {
     width: "100%",
@@ -110,29 +110,21 @@ const MovieSelectionPaneDetails: FC<MovieSelectionPaneDetailsTypes> = ({
 
           {runtime && (
             <>
-              <p
-                className={`${isRuntimeValid ? "" : "opacity-0"}`}
-              >{`${runtime?.toString()} min`}</p>
+              <p className={`${isRuntimeValid ? "" : "opacity-0"}`}>{`${runtime?.toString()} min`}</p>
               {separator}
             </>
           )}
 
           {determineAgeRating() && (
             <>
-              <p>
-                {determineAgeRating()}
-              </p>
+              <p>{determineAgeRating()}</p>
               {separator}
             </>
           )}
 
           {originCountry && (
             <span className="flex gap-4 text-3xl select-none">
-              {originCountry?.map(country => (
-                <span key={country}>
-                  {getCountryEmoji(country)}
-                </span>
-              ))}
+              {originCountry?.map(country => <span key={country}>{getCountryEmoji(country)}</span>)}
             </span>
           )}
         </div>

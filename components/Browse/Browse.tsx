@@ -41,9 +41,7 @@ const Browse: FC<{ params?: { id?: string; key?: string } }> = ({ params }) => {
   const [defaultMovieDetails, setDefaultMovieDetails] = useState<movieTypes | undefined>()
   const [selectedMovieId, setSelectedMovieId] = useState<number>()
 
-  const formattedCastMembers = defaultMovieDetails?.credits?.cast
-    .map(castMember => castMember.id)
-    .join("|")
+  const formattedCastMembers = defaultMovieDetails?.credits?.cast.map(castMember => castMember.id).join("|")
 
   useEffect(() => {
     localStorage.setItem("has-user-previously-visited", "true")
@@ -75,19 +73,13 @@ const Browse: FC<{ params?: { id?: string; key?: string } }> = ({ params }) => {
 
   useEffect(() => {
     async function fetchMovieById() {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/movie?id=${id}`,
-        HEADERS_ALLOW_ORIGIN
-      )
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movie?id=${id}`, HEADERS_ALLOW_ORIGIN)
       const data = await response.json()
       setDefaultMovieDetails(data)
     }
 
     async function fetchMoviesByQuery() {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?q=${query}`,
-        HEADERS_ALLOW_ORIGIN
-      )
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?q=${query}`, HEADERS_ALLOW_ORIGIN)
       const data = await response.json()
 
       if (query !== "") {
@@ -112,10 +104,7 @@ const Browse: FC<{ params?: { id?: string; key?: string } }> = ({ params }) => {
 
   useEffect(() => {
     async function fetchMoviesByIdAndGenre() {
-      const groqGenreResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/genre?movie=${defaultMovieDetails?.title}`,
-        HEADERS_ALLOW_ORIGIN
-      )
+      const groqGenreResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/genre?movie=${defaultMovieDetails?.title}`, HEADERS_ALLOW_ORIGIN)
       const groqGenreResponseData = await groqGenreResponse.json()
 
       const response = await fetch(
@@ -124,13 +113,9 @@ const Browse: FC<{ params?: { id?: string; key?: string } }> = ({ params }) => {
       )
       const data = await response.json()
 
-      const isMovieAlreadyInList = data.some(
-        (movie: movieTypes) => movie.id === defaultMovieDetails?.id
-      )
+      const isMovieAlreadyInList = data.some((movie: movieTypes) => movie.id === defaultMovieDetails?.id)
 
-      setMovies(
-        defaultMovieDetails && !isMovieAlreadyInList ? [defaultMovieDetails, ...data] : data
-      )
+      setMovies(defaultMovieDetails && !isMovieAlreadyInList ? [defaultMovieDetails, ...data] : data)
     }
 
     if (defaultMovieDetails && formattedCastMembers && !query) {

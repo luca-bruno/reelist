@@ -18,9 +18,7 @@ const fetchMovies = async (searchTerm?: string, genreTerm?: string, castTerm?: s
     }
   }
 
-  const url = searchTerm
-    ? `${baseUrl}${searchQuery}`
-    : `${baseUrl}${discoverQuery}${genreQuery}${castQuery}`
+  const url = searchTerm ? `${baseUrl}${searchQuery}` : `${baseUrl}${discoverQuery}${genreQuery}${castQuery}`
 
   try {
     const response = await fetch(url, options)

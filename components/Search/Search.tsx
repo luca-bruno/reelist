@@ -35,11 +35,7 @@ const Search: FC<SearchTypes> = ({ setQuery }) => {
           focus:border-accent-500 p-2 rounded-xl laptopXL:w-96 w-full text-sm tablet:text-lg"
       />
       {input && (
-        <button
-          type="button"
-          className="h-full absolute text-black right-4"
-          onClick={() => setInput("")}
-        >
+        <button type="button" className="h-full absolute text-black right-4" onClick={() => setInput("")}>
           <FontAwesomeIcon className="h-4 w-4 text-gray-400/50" icon={faX} aria-hidden="true" />
         </button>
       )}

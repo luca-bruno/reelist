@@ -12,10 +12,7 @@ const Tags: FC<{ tags: TagsTypes }> = ({ tags }) => {
         <p className="pr-2">{`${title}: `}</p>
 
         {payload?.map(({ name }) => (
-          <span
-            key={name}
-            className="rounded-full bg-neutral-500 bg-opacity-40 text-xs laptop:text-sm max-w-fit px-3 mx-1 flex"
-          >
+          <span key={name} className="rounded-full bg-neutral-500 bg-opacity-40 text-xs laptop:text-sm max-w-fit px-3 mx-1 flex">
             <p className="justify-center items-center m-auto">{capitaliseEachWord(name)}</p>
           </span>
         ))}

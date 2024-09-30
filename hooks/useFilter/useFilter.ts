@@ -14,9 +14,7 @@ const useFilter = ({
 
     if (selectedProviderFilters.length > 0) {
       searchResults = searchResults.filter(({ provider_title: providerTitle }) =>
-        selectedProviderFilters.some(filter =>
-          providerTitle.toLowerCase().includes(filter.toLowerCase())
-        )
+        selectedProviderFilters.some(filter => providerTitle.toLowerCase().includes(filter.toLowerCase()))
       )
     }
 
@@ -37,23 +35,12 @@ const useFilter = ({
 
     arr.forEach(({ filterType, items }) => {
       if (items.length > 0) {
-        searchResults = searchResults.filter(games =>
-          (games[filterType as keyof typeof games] as string[])?.some(tagId =>
-            items.includes(tagId)
-          )
-        )
+        searchResults = searchResults.filter(games => (games[filterType as keyof typeof games] as string[])?.some(tagId => items.includes(tagId)))
       }
     })
 
     return searchResults
-  }, [
-    data,
-    query,
-    selectedCategoryFilters,
-    selectedFeatureFilters,
-    selectedProviderFilters,
-    selectedThemeFilters
-  ])
+  }, [data, query, selectedCategoryFilters, selectedFeatureFilters, selectedProviderFilters, selectedThemeFilters])
 
   return {
     combinedFilter
