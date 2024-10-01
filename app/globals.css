@@ -149,3 +149,8 @@ body {
 .movie-card__button div:hover {
   transform: none;
 }
+
+/* TODO: rename */
+.dropdownRENAMEME__control {
+  cursor: pointer !important;
+}

@@ -98,7 +98,7 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) =>
             }}
           />
 
-          <MovieSelectionPaneActions {...{ selectedMovie }} />
+          {selectedMovie && <MovieSelectionPaneActions {...{ selectedMovie }} />}
 
           <div className="flex-col h-[600px] p-5 grid grid-rows-3 w-[70%]">
             <div />
