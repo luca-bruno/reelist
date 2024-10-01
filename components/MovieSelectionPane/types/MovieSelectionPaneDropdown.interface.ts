@@ -5,6 +5,6 @@ export interface optionTypes {
   value: string
 }
 
-export interface MovieSelectionPaneActionsTypes {
+export interface MovieSelectionPaneDropdownTypes {
   selectedMovie: movieTypes
 }

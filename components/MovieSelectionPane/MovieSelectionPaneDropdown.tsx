@@ -4,14 +4,11 @@ import createNewPlaylist from "@/helpers/createNewPlaylist/createNewPlaylist"
 import CreatableSelect from "react-select/creatable"
 import makeAnimated from "react-select/animated"
 import { SingleValue } from "react-select"
-import { MovieSelectionPaneActionsTypes, optionTypes } from "./types/MovieSelectionPaneActions.interface"
+import { MovieSelectionPaneDropdownTypes, optionTypes } from "./types/MovieSelectionPaneDropdown.interface"
 
-const MovieSelectionPaneActions: FC<MovieSelectionPaneActionsTypes> = ({ selectedMovie }) => {
+const MovieSelectionPaneDropdown: FC<MovieSelectionPaneDropdownTypes> = ({ selectedMovie }) => {
   const [playlists, setPlaylists] = useState<string[]>()
-  const [playlistName, setPlaylistName] = useState<string>("")
   const [options, setOptions] = useState<optionTypes[]>([])
-  const [isLoading, setIsLoading] = useState(false)
-  const [value, setValue] = useState<optionTypes | null>()
 
   const miscKeywords = ["Get Started", "Jump Back In", "Your Latest Search"]
   const favouriteSimilarKeywords = ["Favorite", "Favourite", "Favorites", "Favourites"]
@@ -43,7 +40,6 @@ const MovieSelectionPaneActions: FC<MovieSelectionPaneActionsTypes> = ({ selecte
   }
 
   const handleDropdownClick = (newValue: SingleValue<optionTypes>) => {
-    setValue(null)
     addToPlaylist(newValue ? newValue?.value : "", selectedMovie)
   }
 
@@ -53,19 +49,16 @@ const MovieSelectionPaneActions: FC<MovieSelectionPaneActionsTypes> = ({ selecte
         <div className="relative">
           <div className=" flex flex-col w-full">
             <CreatableSelect
-              isDisabled={isLoading}
               isValidNewOption={value => !isDuplicate(value) && !isReserved(value)}
-              isLoading={isLoading}
               noOptionsMessage={() => "Sorry, that name is a reserved keyword. Please select a different name to continue."}
               components={animatedComponents}
               onChange={newValue => handleDropdownClick(newValue as SingleValue<optionTypes>)}
               onCreateOption={handleNamePlaylist}
               createOptionPosition="first"
               options={[{ label: "Favourites", value: "Favourites" }, { label: "Watchlist", value: "Watchlist" }, ...options]}
-              value={value}
+              value={null}
               placeholder="Add to Playlist"
-              // TODO: rename
-              classNamePrefix={"dropdownRENAMEME"}
+              classNamePrefix="movie-selection-pane-dropdown"
               styles={{
                 control: (base, state) => ({
                   ...base,
@@ -130,4 +123,4 @@ const MovieSelectionPaneActions: FC<MovieSelectionPaneActionsTypes> = ({ selecte
   )
 }
 
-export default MovieSelectionPaneActions
+export default MovieSelectionPaneDropdown

@@ -7,7 +7,7 @@ import { HEADERS_ALLOW_ORIGIN } from "@/constants"
 import MovieSelectionPaneBackground from "./MovieSelectionPaneBackground"
 import MovieSelectionPanePoster from "./MovieSelectionPanePoster"
 import MovieSelectionPaneDetails from "./MovieSelectionPaneDetails"
-import MovieSelectionPaneActions from "./MovieSelectionPaneActions"
+import MovieSelectionPaneDropdown from "./MovieSelectionPaneDropdown"
 import { MovieSelectionPaneTypes } from "./types/MovieSelectionPane.interface"
 
 const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) => {
@@ -98,7 +98,7 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) =>
             }}
           />
 
-          {selectedMovie && <MovieSelectionPaneActions {...{ selectedMovie }} />}
+          {selectedMovie && <MovieSelectionPaneDropdown {...{ selectedMovie }} />}
 
           <div className="flex-col h-[600px] p-5 grid grid-rows-3 w-[70%]">
             <div />

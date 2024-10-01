@@ -150,7 +150,6 @@ body {
   transform: none;
 }
 
-/* TODO: rename */
-.dropdownRENAMEME__control {
+.movie-selection-pane-dropdown__control {
   cursor: pointer !important;
 }
