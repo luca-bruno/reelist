@@ -15,7 +15,7 @@ const getCountryEmoji = (countryCode: string): JSX.Element | string => {
       alt={`Flag of ${uppercasedCode}`}
       width={30}
       height={29}
-      style={{ objectFit: "contain" }}
+      style={{ objectFit: "contain", userSelect: "none" }}
     />
   )
 

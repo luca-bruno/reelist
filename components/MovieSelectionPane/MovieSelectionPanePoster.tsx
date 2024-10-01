@@ -19,7 +19,7 @@ const MovieSelectionPanePoster: FC<MovieSelectionPanePosterTypes> = ({
   >
     {/* TODO: img fallbacks */}
     <Image
-      className="rounded-xl slide_fade_from_left"
+      className="rounded-xl select-none slide_fade_from_left"
       // src={hasReturnedError ? "" : iconLarge || iconSmall || ""}
       src={`${TMDB_IMAGE_PATH}${poster}`}
       alt={`${title || "Movie"} poster`}

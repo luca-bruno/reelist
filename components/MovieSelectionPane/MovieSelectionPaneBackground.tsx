@@ -15,7 +15,7 @@ const MovieSelectionPaneBackground: FC<MovieSelectionPaneBackgroundTypes> = ({
 }) => (
   <>
     <Image
-      className="filter z-0 mobileXL:block hidden"
+      className="select-none filter z-0 mobileXL:block hidden"
       // TODO: img fallbacks
       // src={hasBackgroundImageReturnedError ? fallbackPlaceholder : background || ""}
       src={`${TMDB_IMAGE_PATH}${background}`}
@@ -28,7 +28,7 @@ const MovieSelectionPaneBackground: FC<MovieSelectionPaneBackgroundTypes> = ({
       draggable={false}
     />
     <Image
-      className="filter z-0 mobileXL:hidden block"
+      className="select-none filter z-0 mobileXL:hidden block"
       // TODO: img fallbacks
       // src={hasReturnedError ? fallbackPlaceholder : iconLarge || iconSmall || ""}
       src={`${TMDB_IMAGE_PATH}${background}`}

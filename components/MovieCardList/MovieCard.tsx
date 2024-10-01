@@ -63,7 +63,7 @@ const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, setSelectedMovieI
       onClick={() => setSelectedMovieId(id)}
     >
       <Image
-        className={`rounded-xl ${transitionStyles}
+        className={`rounded-xl select-none ${transitionStyles}
               ${!isDisplayingGridView ? "my-auto h-full w-auto" : "hover:scale-105"}
               ${hasImageLoaded ? "opacity-100" : "opacity-0"} 
               ${onCurrentId(id) ? "scale-105" : ""}
