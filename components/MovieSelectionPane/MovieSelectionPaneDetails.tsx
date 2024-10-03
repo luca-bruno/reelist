@@ -81,7 +81,7 @@ const MovieSelectionPaneDetails: FC<MovieSelectionPaneDetailsTypes> = ({
     boxSizing: "border-box"
   }
 
-  const separator = <span className="opacity-20 font-semibold px-4">|</span>
+  const separator = <span className="opacity-20 font-semibold px-4 select-none">|</span>
 
   return (
     <>

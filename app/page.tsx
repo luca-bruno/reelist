@@ -29,7 +29,7 @@ const HomePage = async () => {
           </h2>
           <h2 className="text-accent-500 text-xl m-10 mt-0">
             Reelist is your personal movie hub - discover new movies, create personalised lists, find where movies are streaming and show off your
-            interests - powered by the TMDb API.
+            interests - powered by the TMDb and JustWatch APIs.
           </h2>
         </div>
       </div>

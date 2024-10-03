@@ -11,7 +11,7 @@ config.autoAddCss = false
 
 export const metadata: Metadata = {
   title: "Reelist",
-  description: "Your personal movie hub - discover, personalise, show off. Powered by the TMDb API."
+  description: "Your personal movie hub - discover, personalise, show off. Powered by the TMDb and JustWatch APIs."
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

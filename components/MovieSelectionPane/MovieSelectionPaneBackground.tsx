@@ -15,6 +15,7 @@ const MovieSelectionPaneBackground: FC<MovieSelectionPaneBackgroundTypes> = ({
 }) => (
   <>
     <Image
+      unoptimized
       className="select-none filter z-0 mobileXL:block hidden"
       // TODO: img fallbacks
       // src={hasBackgroundImageReturnedError ? fallbackPlaceholder : background || ""}
@@ -28,6 +29,7 @@ const MovieSelectionPaneBackground: FC<MovieSelectionPaneBackgroundTypes> = ({
       draggable={false}
     />
     <Image
+      unoptimized
       className="select-none filter z-0 mobileXL:hidden block"
       // TODO: img fallbacks
       // src={hasReturnedError ? fallbackPlaceholder : iconLarge || iconSmall || ""}
