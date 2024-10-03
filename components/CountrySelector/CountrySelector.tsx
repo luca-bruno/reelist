@@ -15,10 +15,6 @@ const atkinsonHyperlegible = Atkinson_Hyperlegible({
 })
 
 const CountrySelector = () => {
-  // const [countries, setCountries] = useState([
-  //     { label: "🇲🇹 Malta", value: "Malta" },
-  //     { label: "🇫🇮 Finland", value: "Finland" }
-  //   ])
   const [value, setValue] = useState<{ label: string; value: string }>()
 
   const [countries, setCountries] = useState<{ label: string; value: string }[]>()
@@ -27,7 +23,7 @@ const CountrySelector = () => {
   useEffect(() => {
     const loadClientCountry = async () => {
       const clientCountryData = (await fetchClientCountry()) as { country_name: string }
-      setClientCountry(clientCountryData?.country_name as string)
+      setClientCountry(clientCountryData.country_name as string)
     }
 
     loadClientCountry()
@@ -57,23 +53,12 @@ const CountrySelector = () => {
     }
   }
 
-  //   useEffect(() => {
-  //     if (watchProviders) {
-  //       const countries = Object.keys(watchProviders.results).map(y => ({
-  //         label: `${getCountryEmoji(y)} ${getCountryNameFromEmoji(getCountryEmoji(y) as string)}`,
-  //         value: y
-  //       }))
-
-  //       setCountries(countries)
-  //     }
-  //   }, [watchProviders])
-
   useEffect(() => {
     if (countries && countries?.length > 0) {
       const prioritizedCountry =
         countries?.find(country => country.value === clientCountry) ||
-        countries?.find(country => country.value === "GB") ||
-        countries?.find(country => country.value === "US") ||
+        countries?.find(country => country.value === "United Kingdom") ||
+        countries?.find(country => country.value === "United States") ||
         countries?.[0]
 
       setValue(prioritizedCountry)

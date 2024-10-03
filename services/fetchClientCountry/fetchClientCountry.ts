@@ -1,7 +1,7 @@
 import { moviesTypes } from "@/types/movies.interface"
 
 const fetchClientCountry = async () => {
-  const url = "https://ipapi.co/json/"
+  const url = "/api/country"
 
   const options = {
     method: "GET",
