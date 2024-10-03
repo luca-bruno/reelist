@@ -26,8 +26,8 @@ const CountrySelector = () => {
 
   useEffect(() => {
     const loadClientCountry = async () => {
-      const clientCountryData = (await fetchClientCountry()) as { ip: string; country: string }
-      setClientCountry(clientCountryData?.country as string)
+      const clientCountryData = (await fetchClientCountry()) as { country_name: string }
+      setClientCountry(clientCountryData?.country_name as string)
     }
 
     loadClientCountry()
