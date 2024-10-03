@@ -7,6 +7,7 @@ interface MovieSelectionPanePosterTypes {
   hasReturnedError: boolean
   setHasReturnedError: (arg0: boolean) => void
   poster?: movieTypes["poster_path"]
+  watchProviders?: movieTypes["watch/providers"]
 }
 
 export default MovieSelectionPanePosterTypes

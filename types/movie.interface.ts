@@ -58,6 +58,24 @@ export interface crewTypes {
   job: string
 }
 
+export interface providerTypes {
+  logo_path: string
+  provider_id: number
+  provider_name: string
+  display_priority: number
+}
+
+export interface watchProvidersTypes {
+  results: {
+    [countryCode: string]: {
+      buy?: providerTypes[]
+      link?: string
+      rent?: providerTypes[]
+      flatrate?: providerTypes[]
+    }
+  }
+}
+
 export interface movieTypes {
   adult: boolean
   backdrop_path: string
@@ -90,4 +108,5 @@ export interface movieTypes {
     cast: (creditTypes & castTypes)[]
     crew: (creditTypes & crewTypes)[]
   }
+  "watch/providers": watchProvidersTypes
 }

@@ -15,8 +15,7 @@ const fetchMovie = async (searchTerm?: string) => {
     }
   }
 
-  const url = `${baseUrl}${searchQuery}?api_key=${process.env.TMDB_API_KEY}&append_to_response=credits,release_dates`
-
+  const url = `${baseUrl}${searchQuery}?api_key=${process.env.TMDB_API_KEY}&append_to_response=credits,release_dates,watch/providers`
   try {
     const response = await fetch(url, options)
     const data = (await response.json()) as moviesTypes
