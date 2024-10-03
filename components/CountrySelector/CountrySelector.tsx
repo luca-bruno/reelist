@@ -7,6 +7,7 @@ import { Atkinson_Hyperlegible } from "next/font/google"
 import fetchCountries from "@/services/fetchCountries/fetchCountries"
 import { getCountryEmoji } from "@/helpers"
 import fetchClientCountry from "@/services/fetchClientCountry/fetchClientCountry"
+import { IS_BROWSER } from "@/constants"
 import { optionTypes } from "../MovieSelectionPane/types/MovieSelectionPaneDropdown.interface"
 
 const atkinsonHyperlegible = Atkinson_Hyperlegible({
@@ -16,18 +17,28 @@ const atkinsonHyperlegible = Atkinson_Hyperlegible({
 
 const CountrySelector = () => {
   const [isLoading, setIsLoading] = useState(true)
-  const [value, setValue] = useState<{ label: string; value: string }>()
+  const [value, setValue] = useState<{ label: string; value: {name: string, code: string} }>()
 
-  const [countries, setCountries] = useState<{ label: string; value: string }[]>()
-  const [clientCountry, setClientCountry] = useState<string>()
+  const [countries, setCountries] = useState<{ label: string; value: {name: string, code: string} }[]>()
+  const [clientCountry, setClientCountry] = useState<{name: string, code: string}>()
 
   useEffect(() => {
     const loadClientCountry = async () => {
-      const clientCountryData = (await fetchClientCountry()) as { country_name: string }
-      setClientCountry(clientCountryData.country_name as string)
+      const clientCountryData = (await fetchClientCountry()) as { country_name: string; country_code: string }
+      setClientCountry({name: clientCountryData.country_name, code: clientCountryData.country_code})
+      localStorage.setItem("client-country", JSON.stringify({name: clientCountryData.country_name, code: clientCountryData.country_code}))
     }
 
-    loadClientCountry()
+    const storedClientCountry = JSON.parse(localStorage.getItem("client-country") as string)
+    if (IS_BROWSER && storedClientCountry) {
+      setClientCountry(storedClientCountry)
+      setValue({
+        label: `${getCountryEmoji(storedClientCountry.code)} ${storedClientCountry.name}`,
+        value: {name: storedClientCountry.name, code: storedClientCountry.code}
+      })
+    } else {
+      loadClientCountry()
+    }
   }, [])
 
   useEffect(() => {
@@ -38,9 +49,9 @@ const CountrySelector = () => {
       const formattedCountries = countryData
         ?.map(country => ({
           label: `${getCountryEmoji(country.cca2)} ${country.name.common}`,
-          value: country.name.common
+          value: {name: country.name.common, code: country.cca2}
         }))
-        .sort((a, b) => a.value.localeCompare(b.value))
+        .sort((a, b) => a.value.name.localeCompare(b.value.name))
 
       setCountries(formattedCountries)
     }
@@ -48,18 +59,19 @@ const CountrySelector = () => {
     loadCountries()
   }, [])
 
-  const handleDropdownClick = (newValue: SingleValue<optionTypes>) => {
+  const handleDropdownClick = (newValue: SingleValue<optionTypes<{name: string, code: string}>>) => {
     if (newValue) {
       setValue(newValue)
+      localStorage.setItem("client-country", JSON.stringify({name: newValue.value?.name , code: newValue.value?.code}))
     }
   }
 
   useEffect(() => {
     if (countries && countries?.length > 0) {
       const prioritizedCountry =
-        countries?.find(country => country.value === clientCountry) ||
-        countries?.find(country => country.value === "United Kingdom") ||
-        countries?.find(country => country.value === "United States") ||
+        countries?.find(country => country.value.name === clientCountry?.name) ||
+        countries?.find(country => country.value.name === "United Kingdom") ||
+        countries?.find(country => country.value.name === "United States") ||
         countries?.[0]
 
       setIsLoading(false)
@@ -75,7 +87,7 @@ const CountrySelector = () => {
       isSearchable={false}
       className={`px-3 mt-2 ${atkinsonHyperlegible.className}`}
       components={animatedComponents}
-      onChange={newValue => handleDropdownClick(newValue as SingleValue<optionTypes>)}
+      onChange={newValue => handleDropdownClick(newValue as SingleValue<optionTypes<{name: string, code: string}>>)}
       options={countries}
       value={value}
       isLoading={isLoading}
@@ -146,6 +158,10 @@ const CountrySelector = () => {
           "&:hover": {
             ...whiteColourStyle
           }
+        }),
+        loadingIndicator: base => ({
+          ...base,
+          ...whiteColourStyle
         })
       }}
     />

@@ -8,6 +8,7 @@ import { CarouselItemTypes } from "./types/Carousel.interface"
 const CarouselItem: FC<CarouselItemTypes> = ({ id, posterPath, title }) => (
   <Link href="browse/[id]" as={`browse/${id}`} legacyBehavior>
     <Image
+      unoptimized
       id={id as unknown as string}
       className={`rounded-xl ${transitionStyles} hover:scale-105 cursor-pointer m-3 select-none`}
       // TODO: add image fallbacks

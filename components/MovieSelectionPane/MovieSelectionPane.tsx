@@ -60,7 +60,8 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) =>
     runtime,
     spoken_languages: spokenLanguages,
     tagline,
-    title
+    title,
+    "watch/providers": watchProviders
   } = selectedMovie || {}
 
   useEffect(() => {
@@ -94,7 +95,8 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) =>
               setHasImageLoaded,
               hasReturnedError,
               setHasReturnedError,
-              poster
+              poster,
+              watchProviders
             }}
           />
 

@@ -8,7 +8,7 @@ import { MovieSelectionPaneDropdownTypes, optionTypes } from "./types/MovieSelec
 
 const MovieSelectionPaneDropdown: FC<MovieSelectionPaneDropdownTypes> = ({ selectedMovie }) => {
   const [playlists, setPlaylists] = useState<string[]>()
-  const [options, setOptions] = useState<optionTypes[]>([])
+  const [options, setOptions] = useState<optionTypes<string>[]>([])
 
   const miscKeywords = ["Get Started", "Jump Back In", "Your Latest Search"]
   const favouriteSimilarKeywords = ["Favorite", "Favourite", "Favorites", "Favourites"]
@@ -39,7 +39,7 @@ const MovieSelectionPaneDropdown: FC<MovieSelectionPaneDropdownTypes> = ({ selec
     createNewPlaylist(text, selectedMovie)
   }
 
-  const handleDropdownClick = (newValue: SingleValue<optionTypes>) => {
+  const handleDropdownClick = (newValue: SingleValue<optionTypes<string>>) => {
     addToPlaylist(newValue ? newValue?.value : "", selectedMovie)
   }
 
@@ -52,7 +52,7 @@ const MovieSelectionPaneDropdown: FC<MovieSelectionPaneDropdownTypes> = ({ selec
               isValidNewOption={value => !isDuplicate(value) && !isReserved(value)}
               noOptionsMessage={() => "Sorry, that name is a reserved keyword. Please select a different name to continue."}
               components={animatedComponents}
-              onChange={newValue => handleDropdownClick(newValue as SingleValue<optionTypes>)}
+              onChange={newValue => handleDropdownClick(newValue as SingleValue<optionTypes<string>>)}
               onCreateOption={handleNamePlaylist}
               createOptionPosition="first"
               options={[{ label: "Favourites", value: "Favourites" }, { label: "Watchlist", value: "Watchlist" }, ...options]}
@@ -80,7 +80,7 @@ const MovieSelectionPaneDropdown: FC<MovieSelectionPaneDropdownTypes> = ({ selec
                 }),
                 menuList: base => ({
                   ...base,
-                  height: "130px",
+                  maxHeight: "130px",
                   paddingBottom: "10px"
                 }),
                 option: base => ({

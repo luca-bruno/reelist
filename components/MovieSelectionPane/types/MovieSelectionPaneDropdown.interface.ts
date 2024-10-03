@@ -1,8 +1,8 @@
 import { movieTypes } from "@/types/movie.interface"
 
-export interface optionTypes {
+export interface optionTypes<T> {
   label: string
-  value: string
+  value: T
 }
 
 export interface MovieSelectionPaneDropdownTypes {
