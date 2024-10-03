@@ -16,7 +16,7 @@ const MovieSelectionPaneProviders: FC<MovieSelectionPaneProviders> = ({ watchPro
   const animatedComponents = makeAnimated()
   const whiteColourStyle = { color: "white" }
 
-  const [clientCountry, setClientCountry] = useState<{name: string; code: string}>()
+  const [clientCountry, setClientCountry] = useState<{ name: string; code: string }>()
   const [providerPlatforms, setProviderPlatforms] = useState<{ label: string; value: string }[]>()
 
   const [methodValue, setMethodValue] = useState<{ label: string; value: string }>()
@@ -34,7 +34,6 @@ const MovieSelectionPaneProviders: FC<MovieSelectionPaneProviders> = ({ watchPro
       const storedClientCountry = localStorage.getItem("client-country") as string
       setClientCountry(JSON.parse(storedClientCountry))
     }
-
   }, [])
 
   useEffect(() => {
@@ -143,17 +142,10 @@ const MovieSelectionPaneProviders: FC<MovieSelectionPaneProviders> = ({ watchPro
         className={`grid grid-cols-5 h-20 mb-2 
     ${watchProviders?.results && Object.keys(watchProviders.results).length > 0 ? "opacity-100" : "opacity-0 pointer-events-none"}`}
       >
-        {
-          methodValue?.value?.toLowerCase() &&
+        {methodValue?.value?.toLowerCase() &&
           countryProviders?.[methodValue?.value as "flatrate" | "rent" | "buy"]?.map(
             ({ provider_id: providerId, logo_path: logoPath, provider_name: providerName }: providerTypes) => (
-              <Link
-                key={providerId}
-                href={countryProviders?.link || ""}
-                target="_blank"
-                rel="noopener noreferrer"
-                legacyBehavior
-              >
+              <Link key={providerId} href={countryProviders?.link || ""} target="_blank" rel="noopener noreferrer" legacyBehavior>
                 <div className="flex justify-center items-center h-full">
                   <Image
                     unoptimized

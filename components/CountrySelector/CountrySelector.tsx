@@ -17,16 +17,16 @@ const atkinsonHyperlegible = Atkinson_Hyperlegible({
 
 const CountrySelector = () => {
   const [isLoading, setIsLoading] = useState(true)
-  const [value, setValue] = useState<{ label: string; value: {name: string, code: string} }>()
+  const [value, setValue] = useState<{ label: string; value: { name: string; code: string } }>()
 
-  const [countries, setCountries] = useState<{ label: string; value: {name: string, code: string} }[]>()
-  const [clientCountry, setClientCountry] = useState<{name: string, code: string}>()
+  const [countries, setCountries] = useState<{ label: string; value: { name: string; code: string } }[]>()
+  const [clientCountry, setClientCountry] = useState<{ name: string; code: string }>()
 
   useEffect(() => {
     const loadClientCountry = async () => {
       const clientCountryData = (await fetchClientCountry()) as { country_name: string; country_code: string }
-      setClientCountry({name: clientCountryData.country_name, code: clientCountryData.country_code})
-      localStorage.setItem("client-country", JSON.stringify({name: clientCountryData.country_name, code: clientCountryData.country_code}))
+      setClientCountry({ name: clientCountryData.country_name, code: clientCountryData.country_code })
+      localStorage.setItem("client-country", JSON.stringify({ name: clientCountryData.country_name, code: clientCountryData.country_code }))
     }
 
     const storedClientCountry = JSON.parse(localStorage.getItem("client-country") as string)
@@ -34,7 +34,7 @@ const CountrySelector = () => {
       setClientCountry(storedClientCountry)
       setValue({
         label: `${getCountryEmoji(storedClientCountry.code)} ${storedClientCountry.name}`,
-        value: {name: storedClientCountry.name, code: storedClientCountry.code}
+        value: { name: storedClientCountry.name, code: storedClientCountry.code }
       })
     } else {
       loadClientCountry()
@@ -49,7 +49,7 @@ const CountrySelector = () => {
       const formattedCountries = countryData
         ?.map(country => ({
           label: `${getCountryEmoji(country.cca2)} ${country.name.common}`,
-          value: {name: country.name.common, code: country.cca2}
+          value: { name: country.name.common, code: country.cca2 }
         }))
         .sort((a, b) => a.value.name.localeCompare(b.value.name))
 
@@ -59,10 +59,10 @@ const CountrySelector = () => {
     loadCountries()
   }, [])
 
-  const handleDropdownClick = (newValue: SingleValue<optionTypes<{name: string, code: string}>>) => {
+  const handleDropdownClick = (newValue: SingleValue<optionTypes<{ name: string; code: string }>>) => {
     if (newValue) {
       setValue(newValue)
-      localStorage.setItem("client-country", JSON.stringify({name: newValue.value?.name , code: newValue.value?.code}))
+      localStorage.setItem("client-country", JSON.stringify({ name: newValue.value?.name, code: newValue.value?.code }))
     }
   }
 
@@ -87,7 +87,7 @@ const CountrySelector = () => {
       isSearchable={false}
       className={`px-3 mt-2 ${atkinsonHyperlegible.className}`}
       components={animatedComponents}
-      onChange={newValue => handleDropdownClick(newValue as SingleValue<optionTypes<{name: string, code: string}>>)}
+      onChange={newValue => handleDropdownClick(newValue as SingleValue<optionTypes<{ name: string; code: string }>>)}
       options={countries}
       value={value}
       isLoading={isLoading}
