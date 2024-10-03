@@ -15,6 +15,7 @@ const atkinsonHyperlegible = Atkinson_Hyperlegible({
 })
 
 const CountrySelector = () => {
+  const [isLoading, setIsLoading] = useState(true)
   const [value, setValue] = useState<{ label: string; value: string }>()
 
   const [countries, setCountries] = useState<{ label: string; value: string }[]>()
@@ -61,6 +62,8 @@ const CountrySelector = () => {
         countries?.find(country => country.value === "United States") ||
         countries?.[0]
 
+      setIsLoading(false)
+
       setValue(prioritizedCountry)
     }
   }, [clientCountry, countries])
@@ -68,76 +71,6 @@ const CountrySelector = () => {
   const animatedComponents = makeAnimated()
   const whiteColourStyle = { color: "white" }
   return (
-    // <Select
-    //   isSearchable={false}
-    //   className={`px-3 mt-2 ${atkinsonHyperlegible.className}`}
-    //   components={animatedComponents}
-    //   onChange={newValue => handleDropdownClick(newValue as SingleValue<optionTypes>)}
-    //   options={countries}
-    //   value={value}
-    //   classNamePrefix="movie-selection-pane-dropdown"
-    //   styles={{
-    //     control: (base, state) => ({
-    //       ...base,
-    //       backgroundColor: state.isFocused ? "white" : "",
-    //       borderRadius: "0.75rem",
-    //       border: "none",
-    //       opacity: state.isFocused ? 1 : 0.8,
-    //       boxShadow: state.isFocused ? "0 0 0 2px rgba(251, 146, 60, 0.5)" : "none",
-    //       "&:hover": {
-    //         opacity: 1,
-    //         backgroundColor: "#E64833",
-    //         color: "white"
-    //       }
-    //     }),
-    //     menu: base => ({
-    //       ...base,
-    //       marginTop: "-2px",
-    //       zIndex: "20",
-    //       backgroundColor: "#E64833",
-    //       borderRadius: "0.75rem",
-    //       boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"
-    //     }),
-    //     menuList: base => ({
-    //       ...base,
-    //       maxHeight: "130px",
-    //       paddingBottom: "10px"
-    //     }),
-    //     option: base => ({
-    //       ...base,
-    //       cursor: "pointer",
-    //       borderRadius: "0.5rem",
-    //       backgroundColor: "#E64833",
-    //       ...whiteColourStyle,
-    //       "&:hover": {
-    //         backgroundColor: "#ec7b69"
-    //       }
-    //     }),
-    //     placeholder: base => ({
-    //       ...base,
-    //       ...whiteColourStyle
-    //     }),
-    //     input: base => ({
-    //       ...base,
-    //       ...whiteColourStyle
-    //     }),
-    //     noOptionsMessage: base => ({
-    //       ...base,
-    //       ...whiteColourStyle
-    //     }),
-    //     dropdownIndicator: (base, state) => ({
-    //       ...base,
-    //        color: "#E64833",
-    //       transition: "transform 0.3s ease",
-    //       transform: state.selectProps.menuIsOpen ? "rotate(180deg)" : "rotate(0deg)"
-    //     }),
-    //     singleValue: base => ({
-    //         ...base,
-    //         color: "#E64833"
-    //     })
-    //   }}
-    // />
-
     <Select
       isSearchable={false}
       className={`px-3 mt-2 ${atkinsonHyperlegible.className}`}
@@ -145,6 +78,8 @@ const CountrySelector = () => {
       onChange={newValue => handleDropdownClick(newValue as SingleValue<optionTypes>)}
       options={countries}
       value={value}
+      isLoading={isLoading}
+      placeholder=""
       classNamePrefix="movie-selection-pane-dropdown"
       styles={{
         control: (base, state) => ({
@@ -171,7 +106,8 @@ const CountrySelector = () => {
         }),
         menuList: base => ({
           ...base,
-          maxHeight: "130px"
+          borderRadius: "0.75rem",
+          paddingBottom: "10px"
         }),
         option: base => ({
           ...base,
