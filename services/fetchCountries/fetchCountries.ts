@@ -1,20 +1,24 @@
-import { moviesTypes } from "@/types/movies.interface"
+import { countriesTypes } from "@/types/movie.interface"
 
+// NOTE: For fetching from server components
 const fetchCountries = async () => {
-  const url = "https://restcountries.com/v3.1/all?fields=name,cca2"
+  const baseUrl = "https://api.themoviedb.org/3/"
 
   const options = {
     method: "GET",
     headers: {
       accept: "application/json",
       "Access-Control-Allow-Origin": "*",
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.TMDB_BEARER_TOKEN}`
     }
   }
 
+  const url = `${baseUrl}configuration/countries?api_key=${process.env.TMDB_API_KEY}`
+
   try {
     const response = await fetch(url, options)
-    const data = (await response.json()) as moviesTypes
+    const data = (await response.json()) as countriesTypes
 
     return data
   } catch (error) {

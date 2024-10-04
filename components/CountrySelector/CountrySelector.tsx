@@ -4,11 +4,11 @@ import { useEffect, useState } from "react"
 import makeAnimated from "react-select/animated"
 import Select, { SingleValue } from "react-select"
 import { Atkinson_Hyperlegible } from "next/font/google"
-import fetchCountries from "@/services/fetchCountries/fetchCountries"
 import { getCountryEmoji } from "@/helpers"
 import fetchClientCountry from "@/services/fetchClientCountry/fetchClientCountry"
-import { IS_BROWSER } from "@/constants"
-import { optionTypes } from "../MovieSelectionPane/types/MovieSelectionPaneDropdown.interface"
+import { HEADERS_ALLOW_ORIGIN, IS_BROWSER } from "@/constants"
+import { optionTypes } from '../MovieSelectionPane/types/MovieSelectionPaneDropdown.interface';
+import { countriesTypes } from "@/types/movie.interface"
 
 const atkinsonHyperlegible = Atkinson_Hyperlegible({
   subsets: ["latin"],
@@ -43,13 +43,14 @@ const CountrySelector = () => {
 
   useEffect(() => {
     const loadCountries = async () => {
-      const countryData = (await fetchCountries()) as { name: { common: string }; cca2: string }[]
+      const countriesResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/countries`, HEADERS_ALLOW_ORIGIN)
+      const countriesResponseData = await countriesResponse.json()
 
       // Mapping the country data to the required format
-      const formattedCountries = countryData
-        ?.map(country => ({
-          label: `${getCountryEmoji(country.cca2)} ${country.name.common}`,
-          value: { name: country.name.common, code: country.cca2 }
+      const formattedCountries = countriesResponseData
+        ?.map((country: countriesTypes) => ({
+          label: `${getCountryEmoji(country.iso_3166_1)} ${country.native_name}`,
+          value: { name: country.native_name, code: country.iso_3166_1 }
         }))
         .sort((a, b) => a.value.name.localeCompare(b.value.name))
 
@@ -67,6 +68,7 @@ const CountrySelector = () => {
   }
 
   useEffect(() => {
+    console.log(clientCountry)
     if (countries && countries?.length > 0) {
       const prioritizedCountry =
         countries?.find(country => country.value.name === clientCountry?.name) ||

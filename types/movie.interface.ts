@@ -35,6 +35,12 @@ export interface spokenLanguageTypes {
   name: string
 }
 
+export interface countriesTypes {
+  iso_3166_1: string
+  english_name: string
+  native_name: string
+}
+
 export interface creditTypes {
   adult: boolean
   gender: number
