@@ -23,6 +23,9 @@ const CountrySelector = () => {
   const [countries, setCountries] = useState<{ label: string; value: { name: string; code: string } }[]>()
   const [clientCountry, setClientCountry] = useState<{ name: string; code: string }>()
 
+  const animatedComponents = makeAnimated()
+  const whiteColourStyle = { color: "white" }
+
   const { data: countriesResponseData } = useCountries()
 
   useEffect(() => {
@@ -84,8 +87,6 @@ const CountrySelector = () => {
     }
   }, [clientCountry, countries])
 
-  const animatedComponents = makeAnimated()
-  const whiteColourStyle = { color: "white" }
   return (
     <Select
       isSearchable={false}

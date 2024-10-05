@@ -1,51 +1,52 @@
-import { useEffect, useState } from "react"
-import useCountries from "@/hooks/useCountries/useCountries"
+import { HEADERS_ALLOW_ORIGIN } from "@/constants"
+import { capitalise } from "@/helpers"
+import React, { useEffect, useState } from "react"
 import Select from "react-select"
-import { getCountryEmoji } from "@/helpers"
-import { countriesTypes } from "@/types/movie.interface"
 import makeAnimated from "react-select/animated"
 
-const CountryFilterSelector = ({ setFilter }) => {
+const LanguageFilterSelector = ({ setFilter }) => {
   const [values, setValues] = useState()
 
   const animatedComponents = makeAnimated()
   const whiteColourStyle = { color: "white" }
 
-  const { data: countriesResponseData } = useCountries()
-
   useEffect(() => {
-    const formattedCountries = countriesResponseData
-      ?.map((country: countriesTypes) => ({
-        label: (
-          <span className="flex">
-            {getCountryEmoji({ countryCode: country.iso_3166_1 }) || ""}
-            {` ${country.native_name}`}
-          </span>
-        ),
-        value: country.iso_3166_1,
-        nativeName: country.native_name, // Adding original name for search
-        englishName: country.english_name, // Adding English name for search
-        isoCode: country.iso_3166_1 // Adding ISO code for search
+    const loadGenres = async () => {
+      const languagesResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/languages`, HEADERS_ALLOW_ORIGIN)
+      const languagesResponseData = await languagesResponse.json()
+
+      // NOTE: to avoid rendering incomplete/WIP labels (eg. ??????)
+      const formatted = languagesResponseData.map(x => ({
+        label: x.name && !x.name.includes("?") ? capitalise(x.name) : capitalise(x.english_name),
+        value: x.iso_639_1,
+        nativeName: capitalise(x.name), // Adding original name for search
+        englishName: capitalise(x.english_name), // Adding English name for search
+        isoCode: x.iso_639_1 // Adding ISO code for search
       }))
-      .sort((a, b) => a.nativeName?.localeCompare(b.nativeName))
 
-    setValues(formattedCountries)
-  }, [countriesResponseData])
+      console.log(formatted)
+      setValues(formatted)
+    }
 
-  const handleCountryChange = selectedOption => {
+    loadGenres()
+  }, [])
+
+  // Handle change event when a year is selected
+  const handleLanguageChange = selectedOption => {
+    console.log(selectedOption)
     const extractValues = selectedOption.map(option => option.value)
 
-    setFilter(prev => ({ ...prev, origin_country: extractValues }))
+    setFilter(prev => ({ ...prev, original_language: extractValues }))
   }
 
   const filterOption = (option, inputValue) => {
-    // NOTE: Searchable by country code, native name or English-translated name
+    // NOTE: Searchable by language code, native name or English-translated name
     const { label, data } = option
     const searchTerm = inputValue.toLowerCase()
 
     // Use optional chaining and fallback to empty string to prevent errors
     return (
-      label.toString().toLowerCase().includes(searchTerm) ||
+      label.toLowerCase().includes(searchTerm) ||
       (data.nativeName?.toLowerCase() || "").includes(searchTerm) ||
       (data.englishName?.toLowerCase() || "").includes(searchTerm) ||
       (data.isoCode?.toLowerCase() || "").includes(searchTerm)
@@ -58,10 +59,10 @@ const CountryFilterSelector = ({ setFilter }) => {
         isMulti
         isSearchable
         components={animatedComponents}
-        onChange={selectedOption => handleCountryChange(selectedOption)}
+        onChange={selectedOption => handleLanguageChange(selectedOption)}
         options={values}
         // isLoading={isLoading}
-        placeholder="🔎 Country(ies)"
+        placeholder="🔎 Language(s)"
         filterOption={filterOption}
         classNamePrefix="movie-selection-pane-dropdown"
         styles={{
@@ -141,4 +142,4 @@ const CountryFilterSelector = ({ setFilter }) => {
   )
 }
 
-export default CountryFilterSelector
+export default LanguageFilterSelector

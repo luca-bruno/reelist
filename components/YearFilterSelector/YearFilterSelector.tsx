@@ -1,68 +1,40 @@
-import { useEffect, useState } from "react"
-import useCountries from "@/hooks/useCountries/useCountries"
+import React from "react"
 import Select from "react-select"
-import { getCountryEmoji } from "@/helpers"
-import { countriesTypes } from "@/types/movie.interface"
 import makeAnimated from "react-select/animated"
 
-const CountryFilterSelector = ({ setFilter }) => {
-  const [values, setValues] = useState()
+// Utility function to generate an array of years
+const generateYears = (startYear, endYear) => {
+  const years = []
+  for (let year = startYear; year <= endYear; year++) {
+    years.push({ value: year, label: year })
+  }
+
+  years.sort((a, b) => b.value - a.value)
+  return years
+}
+
+const YearFilterSelector = ({ setFilter }) => {
+  // Generate years between 1888 and the current year
+  const currentYear = new Date().getFullYear()
+  const years = generateYears(1888, currentYear)
 
   const animatedComponents = makeAnimated()
   const whiteColourStyle = { color: "white" }
 
-  const { data: countriesResponseData } = useCountries()
-
-  useEffect(() => {
-    const formattedCountries = countriesResponseData
-      ?.map((country: countriesTypes) => ({
-        label: (
-          <span className="flex">
-            {getCountryEmoji({ countryCode: country.iso_3166_1 }) || ""}
-            {` ${country.native_name}`}
-          </span>
-        ),
-        value: country.iso_3166_1,
-        nativeName: country.native_name, // Adding original name for search
-        englishName: country.english_name, // Adding English name for search
-        isoCode: country.iso_3166_1 // Adding ISO code for search
-      }))
-      .sort((a, b) => a.nativeName?.localeCompare(b.nativeName))
-
-    setValues(formattedCountries)
-  }, [countriesResponseData])
-
-  const handleCountryChange = selectedOption => {
-    const extractValues = selectedOption.map(option => option.value)
-
-    setFilter(prev => ({ ...prev, origin_country: extractValues }))
-  }
-
-  const filterOption = (option, inputValue) => {
-    // NOTE: Searchable by country code, native name or English-translated name
-    const { label, data } = option
-    const searchTerm = inputValue.toLowerCase()
-
-    // Use optional chaining and fallback to empty string to prevent errors
-    return (
-      label.toString().toLowerCase().includes(searchTerm) ||
-      (data.nativeName?.toLowerCase() || "").includes(searchTerm) ||
-      (data.englishName?.toLowerCase() || "").includes(searchTerm) ||
-      (data.isoCode?.toLowerCase() || "").includes(searchTerm)
-    )
+  // Handle change event when a year is selected
+  const handleYearChange = selectedOption => {
+    console.log(`Selected year: ${selectedOption.value}`)
   }
 
   return (
     <div>
       <Select
-        isMulti
         isSearchable
         components={animatedComponents}
-        onChange={selectedOption => handleCountryChange(selectedOption)}
-        options={values}
+        onChange={selectedOption => setFilter(prev => ({ ...prev, year: selectedOption.value }))}
+        options={years}
         // isLoading={isLoading}
-        placeholder="🔎 Country(ies)"
-        filterOption={filterOption}
+        placeholder="🔎 Year"
         classNamePrefix="movie-selection-pane-dropdown"
         styles={{
           control: (base, state) => ({
@@ -141,4 +113,4 @@ const CountryFilterSelector = ({ setFilter }) => {
   )
 }
 
-export default CountryFilterSelector
+export default YearFilterSelector

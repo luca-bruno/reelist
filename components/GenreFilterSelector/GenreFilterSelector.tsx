@@ -1,55 +1,34 @@
-import { useEffect, useState } from "react"
-import useCountries from "@/hooks/useCountries/useCountries"
+import { HEADERS_ALLOW_ORIGIN } from "@/constants"
+import React, { useEffect, useState } from "react"
 import Select from "react-select"
-import { getCountryEmoji } from "@/helpers"
-import { countriesTypes } from "@/types/movie.interface"
 import makeAnimated from "react-select/animated"
 
-const CountryFilterSelector = ({ setFilter }) => {
-  const [values, setValues] = useState()
+const GenreFilterSelector = ({ setFilter }) => {
+  const [genres, setGenres] = useState()
 
   const animatedComponents = makeAnimated()
   const whiteColourStyle = { color: "white" }
 
-  const { data: countriesResponseData } = useCountries()
-
   useEffect(() => {
-    const formattedCountries = countriesResponseData
-      ?.map((country: countriesTypes) => ({
-        label: (
-          <span className="flex">
-            {getCountryEmoji({ countryCode: country.iso_3166_1 }) || ""}
-            {` ${country.native_name}`}
-          </span>
-        ),
-        value: country.iso_3166_1,
-        nativeName: country.native_name, // Adding original name for search
-        englishName: country.english_name, // Adding English name for search
-        isoCode: country.iso_3166_1 // Adding ISO code for search
-      }))
-      .sort((a, b) => a.nativeName?.localeCompare(b.nativeName))
+    const loadGenres = async () => {
+      const genresResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/genres`, HEADERS_ALLOW_ORIGIN)
+      const { genres: genreResponseData } = await genresResponse.json()
 
-    setValues(formattedCountries)
-  }, [countriesResponseData])
+      const formatted = genreResponseData.map(x => ({ label: x.name, value: x.id }))
 
-  const handleCountryChange = selectedOption => {
+      console.log(formatted)
+      setGenres(formatted)
+      // localStorage.setItem("client-country", JSON.stringify({ name: clientCountryData.country_name, code: clientCountryData.country_code }))
+    }
+
+    loadGenres()
+  }, [])
+
+  const handleGenreChange = selectedOption => {
     const extractValues = selectedOption.map(option => option.value)
 
-    setFilter(prev => ({ ...prev, origin_country: extractValues }))
-  }
-
-  const filterOption = (option, inputValue) => {
-    // NOTE: Searchable by country code, native name or English-translated name
-    const { label, data } = option
-    const searchTerm = inputValue.toLowerCase()
-
-    // Use optional chaining and fallback to empty string to prevent errors
-    return (
-      label.toString().toLowerCase().includes(searchTerm) ||
-      (data.nativeName?.toLowerCase() || "").includes(searchTerm) ||
-      (data.englishName?.toLowerCase() || "").includes(searchTerm) ||
-      (data.isoCode?.toLowerCase() || "").includes(searchTerm)
-    )
+    setFilter(prev => ({ ...prev, genres: extractValues }))
+    console.log(`Selected genres: ${extractValues}`)
   }
 
   return (
@@ -58,11 +37,10 @@ const CountryFilterSelector = ({ setFilter }) => {
         isMulti
         isSearchable
         components={animatedComponents}
-        onChange={selectedOption => handleCountryChange(selectedOption)}
-        options={values}
+        onChange={selectedOption => handleGenreChange(selectedOption)}
+        options={genres}
         // isLoading={isLoading}
-        placeholder="🔎 Country(ies)"
-        filterOption={filterOption}
+        placeholder="🔎 Genre(s)"
         classNamePrefix="movie-selection-pane-dropdown"
         styles={{
           control: (base, state) => ({
@@ -141,4 +119,4 @@ const CountryFilterSelector = ({ setFilter }) => {
   )
 }
 
-export default CountryFilterSelector
+export default GenreFilterSelector
