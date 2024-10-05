@@ -23,6 +23,8 @@ const CountrySelector = () => {
   const [countries, setCountries] = useState<{ label: string; value: { name: string; code: string } }[]>()
   const [clientCountry, setClientCountry] = useState<{ name: string; code: string }>()
 
+  const { data: countriesResponseData } = useCountries()
+
   useEffect(() => {
     const loadClientCountry = async () => {
       const clientCountryData = (await fetchClientCountry()) as { country_name: string; country_code: string }
@@ -34,7 +36,7 @@ const CountrySelector = () => {
     if (IS_BROWSER && storedClientCountry) {
       setClientCountry(storedClientCountry)
       setValue({
-        label: `${getCountryEmoji(storedClientCountry.code)} ${storedClientCountry.name}`,
+        label: `${getCountryEmoji({ countryCode: storedClientCountry.code })} ${storedClientCountry.name}`,
         value: { name: storedClientCountry.name, code: storedClientCountry.code }
       })
     } else {
@@ -42,13 +44,16 @@ const CountrySelector = () => {
     }
   }, [])
 
-  const { data: countriesResponseData } = useCountries()
-
   useEffect(() => {
     if (countriesResponseData) {
       const formattedCountries = countriesResponseData
         .map((country: countriesTypes) => ({
-          label: `${getCountryEmoji(country.iso_3166_1)} ${country.native_name}`,
+          label: (
+            <span className="flex">
+              {getCountryEmoji({ countryCode: country.iso_3166_1 }) || ""}
+              {` ${country.native_name}`}
+            </span>
+          ),
           value: { name: country.native_name, code: country.iso_3166_1 }
         }))
         .sort((a: { value: { name: string } }, b: { value: { name: string } }) => a.value.name.localeCompare(b.value.name))
