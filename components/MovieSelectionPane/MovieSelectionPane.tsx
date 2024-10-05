@@ -64,6 +64,11 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) =>
     "watch/providers": watchProviders
   } = selectedMovie || {}
 
+  // NOTE: to avoid rendering incomplete/WIP labels (eg. ??????)
+  const formattedSpokenLanguages = spokenLanguages?.map(x => ({
+    name: x.name && !x.name.includes("?") ? x.name : x.english_name
+  }))
+
   useEffect(() => {
     setHasImageLoaded(false)
     setHasReturnedError(false)
@@ -120,7 +125,7 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) =>
                     tags: {
                       languageTags: {
                         title: "Languages",
-                        payload: spokenLanguages
+                        payload: formattedSpokenLanguages
                       },
                       genreTags: { title: "Genres", payload: genres }
                     }
