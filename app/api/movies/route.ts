@@ -7,9 +7,13 @@ export async function GET(request: Request) {
   const searchTerm = searchParams.get("q") || ""
   const genreTerm = searchParams.get("g") || ""
   const castTerm = searchParams.get("c") || ""
+  const yearTerm = searchParams.get("y") || ""
+  const pageTerm = searchParams.get("p") || ""
+  const originCountryTerm = searchParams.get("oc") || ""
+  const originalLanguageTerm = searchParams.get("l") || ""
 
   try {
-    const movies = await fetchMovies(searchTerm, genreTerm, castTerm)
+    const movies = await fetchMovies(searchTerm, genreTerm, castTerm, yearTerm, pageTerm, originCountryTerm, originalLanguageTerm)
     return new Response(JSON.stringify(movies))
   } catch (error) {
     return new Response(JSON.stringify({ error }), {
