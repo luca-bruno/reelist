@@ -124,7 +124,9 @@ const MovieSelectionPaneDetails: FC<MovieSelectionPaneDetailsTypes> = ({
 
           {originCountry && (
             <span className="flex gap-4 text-3xl select-none">
-              {originCountry?.map(country => <span key={country}>{getCountryEmoji(country)}</span>)}
+              {originCountry?.map(country => (
+                <span key={country}>{getCountryEmoji({ countryCode: country, width: 30, height: 29, marginRight: "0" })}</span>
+              ))}
             </span>
           )}
         </div>
