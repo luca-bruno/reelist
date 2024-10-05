@@ -6,9 +6,10 @@ import Select, { SingleValue } from "react-select"
 import { Atkinson_Hyperlegible } from "next/font/google"
 import { getCountryEmoji } from "@/helpers"
 import fetchClientCountry from "@/services/fetchClientCountry/fetchClientCountry"
-import { HEADERS_ALLOW_ORIGIN, IS_BROWSER } from "@/constants"
-import { optionTypes } from '../MovieSelectionPane/types/MovieSelectionPaneDropdown.interface';
+import { IS_BROWSER } from "@/constants"
+import { optionTypes } from "../MovieSelectionPane/types/MovieSelectionPaneDropdown.interface"
 import { countriesTypes } from "@/types/movie.interface"
+import useCountries from "@/hooks/useCountries/useCountries"
 
 const atkinsonHyperlegible = Atkinson_Hyperlegible({
   subsets: ["latin"],
@@ -41,24 +42,20 @@ const CountrySelector = () => {
     }
   }, [])
 
-  useEffect(() => {
-    const loadCountries = async () => {
-      const countriesResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/countries`, HEADERS_ALLOW_ORIGIN)
-      const countriesResponseData = await countriesResponse.json()
+  const { data: countriesResponseData } = useCountries()
 
-      // Mapping the country data to the required format
+  useEffect(() => {
+    if (countriesResponseData) {
       const formattedCountries = countriesResponseData
-        ?.map((country: countriesTypes) => ({
+        .map((country: countriesTypes) => ({
           label: `${getCountryEmoji(country.iso_3166_1)} ${country.native_name}`,
           value: { name: country.native_name, code: country.iso_3166_1 }
         }))
-        .sort((a, b) => a.value.name.localeCompare(b.value.name))
+        .sort((a: { value: { name: string } }, b: { value: { name: string } }) => a.value.name.localeCompare(b.value.name))
 
       setCountries(formattedCountries)
     }
-
-    loadCountries()
-  }, [])
+  }, [countriesResponseData])
 
   const handleDropdownClick = (newValue: SingleValue<optionTypes<{ name: string; code: string }>>) => {
     if (newValue) {

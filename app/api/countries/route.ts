@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import fetchCountries from "@/services/fetchCountries/fetchCountries"
 
-// NOTE: For fetching from client components
+// NOTE: For fetching from SWR custom hook/client components
 export async function GET() {
   try {
     const countries = await fetchCountries()
