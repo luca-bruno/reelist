@@ -14,11 +14,14 @@ const MovieSelectionPaneDetails: FC<MovieSelectionPaneDetailsTypes> = ({
   title,
   tags
 }) => {
-  const { languageTags, genreTags } = tags || {}
+  const { languageTags, genreTags, starringTags } = tags || {}
 
-  const isRuntimeValid = runtime !== 0
+  const isRuntimeValid = runtime != null && runtime !== 0
 
   const isAnEnglishMovie = originCountry?.includes("GB") || originCountry?.includes("US")
+
+  const isFromMoreThanFiveCountries = originCountry && originCountry.length > 5
+  const truncateOriginalCountries = isFromMoreThanFiveCountries ? originCountry.slice(0, 5) : originCountry
 
   const isTitleIdenticalToOriginalTitle = title === originalTitle
 
@@ -108,9 +111,9 @@ const MovieSelectionPaneDetails: FC<MovieSelectionPaneDetailsTypes> = ({
             </>
           )}
 
-          {runtime && (
+          {isRuntimeValid && (
             <>
-              <p className={`${isRuntimeValid ? "" : "opacity-0"}`}>{`${runtime?.toString()} min`}</p>
+              <p>{`${runtime.toString()} min`}</p>
               {separator}
             </>
           )}
@@ -124,20 +127,22 @@ const MovieSelectionPaneDetails: FC<MovieSelectionPaneDetailsTypes> = ({
 
           {originCountry && (
             <span className="flex gap-4 text-3xl select-none">
-              {originCountry?.map(country => (
+              {truncateOriginalCountries?.map(country => (
                 <span key={country}>{getCountryEmoji({ countryCode: country, width: 30, height: 29, marginRight: "0" })}</span>
               ))}
+              {isFromMoreThanFiveCountries ? <span className="text-sm m-auto">...</span> : ""}
             </span>
           )}
         </div>
       </div>
 
       {/* <div className="overflow-y-auto max-h-[16rem] pr-2">{overview}</div> */}
-      <div className="overflow-y-auto max-h-[11rem] pr-2">{overview}</div>
+      <div className="overflow-y-auto max-h-[9rem] pr-2 w-[33rem]">{overview}</div>
 
       <div className="laptop:block pt-2 hidden">
         {languageTags && <Tags {...{ tags: languageTags }} />}
         {genreTags && <Tags {...{ tags: genreTags }} />}
+        {starringTags && <Tags {...{ tags: starringTags }} />}
       </div>
     </>
   )

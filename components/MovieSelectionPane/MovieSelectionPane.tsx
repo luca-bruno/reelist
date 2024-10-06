@@ -50,6 +50,7 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) =>
 
   const {
     backdrop_path: backdrop,
+    credits: { cast = [], crew = [] } = {}, // Handle undefined credits with default values
     origin_country: originCountry,
     original_title: originalTitle,
     overview,
@@ -68,6 +69,8 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) =>
   const formattedSpokenLanguages = spokenLanguages?.map(x => ({
     name: x.name && !x.name.includes("?") ? x.name : x.english_name
   }))
+
+  const starring = cast?.filter(item => item.known_for_department === "Acting").map(({ original_name }) => ({ name: original_name })).slice(0, 5);
 
   useEffect(() => {
     setHasImageLoaded(false)
@@ -127,7 +130,8 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) =>
                         title: "Languages",
                         payload: formattedSpokenLanguages
                       },
-                      genreTags: { title: "Genres", payload: genres }
+                      genreTags: { title: "Genres", payload: genres },
+                      starringTags: { title: "Starring", payload: starring }
                     }
                   }}
                 />

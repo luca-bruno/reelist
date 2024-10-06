@@ -1,3 +1,4 @@
+import "./styles/styles.css"
 import { FC } from "react"
 import { capitaliseEachWord } from "@/helpers"
 import { TagsTypes } from "./types/Tags.interface"
@@ -5,17 +6,20 @@ import { TagsTypes } from "./types/Tags.interface"
 const Tags: FC<{ tags: TagsTypes }> = ({ tags }) => {
   const { title, payload } = tags
 
+  // TODO: fix class name
   return (
     payload &&
     payload.length > 0 && (
-      <div className="flex my-2 justify-start items-center flex-wrap row-start-1 gap-2 text-xs laptop:text-sm">
-        <p className="pr-2">{`${title}: `}</p>
+      <div className="flex my-2 justify-start items-start  row-start-1 gap-2 text-xs laptop:text-sm">
+        <p className="pr-2 w-[5rem]">{`${title}: `}</p>
 
-        {payload?.map(({ name }) => (
-          <span key={name} className="rounded-full bg-neutral-500 bg-opacity-40 text-xs laptop:text-sm max-w-fit px-3 mx-1 flex">
-            <p className="justify-center items-center m-auto">{capitaliseEachWord(name)}</p>
-          </span>
-        ))}
+        <div className="tags pb-2 flex flex-row overflow-x-auto w-[27rem]">
+          {payload?.map(({ name }) => (
+            <span key={name} className="rounded-full bg-neutral-500 bg-opacity-40 text-xs laptop:text-sm px-3 mx-1 flex">
+              <p className="justify-center items-center m-auto w-max">{capitaliseEachWord(name)}</p>
+            </span>
+          ))}
+        </div>
       </div>
     )
   )
