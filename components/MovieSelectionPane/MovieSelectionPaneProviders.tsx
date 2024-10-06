@@ -18,8 +18,8 @@ interface MovieSelectionPaneProviders {
 const MovieSelectionPaneProviders: FC<MovieSelectionPaneProviders> = ({ watchProviders }) => {
   const animatedComponents = makeAnimated()
   const whiteColourStyle = { color: "white" }
-  
-  const { clientCountry, updateClientCountry } = useClientCountry();
+
+  const { clientCountry, updateClientCountry } = useClientCountry()
   // const [clientCountry, setClientCountry] = useState<{ name: string; code: string }>()
   const [providerPlatforms, setProviderPlatforms] = useState<{ label: string; value: string }[]>()
 
@@ -29,28 +29,27 @@ const MovieSelectionPaneProviders: FC<MovieSelectionPaneProviders> = ({ watchPro
 
   const isProvidersAvailableInClientCountry = Object.keys(watchProviders.results).some(x => x === clientCountry?.code)
 
-
   const handleDropdownClick2 = (newValue: SingleValue<optionTypes<string>>) => {
     if (newValue) {
       setMethodValue(newValue)
     }
   }
 
-useEffect(() => {
+  useEffect(() => {
     if (watchProviders && countryProviders && isProvidersAvailableInClientCountry) {
-      const results = [];
+      const results = []
 
-      const hasRent = Object.keys(countryProviders).some(x => x === "rent");
-      const hasBuy = Object.keys(countryProviders).some(x => x === "buy");
-      const hasStreaming = Object.keys(countryProviders).some(x => x === "flatrate");
+      const hasRent = Object.keys(countryProviders).some(x => x === "rent")
+      const hasBuy = Object.keys(countryProviders).some(x => x === "buy")
+      const hasStreaming = Object.keys(countryProviders).some(x => x === "flatrate")
 
-      if (hasRent) results.push({ label: "Rent", value: "rent" });
-      if (hasBuy) results.push({ label: "Buy", value: "buy" });
-      if (hasStreaming) results.push({ label: "Streaming", value: "flatrate" });
+      if (hasRent) results.push({ label: "Rent", value: "rent" })
+      if (hasBuy) results.push({ label: "Buy", value: "buy" })
+      if (hasStreaming) results.push({ label: "Streaming", value: "flatrate" })
 
-      setProviderPlatforms(results);
+      setProviderPlatforms(results)
     }
-  }, [countryProviders, watchProviders, clientCountry]);
+  }, [countryProviders, watchProviders, clientCountry])
 
   // console.log(clientCountry)
 

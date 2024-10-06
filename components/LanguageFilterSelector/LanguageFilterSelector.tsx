@@ -16,14 +16,15 @@ const LanguageFilterSelector = ({ setFilter }) => {
       const languagesResponseData = await languagesResponse.json()
 
       // NOTE: to avoid rendering incomplete/WIP labels (eg. ??????)
-      const formatted = languagesResponseData.map(x => ({
-        label: x.name && !x.name.includes("?") ? capitalise(x.name) : capitalise(x.english_name),
-        value: x.iso_639_1,
-        nativeName: capitalise(x.name), // Adding original name for search
-        englishName: capitalise(x.english_name), // Adding English name for search
-        isoCode: x.iso_639_1 // Adding ISO code for search
-      }))
-      .sort((a, b) => a.nativeName?.localeCompare(b.nativeName))
+      const formatted = languagesResponseData
+        .map(x => ({
+          label: x.name && !x.name.includes("?") ? capitalise(x.name) : capitalise(x.english_name),
+          value: x.iso_639_1,
+          nativeName: capitalise(x.name), // Adding original name for search
+          englishName: capitalise(x.english_name), // Adding English name for search
+          isoCode: x.iso_639_1 // Adding ISO code for search
+        }))
+        .sort((a, b) => a.nativeName?.localeCompare(b.nativeName))
 
       setValues(formatted)
     }
@@ -100,17 +101,17 @@ const LanguageFilterSelector = ({ setFilter }) => {
             }
           }),
           placeholder: base => ({
-            ...base,
+            ...base
             // ...whiteColourStyle
             // color: "rgb(156 163 175 / 0.5)"
           }),
           input: base => ({
-            ...base,
+            ...base
             // ...whiteColourStyle
             // color: "rgb(156 163 175 / 0.5)"
           }),
           noOptionsMessage: base => ({
-            ...base,
+            ...base
             // ...whiteColourStyle
           }),
           dropdownIndicator: (base, state) => ({
@@ -118,7 +119,7 @@ const LanguageFilterSelector = ({ setFilter }) => {
             color: "#808088",
             // ...whiteColourStyle,
             "&:hover": {
-              color: "#808088",
+              color: "#808088"
               // ...whiteColourStyle
             },
             transition: "transform 0.3s ease",

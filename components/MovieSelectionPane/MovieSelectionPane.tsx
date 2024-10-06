@@ -70,7 +70,10 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) =>
     name: x.name && !x.name.includes("?") ? x.name : x.english_name
   }))
 
-  const starring = cast?.filter(item => item.known_for_department === "Acting").map(({ original_name }) => ({ name: original_name })).slice(0, 5);
+  const starring = cast
+    ?.filter(item => item.known_for_department === "Acting")
+    .map(({ original_name }) => ({ name: original_name }))
+    .slice(0, 5)
 
   useEffect(() => {
     setHasImageLoaded(false)

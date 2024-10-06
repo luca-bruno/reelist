@@ -99,17 +99,17 @@ const CountryFilterSelector = ({ setFilter }) => {
             }
           }),
           placeholder: base => ({
-            ...base,
+            ...base
             // ...whiteColourStyle
             // color: "rgb(156 163 175 / 0.5)"
           }),
           input: base => ({
-            ...base,
+            ...base
             // ...whiteColourStyle
             // color: "rgb(156 163 175 / 0.5)"
           }),
           noOptionsMessage: base => ({
-            ...base,
+            ...base
             // ...whiteColourStyle
           }),
           dropdownIndicator: (base, state) => ({
@@ -117,7 +117,7 @@ const CountryFilterSelector = ({ setFilter }) => {
             color: "#808088",
             // ...whiteColourStyle,
             "&:hover": {
-              color: "#808088",
+              color: "#808088"
               // ...whiteColourStyle
             },
             transition: "transform 0.3s ease",

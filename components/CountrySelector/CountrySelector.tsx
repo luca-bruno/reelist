@@ -27,8 +27,7 @@ const CountrySelector = () => {
   const animatedComponents = makeAnimated()
   const whiteColourStyle = { color: "white" }
 
-  const { updateClientCountry } = useClientCountry();
-
+  const { updateClientCountry } = useClientCountry()
 
   const { data: countriesResponseData } = useCountries()
 
