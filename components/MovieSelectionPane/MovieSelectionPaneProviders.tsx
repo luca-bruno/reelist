@@ -1,3 +1,5 @@
+"use client"
+
 import { FC, useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
@@ -7,6 +9,7 @@ import { movieTypes, providerTypes } from "@/types/movie.interface"
 import Select, { SingleValue } from "react-select"
 import makeAnimated from "react-select/animated"
 import { optionTypes } from "./types/MovieSelectionPaneDropdown.interface"
+import { useClientCountry } from "./../../context/ClientCountryContext"
 
 interface MovieSelectionPaneProviders {
   watchProviders: movieTypes["watch/providers"]
@@ -15,13 +18,17 @@ interface MovieSelectionPaneProviders {
 const MovieSelectionPaneProviders: FC<MovieSelectionPaneProviders> = ({ watchProviders }) => {
   const animatedComponents = makeAnimated()
   const whiteColourStyle = { color: "white" }
-
-  const [clientCountry, setClientCountry] = useState<{ name: string; code: string }>()
+  
+  const { clientCountry, updateClientCountry } = useClientCountry();
+  // const [clientCountry, setClientCountry] = useState<{ name: string; code: string }>()
   const [providerPlatforms, setProviderPlatforms] = useState<{ label: string; value: string }[]>()
 
   const [methodValue, setMethodValue] = useState<{ label: string; value: string }>()
 
   const countryProviders = clientCountry && watchProviders.results[clientCountry.code]
+
+  const isProvidersAvailableInClientCountry = Object.keys(watchProviders.results).some(x => x === clientCountry?.code)
+
 
   const handleDropdownClick2 = (newValue: SingleValue<optionTypes<string>>) => {
     if (newValue) {
@@ -29,16 +36,25 @@ const MovieSelectionPaneProviders: FC<MovieSelectionPaneProviders> = ({ watchPro
     }
   }
 
-  useEffect(() => {
-    if (IS_BROWSER) {
-      const storedClientCountry = localStorage.getItem("client-country") as string
-      setClientCountry(JSON.parse(storedClientCountry))
+useEffect(() => {
+    if (watchProviders && countryProviders && isProvidersAvailableInClientCountry) {
+      const results = [];
+
+      const hasRent = Object.keys(countryProviders).some(x => x === "rent");
+      const hasBuy = Object.keys(countryProviders).some(x => x === "buy");
+      const hasStreaming = Object.keys(countryProviders).some(x => x === "flatrate");
+
+      if (hasRent) results.push({ label: "Rent", value: "rent" });
+      if (hasBuy) results.push({ label: "Buy", value: "buy" });
+      if (hasStreaming) results.push({ label: "Streaming", value: "flatrate" });
+
+      setProviderPlatforms(results);
     }
-  }, [])
+  }, [countryProviders, watchProviders, clientCountry]);
 
-  const isProvidersAvailableInClientCountry = Object.keys(watchProviders.results).some(x => x === clientCountry?.code)
+  // console.log(clientCountry)
 
-  console.log(isProvidersAvailableInClientCountry)
+  // console.log(isProvidersAvailableInClientCountry)
   useEffect(() => {
     if (watchProviders && countryProviders && isProvidersAvailableInClientCountry) {
       const results = []

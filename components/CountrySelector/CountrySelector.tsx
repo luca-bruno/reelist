@@ -10,6 +10,7 @@ import { IS_BROWSER } from "@/constants"
 import { optionTypes } from "../MovieSelectionPane/types/MovieSelectionPaneDropdown.interface"
 import { countriesTypes } from "@/types/movie.interface"
 import useCountries from "@/hooks/useCountries/useCountries"
+import { useClientCountry } from "@/context/ClientCountryContext"
 
 const atkinsonHyperlegible = Atkinson_Hyperlegible({
   subsets: ["latin"],
@@ -25,6 +26,9 @@ const CountrySelector = () => {
 
   const animatedComponents = makeAnimated()
   const whiteColourStyle = { color: "white" }
+
+  const { updateClientCountry } = useClientCountry();
+
 
   const { data: countriesResponseData } = useCountries()
 
@@ -69,6 +73,7 @@ const CountrySelector = () => {
     if (newValue) {
       setValue(newValue)
       localStorage.setItem("client-country", JSON.stringify({ name: newValue.value?.name, code: newValue.value?.code }))
+      updateClientCountry({ name: newValue.value?.name, code: newValue.value?.code })
     }
   }
 
