@@ -36,8 +36,11 @@ const MovieSelectionPaneProviders: FC<MovieSelectionPaneProviders> = ({ watchPro
     }
   }, [])
 
+  const isProvidersAvailableInClientCountry = Object.keys(watchProviders.results).some(x => x === clientCountry?.code)
+
+  console.log(isProvidersAvailableInClientCountry)
   useEffect(() => {
-    if (watchProviders && countryProviders) {
+    if (watchProviders && countryProviders && isProvidersAvailableInClientCountry) {
       const results = []
 
       const hasRent = Object.keys(countryProviders).some(x => x === "rent")
@@ -64,7 +67,7 @@ const MovieSelectionPaneProviders: FC<MovieSelectionPaneProviders> = ({ watchPro
       <div className="w-full">
         <Select
           isSearchable={false}
-          className={`py-1.5 text-sm ${Object.keys(watchProviders?.results).length > 0 ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+          className={`py-1.5 text-sm ${Object.keys(watchProviders?.results).length > 0 && isProvidersAvailableInClientCountry ? "opacity-100" : "opacity-0 pointer-events-none"}`}
           components={animatedComponents}
           onChange={newValue => handleDropdownClick2(newValue as SingleValue<optionTypes<string>>)}
           options={providerPlatforms}
