@@ -75,6 +75,10 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) =>
     .map(({ original_name }) => ({ name: original_name }))
     .slice(0, 5)
 
+  const directors = crew
+    ?.filter(item => item.job === "Director")
+    .map(({ original_name }) => ({ name: original_name }))
+
   useEffect(() => {
     setHasImageLoaded(false)
     setHasReturnedError(false)
@@ -129,12 +133,13 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) =>
                     tagline,
                     title,
                     tags: {
+                      directorTags: { title: "Director(s)", payload: directors },
+                      starringTags: { title: "Starring", payload: starring },
+                      genreTags: { title: "Genre(s)", payload: genres },
                       languageTags: {
-                        title: "Languages",
+                        title: "Language(s)",
                         payload: formattedSpokenLanguages
                       },
-                      genreTags: { title: "Genres", payload: genres },
-                      starringTags: { title: "Starring", payload: starring }
                     }
                   }}
                 />

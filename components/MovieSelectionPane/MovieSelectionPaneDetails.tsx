@@ -14,7 +14,7 @@ const MovieSelectionPaneDetails: FC<MovieSelectionPaneDetailsTypes> = ({
   title,
   tags
 }) => {
-  const { languageTags, genreTags, starringTags } = tags || {}
+  const { directorTags, starringTags, genreTags, languageTags } = tags || {}
 
   const isRuntimeValid = runtime != null && runtime !== 0
 
@@ -140,9 +140,10 @@ const MovieSelectionPaneDetails: FC<MovieSelectionPaneDetailsTypes> = ({
       <div className="overflow-y-auto max-h-[9rem] pr-2 w-[33rem]">{overview}</div>
 
       <div className="laptop:block pt-2 hidden">
-        {languageTags && <Tags {...{ tags: languageTags }} />}
-        {genreTags && <Tags {...{ tags: genreTags }} />}
+        {directorTags && <Tags {...{ tags: directorTags }} />}
         {starringTags && <Tags {...{ tags: starringTags }} />}
+        {genreTags && <Tags {...{ tags: genreTags }} />}
+        {languageTags && <Tags {...{ tags: languageTags }} />}
       </div>
     </>
   )

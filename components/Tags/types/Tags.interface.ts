@@ -5,14 +5,16 @@ interface Tag<T> {
   payload?: T
 }
 
-type languageTagType = Tag<movieTypes["spoken_languages"]>
-type genreTagType = Tag<movieTypes["genres"]>
+type directorTagType = Tag<movieTypes["credits"]["crew"]>
 type starringTagType = Tag<movieTypes["credits"]["cast"]>
+type genreTagType = Tag<movieTypes["genres"]>
+type languageTagType = Tag<movieTypes["spoken_languages"]>
 
 export type TagsTypes = languageTagType | genreTagType
 
 export interface TagGroups {
-  languageTags?: languageTagType
-  genreTags?: genreTagType
+  directorTags?: directorTagType
   starringTags?: starringTagType
+  genreTags?: genreTagType
+  languageTags?: languageTagType
 }
