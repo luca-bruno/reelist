@@ -23,7 +23,7 @@ const YearFilterSelector = ({ setFilter }) => {
 
   // Handle change event when a year is selected
   const handleYearChange = selectedOption => {
-    console.log(`Selected year: ${selectedOption.value}`)
+    setFilter(prev => ({ ...prev, year: selectedOption.value }))
   }
 
   return (
@@ -31,7 +31,7 @@ const YearFilterSelector = ({ setFilter }) => {
       <Select
         isSearchable
         components={animatedComponents}
-        onChange={selectedOption => setFilter(prev => ({ ...prev, year: selectedOption.value }))}
+        onChange={selectedOption => handleYearChange(selectedOption)}
         options={years}
         // isLoading={isLoading}
         placeholder="🔎 Year"
