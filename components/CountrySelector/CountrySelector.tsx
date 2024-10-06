@@ -29,13 +29,21 @@ const CountrySelector = () => {
 
   const { updateClientCountry } = useClientCountry()
 
-  const { data: countriesResponseData } = useCountries(false)
+  const { data: countriesResponseData, isLoading: isCountriesLoading } = useCountries(false) // Ensure skip condition is properly managed
+  // const { data: countriesResponseData } = useCountries(false)
 
   useEffect(() => {
     const loadClientCountry = async () => {
       const clientCountryData = (await fetchClientCountry()) as { country_name: string; country_code: string }
-      setClientCountry({ name: clientCountryData.country_name, code: clientCountryData.country_code })
-      localStorage.setItem("client-country", JSON.stringify({ name: clientCountryData.country_name, code: clientCountryData.country_code }))
+      const country = { name: clientCountryData.country_name, code: clientCountryData.country_code }
+
+      // Only update if country changes
+      if (!clientCountry || clientCountry.code !== country.code) {
+        setClientCountry(country)
+        localStorage.setItem("client-country", JSON.stringify(country))
+      }
+      // setClientCountry({ name: clientCountryData.country_name, code: clientCountryData.country_code })
+      // localStorage.setItem("client-country", JSON.stringify({ name: clientCountryData.country_name, code: clientCountryData.country_code }))
     }
 
     const storedClientCountry = JSON.parse(localStorage.getItem("client-country") as string)

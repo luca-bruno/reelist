@@ -181,7 +181,9 @@ const MovieSelectionPaneProviders: FC<MovieSelectionPaneProviders> = ({ watchPro
           )}
       </div>
 
-      <div className={`text-end text-xs mt-2 ${Object.keys(watchProviders?.results).length > 0 ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
+      <div
+        className={`text-end text-xs mt-2 ${Object.keys(watchProviders?.results).length > 0 && isProvidersAvailableInClientCountry ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+      >
         <em>
           Provided by
           <Link className="cursor-pointer" href="https://www.justwatch.com/" target="_blank" rel="noopener noreferrer">
