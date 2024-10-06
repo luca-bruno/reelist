@@ -88,7 +88,7 @@ const GenreFilterSelector = ({ setFilter }) => {
           }),
           noOptionsMessage: base => ({
             ...base,
-            ...whiteColourStyle
+            // ...whiteColourStyle
           }),
           dropdownIndicator: (base, state) => ({
             ...base,
