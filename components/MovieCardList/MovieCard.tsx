@@ -71,7 +71,7 @@ const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, setSelectedMovieI
             `}
         // TODO: add img fallbacks
         // src={hasReturnedError ? fallbackPlaceholder : posterPath}
-        src={posterPath ? `${TMDB_IMAGE_PATH}${posterPath}`: fallbackPlaceholder}
+        src={posterPath ? `${TMDB_IMAGE_PATH}${posterPath}` : fallbackPlaceholder}
         onError={() => setHasReturnedError(true)}
         onLoadingComplete={() => setHasImageLoaded(true)}
         alt={`${title || "Movie"} icon`}

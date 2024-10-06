@@ -37,7 +37,7 @@ const YearFilterSelector = ({ setFilter }) => {
         isSearchable
         isClearable
         components={animatedComponents}
-        onChange={(selectedOption, {action}) => handleYearChange(selectedOption, action)}
+        onChange={(selectedOption, { action }) => handleYearChange(selectedOption, action)}
         options={years}
         // isLoading={isLoading}
         placeholder="🔎 Year"
