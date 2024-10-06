@@ -24,7 +24,7 @@ const LanguageFilterSelector = ({ setFilter }) => {
           englishName: capitalise(x.english_name), // Adding English name for search
           isoCode: x.iso_639_1 // Adding ISO code for search
         }))
-        .sort((a, b) => a.nativeName?.localeCompare(b.nativeName))
+        .sort((a, b) => a.englishName?.localeCompare(b.englishName))
 
       setValues(formatted)
     }
