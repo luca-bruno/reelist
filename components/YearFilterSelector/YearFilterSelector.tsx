@@ -22,16 +22,22 @@ const YearFilterSelector = ({ setFilter }) => {
   const whiteColourStyle = { color: "white" }
 
   // Handle change event when a year is selected
-  const handleYearChange = selectedOption => {
-    setFilter(prev => ({ ...prev, year: selectedOption.value }))
+  const handleYearChange = (selectedOption, action) => {
+    console.log(action)
+    if (action === "select-option") {
+      setFilter(prev => ({ ...prev, year: selectedOption.value }))
+    } else if (action === "clear") {
+      setFilter(prev => ({ ...prev, year: null }))
+    }
   }
 
   return (
     <div>
       <Select
         isSearchable
+        isClearable
         components={animatedComponents}
-        onChange={selectedOption => handleYearChange(selectedOption)}
+        onChange={(selectedOption, {action}) => handleYearChange(selectedOption, action)}
         options={years}
         // isLoading={isLoading}
         placeholder="🔎 Year"
@@ -59,11 +65,11 @@ const YearFilterSelector = ({ setFilter }) => {
             borderRadius: "0.75rem",
             paddingBottom: "10px"
           }),
-          option: base => ({
+          option: (base, state) => ({
             ...base,
             cursor: "pointer",
             borderRadius: "0.5rem",
-            backgroundColor: "#eaeaea",
+            backgroundColor: state.isSelected ? "#E64833" : "#eaeaea",
             // ...whiteColourStyle,
             "&:hover": {
               backgroundColor: "#ec7b69",
