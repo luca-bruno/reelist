@@ -16,7 +16,7 @@ export const ClientCountryProvider = ({ children }) => {
 
   const updateClientCountry = newCountry => {
     localStorage.setItem("client-country", JSON.stringify(newCountry)) // Update local storage
-    setClientCountry(newCountry) // Update state
+    setClientCountry(newCountry)
   }
 
   return <ClientCountryContext.Provider value={{ clientCountry, updateClientCountry }}>{children}</ClientCountryContext.Provider>
