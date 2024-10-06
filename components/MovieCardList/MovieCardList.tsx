@@ -1,6 +1,4 @@
 import { FC } from "react"
-// import useFilter from "@/hooks/useFilter/useFilter"
-// import fallbackPlaceholder from "@/public/fallbackPlaceholder.jpg"
 import MovieCardListTypes from "./types/MovieCardList.interface"
 import MovieCard from "./MovieCard"
 

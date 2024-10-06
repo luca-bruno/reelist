@@ -1,6 +1,6 @@
 import { FC } from "react"
 import Image from "next/image"
-// import fallbackPlaceholder from "@/public/fallbackPlaceholder.jpg"
+import fallbackPlaceholderWide from '@/public/fallbackPlaceholderWide.jpg';
 import { TMDB_IMAGE_PATH } from "@/constants"
 import MovieSelectionPaneBackgroundTypes from "./types/MovieSelectionPaneBackground.interface"
 
@@ -18,8 +18,8 @@ const MovieSelectionPaneBackground: FC<MovieSelectionPaneBackgroundTypes> = ({
       unoptimized
       className="select-none filter z-0 mobileXL:block hidden"
       // TODO: img fallbacks
-      // src={hasBackgroundImageReturnedError ? fallbackPlaceholder : background || ""}
-      src={`${TMDB_IMAGE_PATH}${background}`}
+      // src={hasBackgroundImageReturnedError ? fallbackPlaceholderWide : background || ""}
+      src={background ? `${TMDB_IMAGE_PATH}${background}`: fallbackPlaceholderWide}
       alt={`${title || "Movie"} background`}
       // onError={() => setHasBackgroundImageReturnedError(true)}
       sizes="100vw"
@@ -32,8 +32,8 @@ const MovieSelectionPaneBackground: FC<MovieSelectionPaneBackgroundTypes> = ({
       unoptimized
       className="select-none filter z-0 mobileXL:hidden block"
       // TODO: img fallbacks
-      // src={hasReturnedError ? fallbackPlaceholder : iconLarge || iconSmall || ""}
-      src={`${TMDB_IMAGE_PATH}${background}`}
+      // src={hasReturnedError ? fallbackPlaceholderWide : iconLarge || iconSmall || ""}
+      src={background ? `${TMDB_IMAGE_PATH}${background}`: fallbackPlaceholderWide}
       alt={`${title || "Movie"} background`}
       // onError={() => setHasReturnedError(true)}
       sizes="100vw"

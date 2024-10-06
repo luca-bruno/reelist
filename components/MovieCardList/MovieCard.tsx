@@ -4,7 +4,7 @@ import { FC, useEffect, useState } from "react"
 import Image from "next/image"
 import useImage from "@/hooks/useImage/useImage"
 import { addToPlaylist, transitionStyles } from "@/helpers"
-// import fallbackPlaceholder from "@/public/fallbackPlaceholder.jpg"
+import fallbackPlaceholder from "@/public/fallbackPlaceholder.jpg"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCheck, faHeart, faHeartCirclePlus, faPlus } from "@fortawesome/free-solid-svg-icons"
 import { HEADERS_ALLOW_ORIGIN, IS_BROWSER, TMDB_IMAGE_PATH } from "@/constants"
@@ -71,7 +71,7 @@ const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, setSelectedMovieI
             `}
         // TODO: add img fallbacks
         // src={hasReturnedError ? fallbackPlaceholder : posterPath}
-        src={`${TMDB_IMAGE_PATH}${posterPath}`}
+        src={posterPath ? `${TMDB_IMAGE_PATH}${posterPath}`: fallbackPlaceholder}
         onError={() => setHasReturnedError(true)}
         onLoadingComplete={() => setHasImageLoaded(true)}
         alt={`${title || "Movie"} icon`}

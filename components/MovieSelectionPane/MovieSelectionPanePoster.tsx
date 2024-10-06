@@ -1,5 +1,6 @@
 import { FC } from "react"
 import Image from "next/image"
+import fallbackPlaceholder from '@/public/fallbackPlaceholder.jpg';
 import { TMDB_IMAGE_PATH } from "@/constants"
 import MovieSelectionPanePosterTypes from "./types/MovieSelectionPanePoster.interface"
 import MovieSelectionPaneProviders from "./MovieSelectionPaneProviders"
@@ -24,7 +25,8 @@ const MovieSelectionPanePoster: FC<MovieSelectionPanePosterTypes> = ({
       unoptimized
       className="rounded-xl select-none slide_fade_from_left"
       // src={hasReturnedError ? "" : iconLarge || iconSmall || ""}
-      src={`${TMDB_IMAGE_PATH}${poster}`}
+      src={poster ? `${TMDB_IMAGE_PATH}${poster}`: fallbackPlaceholder}
+      // src={`${TMDB_IMAGE_PATH}${poster}`}
       alt={`${title || "Movie"} poster`}
       onError={() => setHasReturnedError(true)}
       onLoadingComplete={() => setHasImageLoaded(true)}
