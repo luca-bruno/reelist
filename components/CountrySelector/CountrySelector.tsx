@@ -29,7 +29,7 @@ const CountrySelector = () => {
 
   const { updateClientCountry } = useClientCountry()
 
-  const { data: countriesResponseData } = useCountries()
+  const { data: countriesResponseData } = useCountries(false)
 
   useEffect(() => {
     const loadClientCountry = async () => {
