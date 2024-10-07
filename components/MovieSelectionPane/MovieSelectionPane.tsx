@@ -9,9 +9,16 @@ import MovieSelectionPanePoster from "./MovieSelectionPanePoster"
 import MovieSelectionPaneDetails from "./MovieSelectionPaneDetails"
 import MovieSelectionPaneDropdown from "./MovieSelectionPaneDropdown"
 import { MovieSelectionPaneTypes } from "./types/MovieSelectionPane.interface"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faList } from "@fortawesome/free-solid-svg-icons/faList"
+import { faStream } from "@fortawesome/free-solid-svg-icons/faStream"
+import { transitionStyles } from "@/helpers"
+import MovieSelectionPaneCastCrewDetails from "./MovieSelectionPaneCastCrewDetails"
+import MovieSelectionPaneDetailsHeader from "./MovieSelectionPaneDetailsHeader"
 
 const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) => {
   const [selectedMovie, setSelectedMovie] = useState<movieTypes>()
+  const [bruh, setBruh] = useState(true)
 
   // TODO: CLEAN UP ASAP@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
   // TODO: SWR or react-query + make into custom hook
@@ -75,9 +82,7 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) =>
     .map(({ original_name }) => ({ name: original_name }))
     .slice(0, 5)
 
-  const directors = crew
-    ?.filter(item => item.job === "Director")
-    .map(({ original_name }) => ({ name: original_name }))
+  const directors = crew?.filter(item => item.job === "Director").map(({ original_name }) => ({ name: original_name }))
 
   useEffect(() => {
     setHasImageLoaded(false)
@@ -115,37 +120,86 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) =>
             }}
           />
 
-          {selectedMovie && <MovieSelectionPaneDropdown {...{ selectedMovie }} />}
+          <div className="flex justify-between">
+            {selectedMovie && <MovieSelectionPaneDropdown {...{ selectedMovie }} />}
+            {selectedMovie && (
+              <button
+                type="button"
+                onClick={() => setBruh(prev => !prev)}
+                className={`px-3 flex justify-center items-center h-[38px] rounded-xl opacity-80 hover:opacity-100 bg-[gray] hover:bg-accent-500 ${transitionStyles}`}
+              >
+                {bruh ? <>🎬 Full Cast & Crew</> : <>🎥 Summary</>}
+              </button>
+            )}
+          </div>
 
-          <div className="flex-col h-[600px] p-5 grid grid-rows-3 w-[70%]">
-            <div />
-            <div />
-            <div>
-              {title && (
-                <MovieSelectionPaneDetails
+          {bruh ? (
+            <div className="flex-col h-[600px] p-5 grid grid-rows-3 w-[70%]">
+              <div />
+              <div />
+              <div>
+                {title && (
+                  <>
+                    <MovieSelectionPaneDetailsHeader
+                      {...{
+                        originCountry,
+                        originalTitle,
+                        runtime,
+                        releaseDate,
+                        ageRating,
+                        isTruncatedCountries: true,
+                        title
+                      }}
+                    />
+                    <MovieSelectionPaneDetails
+                      {...{
+                        // originCountry,
+                        // originalTitle,
+                        // runtime,
+                        // releaseDate,
+                        // ageRating,
+                        overview,
+                        // title,
+                        tags: {
+                          directorTags: { title: "Director(s)", payload: directors },
+                          starringTags: { title: "Starring", payload: starring },
+                          genreTags: { title: "Genre(s)", payload: genres },
+                          languageTags: {
+                            title: "Language(s)",
+                            payload: formattedSpokenLanguages
+                          }
+                        }
+                      }}
+                    />
+                  </>
+                )}
+              </div>
+            </div>
+          ) : (
+            // TODO: make title, og title and separated part its own comp and use it both - (BUT flags truncated in summary)
+            <>
+              <div className="p-5 pb-0">
+                <MovieSelectionPaneDetailsHeader
                   {...{
                     originCountry,
                     originalTitle,
                     runtime,
                     releaseDate,
                     ageRating,
-                    overview,
-                    tagline,
-                    title,
-                    tags: {
-                      directorTags: { title: "Director(s)", payload: directors },
-                      starringTags: { title: "Starring", payload: starring },
-                      genreTags: { title: "Genre(s)", payload: genres },
-                      languageTags: {
-                        title: "Language(s)",
-                        payload: formattedSpokenLanguages
-                      },
-                    }
+                    title
                   }}
                 />
-              )}
-            </div>
-          </div>
+              </div>
+              <div className="p-5 rounded-lg shadow-md overflow-y-auto h-[calc(100%-0.75rem-38px-40px-36px)]">
+                <MovieSelectionPaneCastCrewDetails
+                  {...{
+                    crew,
+                    cast
+                  }}
+                />
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
