@@ -34,10 +34,14 @@ const LanguageFilterSelector = ({ setFilter }) => {
 
   // Handle change event when a year is selected
   const handleLanguageChange = selectedOption => {
-    console.log(selectedOption)
-    const extractValues = selectedOption.map(option => option.value)
+    const delay = 1000
 
-    setFilter(prev => ({ ...prev, original_language: extractValues }))
+    const debounceTimer = setTimeout(() => {
+      const extractValues = selectedOption.map(option => option.value)
+      setFilter(prev => ({ ...prev, original_language: extractValues }))
+
+      return () => clearTimeout(debounceTimer)
+    }, delay)
   }
 
   const filterOption = (option, inputValue) => {

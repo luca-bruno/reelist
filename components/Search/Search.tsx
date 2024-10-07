@@ -14,7 +14,7 @@ const Search: FC<SearchTypes> = ({ setQuery }) => {
 
   useEffect(() => {
     // Debounce function for less unnecessary calls/passing props
-    const delay = 500
+    const delay = 1000
 
     const debounceTimer = setTimeout(() => {
       setQuery(input)

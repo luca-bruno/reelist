@@ -33,9 +33,14 @@ const CountryFilterSelector = ({ setFilter }) => {
   }, [countriesResponseData])
 
   const handleCountryChange = selectedOption => {
-    const extractValues = selectedOption.map(option => option.value)
+    const delay = 1000
 
-    setFilter(prev => ({ ...prev, origin_country: extractValues }))
+    const debounceTimer = setTimeout(() => {
+      const extractValues = selectedOption.map(option => option.value)
+      setFilter(prev => ({ ...prev, origin_country: extractValues }))
+    }, delay)
+
+    return () => clearTimeout(debounceTimer)
   }
 
   const filterOption = (option, inputValue) => {

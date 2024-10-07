@@ -25,10 +25,14 @@ const GenreFilterSelector = ({ setFilter }) => {
   }, [])
 
   const handleGenreChange = selectedOption => {
-    const extractValues = selectedOption.map(option => option.value)
+    const delay = 1000
 
-    setFilter(prev => ({ ...prev, genres: extractValues }))
-    console.log(`Selected genres: ${extractValues}`)
+    const debounceTimer = setTimeout(() => {
+      const extractValues = selectedOption.map(option => option.value)
+      setFilter(prev => ({ ...prev, genres: extractValues }))
+    }, delay)
+
+    return () => clearTimeout(debounceTimer)
   }
 
   return (

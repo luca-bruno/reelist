@@ -22,13 +22,19 @@ const YearFilterSelector = ({ setFilter }) => {
   const whiteColourStyle = { color: "white" }
 
   // Handle change event when a year is selected
+  // TODO: make debounce fn generic across all filter inc search
   const handleYearChange = (selectedOption, action) => {
-    console.log(action)
-    if (action === "select-option") {
-      setFilter(prev => ({ ...prev, year: selectedOption.value }))
-    } else if (action === "clear") {
-      setFilter(prev => ({ ...prev, year: null }))
-    }
+    const delay = 1000
+
+    const debounceTimer = setTimeout(() => {
+      if (action === "select-option") {
+        setFilter(prev => ({ ...prev, year: selectedOption.value }))
+      } else if (action === "clear") {
+        setFilter(prev => ({ ...prev, year: null }))
+      }
+    }, delay)
+
+    return () => clearTimeout(debounceTimer)
   }
 
   return (
