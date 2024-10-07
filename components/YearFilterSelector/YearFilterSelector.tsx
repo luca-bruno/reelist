@@ -7,7 +7,7 @@ import { optionTypes } from "../MovieSelectionPane/types/MovieSelectionPaneDropd
 // Utility function to generate an array of years
 const generateYears = (startYear: number, endYear: number) => {
   const years = []
-  for (let year = startYear; year <= endYear; year + 1) {
+  for (let year = startYear; year <= endYear; year += 1) {
     years.push({ value: year, label: year })
   }
 
