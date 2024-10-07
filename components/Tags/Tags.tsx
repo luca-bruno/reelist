@@ -1,6 +1,5 @@
 import "./styles/styles.css"
 import { FC } from "react"
-import { capitaliseEachWord } from "@/helpers"
 import { TagsTypes } from "./types/Tags.interface"
 
 const Tags: FC<{ tags: TagsTypes }> = ({ tags }) => {
@@ -16,7 +15,7 @@ const Tags: FC<{ tags: TagsTypes }> = ({ tags }) => {
         <div className="tags pb-2 flex flex-row overflow-x-auto w-[27rem]">
           {payload?.map(({ name }) => (
             <span key={name} className="rounded-full bg-neutral-500 bg-opacity-40 text-xs laptop:text-sm px-3 mx-1 flex">
-              <p className="justify-center items-center m-auto w-max">{capitaliseEachWord(name)}</p>
+              <p className="justify-center items-center m-auto w-max">{name}</p>
             </span>
           ))}
         </div>

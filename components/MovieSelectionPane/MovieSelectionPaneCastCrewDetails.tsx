@@ -1,6 +1,5 @@
 import { FC } from "react"
 import Image from "next/image"
-import { capitaliseEachWord } from "@/helpers"
 import { TMDB_IMAGE_PATH } from "@/constants"
 import fallbackPlaceholderUser from "@/public/fallbackPlaceholderUser.jpg"
 import MovieSelectionPaneCastCrewDetailsTypes from "./types/MovieSelectionPaneCastCrewDetails.interface"
@@ -48,9 +47,9 @@ const MovieSelectionPaneCastCrewDetails: FC<MovieSelectionPaneCastCrewDetailsTyp
                     height={30}
                     draggable={false}
                   />
-                  <p className="font-semibold pl-2">{`${capitaliseEachWord(name)}`}</p>
+                  <p className="font-semibold pl-2">{`${name}`}</p>
                 </div>
-                <div>{character && <p className="text-end">{capitaliseEachWord(character)}</p>}</div>
+                <div>{character && <p className="text-end">{character}</p>}</div>
               </div>
             </div>
           </div>
@@ -65,9 +64,9 @@ const MovieSelectionPaneCastCrewDetails: FC<MovieSelectionPaneCastCrewDetailsTyp
               {item.people?.map(({ name, job, id }) => (
                 <div key={id} className="flex justify-between items-center gap-x-4 pl-2 rounded transition duration-200 ease-in-out">
                   <div className="flex items-center">
-                    <p className="font-semibold">{`${capitaliseEachWord(name)}`}</p>
+                    <p className="font-semibold">{`${name}`}</p>
                   </div>
-                  {job && <p className="text-end">{capitaliseEachWord(job)}</p>}
+                  {job && <p className="text-end">{job}</p>}
                 </div>
               ))}
             </div>
