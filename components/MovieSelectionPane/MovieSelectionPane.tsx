@@ -184,7 +184,7 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) =>
                   }}
                 />
               </div>
-              <div className="p-5 rounded-lg shadow-md overflow-y-auto h-[calc(100%-0.75rem-38px-40px-36px)]">
+              <div className="p-5 rounded-lg shadow-md overflow-y-auto h-[calc(100%-0.75rem-38px-40px-36px-20px)]">
                 <MovieSelectionPaneCastCrewDetails
                   {...{
                     crew,
