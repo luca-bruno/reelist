@@ -1,19 +1,16 @@
 import { FC } from "react"
 import { getCountryEmoji } from "@/helpers"
 import moment from "moment"
-// import MovieSelectionPaneDetailsTypes from "./types/MovieSelectionPaneDetails.interface"
-// import Tags from "../Tags"
+import MovieSelectionPaneDetailsHeaderTypes from "./types/MovieSelectionPaneDetailsHeader.interface"
 
-const MovieSelectionPaneDetailsHeader: FC<any> = ({
+const MovieSelectionPaneDetailsHeader: FC<MovieSelectionPaneDetailsHeaderTypes> = ({
   originCountry,
   originalTitle,
   runtime,
   releaseDate,
   ageRating,
   isTruncatedCountries = false,
-  // overview,
   title
-  // tags
 }) => {
   const isRuntimeValid = runtime != null && runtime !== 0
 

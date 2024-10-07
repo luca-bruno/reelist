@@ -1,9 +1,11 @@
+import { FC, Dispatch, SetStateAction, useEffect, useState } from "react"
 import { HEADERS_ALLOW_ORIGIN } from "@/constants"
-import React, { useEffect, useState } from "react"
-import Select from "react-select"
+import { filterTypes } from "@/types/filter.interface"
+import Select, { MultiValue } from "react-select"
 import makeAnimated from "react-select/animated"
+import { optionTypes } from "../MovieSelectionPane/types/MovieSelectionPaneDropdown.interface"
 
-const GenreFilterSelector = ({ setFilter }) => {
+const GenreFilterSelector: FC<{ setFilter: Dispatch<SetStateAction<filterTypes | undefined>> }> = ({ setFilter }) => {
   const [genres, setGenres] = useState()
 
   const animatedComponents = makeAnimated()
@@ -14,9 +16,8 @@ const GenreFilterSelector = ({ setFilter }) => {
       const genresResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/genres`, HEADERS_ALLOW_ORIGIN)
       const { genres: genreResponseData } = await genresResponse.json()
 
-      const formatted = genreResponseData.map(x => ({ label: x.name, value: x.id }))
+      const formatted = genreResponseData.map((genre: { name: string; id: number }) => ({ label: genre.name, value: genre.id }))
 
-      console.log(formatted)
       setGenres(formatted)
       // localStorage.setItem("client-country", JSON.stringify({ name: clientCountryData.country_name, code: clientCountryData.country_code }))
     }
@@ -24,9 +25,16 @@ const GenreFilterSelector = ({ setFilter }) => {
     loadGenres()
   }, [])
 
-  const handleGenreChange = (selectedOption, action) => {
+  const handleGenreChange = (
+    selectedOption: MultiValue<
+      optionTypes<{
+        name: string
+        id: number
+      }>
+    >,
+    action: string
+  ) => {
     const delay = 1000
-    console.log(action)
 
     const debounceTimer = setTimeout(() => {
       if (action === "select-option") {
@@ -35,15 +43,15 @@ const GenreFilterSelector = ({ setFilter }) => {
         setFilter(prev => ({ ...prev, genres: extractValues }))
       } else if (action === "clear") {
         setFilter(prev => {
-          const { genres, ...rest } = prev // Destructure to exclude origin_country
+          const { genres, ...rest } = prev || {} // Destructure to exclude origin_country
           return { ...rest } // Return the rest of the filter without the origin_country key
         })
       } else if (action === "remove-value") {
         setFilter(prev => {
           const currentGenres = selectedOption.map(option => option.value)
-          const valueToRemove = prev.genres.find(genre => !currentGenres.includes(genre))
+          const valueToRemove = prev?.genres?.find(genre => !currentGenres.includes(genre))
 
-          const filteredGenres = [...prev.genres].filter(genre => genre !== valueToRemove)
+          const filteredGenres = [...prev?.genres || []].filter(genre => genre !== valueToRemove)
 
           return { ...prev, genres: filteredGenres }
         })
@@ -59,7 +67,17 @@ const GenreFilterSelector = ({ setFilter }) => {
         isMulti
         isSearchable
         components={animatedComponents}
-        onChange={(selectedOption, { action }) => handleGenreChange(selectedOption, action)}
+        onChange={(selectedOption, { action }) =>
+          handleGenreChange(
+            selectedOption as unknown as MultiValue<
+              optionTypes<{
+                name: string
+                id: number
+              }>
+            >,
+            action
+          )
+        }
         options={genres}
         // isLoading={isLoading}
         placeholder="🔎 Genre(s)"

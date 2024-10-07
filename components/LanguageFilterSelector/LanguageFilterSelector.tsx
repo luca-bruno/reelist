@@ -1,10 +1,13 @@
+import { FC, Dispatch, SetStateAction, useEffect, useState } from "react"
 import { HEADERS_ALLOW_ORIGIN } from "@/constants"
 import { capitalise } from "@/helpers"
-import React, { useEffect, useState } from "react"
-import Select from "react-select"
+import { filterTypes } from "@/types/filter.interface"
+import Select, { SingleValue } from "react-select"
 import makeAnimated from "react-select/animated"
+import { spokenLanguageTypes } from "@/types/movie.interface"
+import { optionTypes } from "../MovieSelectionPane/types/MovieSelectionPaneDropdown.interface"
 
-const LanguageFilterSelector = ({ setFilter }) => {
+const LanguageFilterSelector: FC<{ setFilter: Dispatch<SetStateAction<filterTypes | undefined>> }> = ({ setFilter }) => {
   const [values, setValues] = useState()
 
   const animatedComponents = makeAnimated()
@@ -17,14 +20,14 @@ const LanguageFilterSelector = ({ setFilter }) => {
 
       // NOTE: to avoid rendering incomplete/WIP labels (eg. ??????)
       const formatted = languagesResponseData
-        .map(x => ({
-          label: x.name && !x.name.includes("?") ? capitalise(x.name) : capitalise(x.english_name),
-          value: x.iso_639_1,
-          nativeName: capitalise(x.name), // Adding original name for search
-          englishName: capitalise(x.english_name), // Adding English name for search
-          isoCode: x.iso_639_1 // Adding ISO code for search
+        .map((language: spokenLanguageTypes) => ({
+          label: language.name && !language.name.includes("?") ? capitalise(language.name) : capitalise(language.english_name),
+          value: language.iso_639_1,
+          nativeName: capitalise(language.name), // Adding original name for search
+          englishName: capitalise(language.english_name), // Adding English name for search
+          isoCode: language.iso_639_1 // Adding ISO code for search
         }))
-        .sort((a, b) => a.englishName?.localeCompare(b.englishName))
+        .sort((a: { englishName: string }, b: { englishName: string }) => a.englishName?.localeCompare(b.englishName))
 
       setValues(formatted)
     }
@@ -33,15 +36,24 @@ const LanguageFilterSelector = ({ setFilter }) => {
   }, [])
 
   // Handle change event when a language is selected
-  const handleLanguageChange = (selectedOption, action) => {
+  const handleLanguageChange = (
+    selectedOption: SingleValue<
+      optionTypes<{
+        nativeName: string
+        englishName: string
+        isoCode: string
+      }>
+    >,
+    action: string
+  ) => {
     const delay = 1000
 
     const debounceTimer = setTimeout(() => {
       if (action === "select-option") {
-        setFilter(prev => ({ ...prev, original_language: selectedOption.value }))
+        setFilter(prev => ({ ...prev, original_language: selectedOption?.value }))
       } else if (action === "clear") {
         setFilter(prev => {
-          const { original_language, ...rest } = prev // Destructure to exclude original_language
+          const { original_language, ...rest } = prev || {} // Destructure to exclude original_language
           return { ...rest } // Return the rest of the filter without the original_language key
         })
       }
@@ -50,7 +62,7 @@ const LanguageFilterSelector = ({ setFilter }) => {
     }, delay)
   }
 
-  const filterOption = (option, inputValue) => {
+  const filterOption = (option: { label: string; data: { nativeName: string; englishName: string; isoCode: string } }, inputValue: string) => {
     // NOTE: Searchable by language code, native name or English-translated name
     const { label, data } = option
     const searchTerm = inputValue.toLowerCase()
@@ -70,7 +82,18 @@ const LanguageFilterSelector = ({ setFilter }) => {
         isSearchable
         isClearable
         components={animatedComponents}
-        onChange={(selectedOption, { action }) => handleLanguageChange(selectedOption, action)}
+        onChange={(selectedOption, { action }) =>
+          handleLanguageChange(
+            selectedOption as unknown as SingleValue<
+              optionTypes<{
+                nativeName: string
+                englishName: string
+                isoCode: string
+              }>
+            >,
+            action
+          )
+        }
         options={values}
         // isLoading={isLoading}
         placeholder="🔎 Language(s)"

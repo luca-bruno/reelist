@@ -4,12 +4,12 @@ import { FC, useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { transitionStyles } from "@/helpers"
-import { IS_BROWSER, TMDB_IMAGE_PATH } from "@/constants"
+import { TMDB_IMAGE_PATH } from "@/constants"
 import { movieTypes, providerTypes } from "@/types/movie.interface"
 import Select, { SingleValue } from "react-select"
 import makeAnimated from "react-select/animated"
 import { optionTypes } from "./types/MovieSelectionPaneDropdown.interface"
-import { useClientCountry } from "./../../context/ClientCountryContext"
+import { useClientCountry } from "../../context/ClientCountryContext"
 
 interface MovieSelectionPaneProviders {
   watchProviders: movieTypes["watch/providers"]
@@ -19,15 +19,15 @@ const MovieSelectionPaneProviders: FC<MovieSelectionPaneProviders> = ({ watchPro
   const animatedComponents = makeAnimated()
   const whiteColourStyle = { color: "white" }
 
-  const { clientCountry, updateClientCountry } = useClientCountry()
-  // const [clientCountry, setClientCountry] = useState<{ name: string; code: string }>()
+  const clientCountryContext = useClientCountry()
+
   const [providerPlatforms, setProviderPlatforms] = useState<{ label: string; value: string }[]>()
 
   const [methodValue, setMethodValue] = useState<{ label: string; value: string }>()
 
-  const countryProviders = clientCountry && watchProviders.results[clientCountry.code]
+  const countryProviders = clientCountryContext?.clientCountry && watchProviders.results[clientCountryContext?.clientCountry.code]
 
-  const isProvidersAvailableInClientCountry = Object.keys(watchProviders.results).some(x => x === clientCountry?.code)
+  const isProvidersAvailableInClientCountry = Object.keys(watchProviders.results).some(x => x === clientCountryContext?.clientCountry?.code)
 
   const handleDropdownClick2 = (newValue: SingleValue<optionTypes<string>>) => {
     if (newValue) {
@@ -49,11 +49,8 @@ const MovieSelectionPaneProviders: FC<MovieSelectionPaneProviders> = ({ watchPro
 
       setProviderPlatforms(results)
     }
-  }, [countryProviders, watchProviders, clientCountry])
+  }, [countryProviders, watchProviders, clientCountryContext?.clientCountry])
 
-  // console.log(clientCountry)
-
-  // console.log(isProvidersAvailableInClientCountry)
   useEffect(() => {
     if (watchProviders && countryProviders && isProvidersAvailableInClientCountry) {
       const results = []
@@ -82,7 +79,10 @@ const MovieSelectionPaneProviders: FC<MovieSelectionPaneProviders> = ({ watchPro
       <div className="w-full">
         <Select
           isSearchable={false}
-          className={`py-1.5 text-sm ${Object.keys(watchProviders?.results).length > 0 && isProvidersAvailableInClientCountry ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+          className={`py-1.5 text-sm 
+            ${
+              Object.keys(watchProviders?.results).length > 0 && isProvidersAvailableInClientCountry ? "opacity-100" : "opacity-0 pointer-events-none"
+            }`}
           components={animatedComponents}
           onChange={newValue => handleDropdownClick2(newValue as SingleValue<optionTypes<string>>)}
           options={providerPlatforms}
@@ -182,7 +182,10 @@ const MovieSelectionPaneProviders: FC<MovieSelectionPaneProviders> = ({ watchPro
       </div>
 
       <div
-        className={`text-end text-xs mt-2 ${Object.keys(watchProviders?.results).length > 0 && isProvidersAvailableInClientCountry ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+        className={`text-end text-xs mt-2 
+          ${
+            Object.keys(watchProviders?.results).length > 0 && isProvidersAvailableInClientCountry ? "opacity-100" : "opacity-0 pointer-events-none"
+          }`}
       >
         <em>
           Provided by

@@ -3,6 +3,11 @@
 import { FC, useEffect, useState } from "react"
 import { movieTypes } from "@/types/movie.interface"
 import { HEADERS_ALLOW_ORIGIN, IS_BROWSER } from "@/constants"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons/faArrowLeft"
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons/faArrowRight"
+import { buttonStyles, transitionStyles } from "@/helpers"
+import { filterParamTypes, filterTypes } from "@/types/filter.interface"
 import Search from "../Search"
 import MovieCardList from "../MovieCardList"
 import MovieSelectionPane from "../MovieSelectionPane"
@@ -10,29 +15,28 @@ import YearFilterSelector from "../YearFilterSelector"
 import GenreFilterSelector from "../GenreFilterSelector"
 import LanguageFilterSelector from "../LanguageFilterSelector"
 import CountryFilterSelector from "../CountryFilterSelector"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons/faArrowLeft"
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons/faArrowRight"
-import { buttonStyles, transitionStyles } from "@/helpers"
 
 // Constants & Helper functions
 const alignmentStyles = "flex justify-start items-start"
 const filterWrapperStyles =
   "laptopM:[&>*:not(:first-child)]:mx-2 mobileXL:[&>*:not(:first-child)]:mx-0 [&>*:not(:first-child)]:mx-2 laptopM:mr-1 mx-0 mr-3"
 
-const buildQueryString = filters => {
+const buildQueryString = (filters?: filterParamTypes) => {
   const params = new URLSearchParams()
-  if (filters.genres) params.append("g", filters.genres)
-  if (filters.origin_country) params.append("oc", filters.origin_country)
-  if (filters.original_language) params.append("l", filters.original_language)
-  if (filters.year) params.append("y", filters.year)
+
+  if (filters) {
+    if (filters.genres) params.append("g", filters.genres)
+    if (filters.origin_country) params.append("oc", filters.origin_country)
+    if (filters.original_language) params.append("l", filters.original_language)
+    if (filters.year) params.append("y", filters.year)
+  }
 
   return params.toString()
 }
 
-const fetchMovies = async url => {
+const fetchMovies = async (url: string) => {
   const response = await fetch(url, HEADERS_ALLOW_ORIGIN)
-  return await response.json()
+  return response.json()
 }
 
 const Browse: FC<{ params?: { id?: string; key?: string } }> = ({ params }) => {
@@ -42,11 +46,50 @@ const Browse: FC<{ params?: { id?: string; key?: string } }> = ({ params }) => {
   const [movies, setMovies] = useState<movieTypes[]>()
   const [defaultMovieDetails, setDefaultMovieDetails] = useState<movieTypes | undefined>()
   const [selectedMovieId, setSelectedMovieId] = useState<number>()
-  const [filter, setFilter] = useState<{ genres?: string; origin_country?: string; original_language?: string; year?: string }>()
+  const [filter, setFilter] = useState<filterTypes>()
   const [page, setPage] = useState<number>(1)
 
   const formattedCastMembers = defaultMovieDetails?.credits?.cast.map(castMember => castMember.id).join("|")
   const haveFiltersBeenSelected = filter && Object.keys(filter).length > 0
+
+  // Fetch Functions
+  const fetchMovieById = async () => {
+    const data = await fetchMovies(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movie?id=${id}`)
+    setDefaultMovieDetails(data)
+  }
+
+  const fetchMoviesByQuery = async () => {
+    const data = await fetchMovies(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?q=${query}&p=${page}`)
+    if (query) localStorage.setItem("Latest Search Results", JSON.stringify(data))
+    setMovies(data)
+  }
+
+  const fetchMoviesByFiltersAndQuery = async () => {
+    const queryString = buildQueryString(filter as filterParamTypes)
+    const data = await fetchMovies(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?${queryString}&p=${page}`)
+
+    // If there is a query, filter results based on the query term
+    const filteredMovies = query ? data.filter((movie: movieTypes) => movie.title.toLowerCase().includes(query.toLowerCase())) : data
+
+    localStorage.setItem("Latest Search Results", JSON.stringify(filteredMovies))
+    setMovies(filteredMovies)
+  }
+
+  const fetchMoviesByFiltersOnly = async () => {
+    const queryString = buildQueryString(filter as filterParamTypes)
+    console.log("Fetching movies with filters only:", queryString) // Log the query string for filters
+    const data = await fetchMovies(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?${queryString}&p=${page}`)
+    console.log("Fetched movies:", data) // Log the fetched movies
+    localStorage.setItem("Latest Search Results", JSON.stringify(data))
+    setMovies(data) // Set movies based on filter results
+  }
+
+  const fetchMoviesByIdAndGenre = async () => {
+    const genreResponse = await fetchMovies(`${process.env.NEXT_PUBLIC_BASE_URL}/api/genre?movie=${defaultMovieDetails?.title}`)
+    const data = await fetchMovies(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?g=${genreResponse}&c=${formattedCastMembers}&p=${page}`)
+    const isMovieInList = data?.some((movie: movieTypes) => movie.id === defaultMovieDetails?.id)
+    setMovies(defaultMovieDetails && !isMovieInList ? [defaultMovieDetails, ...data] : data)
+  }
 
   useEffect(() => {
     localStorage.setItem("has-user-previously-visited", "true")
@@ -57,7 +100,7 @@ const Browse: FC<{ params?: { id?: string; key?: string } }> = ({ params }) => {
 
     const handleFetch = async () => {
       const hasQuery = query.trim() !== "" // Checks for non-empty query
-      const hasFilters = filter && Object.keys(filter).some(key => filter[key]) // Check if any filter has a truthy value
+      const hasFilters = filter && Object.keys(filter).some(filterKey => filter[filterKey as keyof filterTypes])
 
       if (hasFilters && hasQuery) {
         console.log("HAS FILTERS AND HAS QUERY")
@@ -109,45 +152,6 @@ const Browse: FC<{ params?: { id?: string; key?: string } }> = ({ params }) => {
       fetchMoviesByIdAndGenre()
     }
   }, [defaultMovieDetails, formattedCastMembers, query, page, filter])
-
-  // Fetch Functions
-  const fetchMovieById = async () => {
-    const data = await fetchMovies(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movie?id=${id}`)
-    setDefaultMovieDetails(data)
-  }
-
-  const fetchMoviesByQuery = async () => {
-    const data = await fetchMovies(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?q=${query}&p=${page}`)
-    if (query) localStorage.setItem("Latest Search Results", JSON.stringify(data))
-    setMovies(data)
-  }
-
-  const fetchMoviesByFiltersAndQuery = async () => {
-    const queryString = buildQueryString(filter)
-    const data = await fetchMovies(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?${queryString}&p=${page}`)
-
-    // If there is a query, filter results based on the query term
-    const filteredMovies = query ? data.filter(movie => movie.title.toLowerCase().includes(query.toLowerCase())) : data
-
-    localStorage.setItem("Latest Search Results", JSON.stringify(filteredMovies))
-    setMovies(filteredMovies)
-  }
-
-  const fetchMoviesByFiltersOnly = async () => {
-    const queryString = buildQueryString(filter)
-    console.log("Fetching movies with filters only:", queryString) // Log the query string for filters
-    const data = await fetchMovies(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?${queryString}&p=${page}`)
-    console.log("Fetched movies:", data) // Log the fetched movies
-    localStorage.setItem("Latest Search Results", JSON.stringify(data))
-    setMovies(data) // Set movies based on filter results
-  }
-
-  const fetchMoviesByIdAndGenre = async () => {
-    const genreResponse = await fetchMovies(`${process.env.NEXT_PUBLIC_BASE_URL}/api/genre?movie=${defaultMovieDetails?.title}`)
-    const data = await fetchMovies(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?g=${genreResponse}&c=${formattedCastMembers}&p=${page}`)
-    const isMovieInList = data?.some((movie: movieTypes) => movie.id === defaultMovieDetails?.id)
-    setMovies(defaultMovieDetails && !isMovieInList ? [defaultMovieDetails, ...data] : data)
-  }
 
   return (
     <main className="grid grid-flow-row grid-rows-2 mobileXL:grid-rows-none mobileXL:grid-cols-3">

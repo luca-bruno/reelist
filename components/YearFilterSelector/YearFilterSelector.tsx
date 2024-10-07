@@ -1,11 +1,13 @@
-import React from "react"
-import Select from "react-select"
+import { FC, Dispatch, SetStateAction } from "react"
+import { filterTypes } from "@/types/filter.interface"
+import Select, { SingleValue } from "react-select"
 import makeAnimated from "react-select/animated"
+import { optionTypes } from "../MovieSelectionPane/types/MovieSelectionPaneDropdown.interface"
 
 // Utility function to generate an array of years
-const generateYears = (startYear, endYear) => {
+const generateYears = (startYear: number, endYear: number) => {
   const years = []
-  for (let year = startYear; year <= endYear; year++) {
+  for (let year = startYear; year <= endYear; year + 1) {
     years.push({ value: year, label: year })
   }
 
@@ -13,7 +15,7 @@ const generateYears = (startYear, endYear) => {
   return years
 }
 
-const YearFilterSelector = ({ setFilter }) => {
+const YearFilterSelector: FC<{ setFilter: Dispatch<SetStateAction<filterTypes | undefined>> }> = ({ setFilter }) => {
   // Generate years between 1888 and the current year
   const currentYear = new Date().getFullYear()
   const years = generateYears(1888, currentYear)
@@ -23,15 +25,15 @@ const YearFilterSelector = ({ setFilter }) => {
 
   // Handle change event when a year is selected
   // TODO: make debounce fn generic across all filter inc search
-  const handleYearChange = (selectedOption, action) => {
+  const handleYearChange = (selectedOption: SingleValue<optionTypes<string>>, action: string) => {
     const delay = 1000
 
     const debounceTimer = setTimeout(() => {
       if (action === "select-option") {
-        setFilter(prev => ({ ...prev, year: selectedOption.value }))
+        setFilter(prev => ({ ...prev, year: selectedOption?.value }))
       } else if (action === "clear") {
         setFilter(prev => {
-          const { year, ...rest } = prev
+          const { year, ...rest } = prev || {}
           return { ...rest } // Return the rest of the filter without the year key
         })
       }
@@ -46,7 +48,7 @@ const YearFilterSelector = ({ setFilter }) => {
         isSearchable
         isClearable
         components={animatedComponents}
-        onChange={(selectedOption, { action }) => handleYearChange(selectedOption, action)}
+        onChange={(selectedOption, { action }) => handleYearChange(selectedOption as SingleValue<optionTypes<string>>, action)}
         options={years}
         // isLoading={isLoading}
         placeholder="🔎 Year"

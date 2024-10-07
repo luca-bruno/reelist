@@ -4,12 +4,12 @@ import { FC, useState, useEffect } from "react"
 import { movieTypes } from "@/types/movie.interface"
 import useImage from "@/hooks/useImage/useImage"
 import { HEADERS_ALLOW_ORIGIN } from "@/constants"
+import { transitionStyles } from "@/helpers"
 import MovieSelectionPaneBackground from "./MovieSelectionPaneBackground"
 import MovieSelectionPanePoster from "./MovieSelectionPanePoster"
 import MovieSelectionPaneDetails from "./MovieSelectionPaneDetails"
 import MovieSelectionPaneDropdown from "./MovieSelectionPaneDropdown"
 import { MovieSelectionPaneTypes } from "./types/MovieSelectionPane.interface"
-import { transitionStyles } from "@/helpers"
 import MovieSelectionPaneCastCrewDetails from "./MovieSelectionPaneCastCrewDetails"
 import MovieSelectionPaneDetailsHeader from "./MovieSelectionPaneDetailsHeader"
 
@@ -126,7 +126,8 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) =>
               <button
                 type="button"
                 onClick={() => setIsDisplayingCastandCrew(prev => !prev)}
-                className={`px-3 flex justify-center items-center h-[38px] rounded-xl opacity-80 hover:opacity-100 bg-[gray] hover:bg-accent-500 ${transitionStyles}`}
+                className={`px-3 flex justify-center items-center h-[38px] rounded-xl opacity-80 
+                  hover:opacity-100 bg-[gray] hover:bg-accent-500 ${transitionStyles}`}
               >
                 {isDisplayingCastandCrew ? <>🎬 Full Cast & Crew</> : <>🎥 Summary</>}
               </button>
@@ -170,7 +171,6 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) =>
               </div>
             </div>
           ) : (
-            // TODO: make title, og title and separated part its own comp and use it both - (BUT flags truncated in summary)
             <>
               <div className="p-5 pb-0">
                 <MovieSelectionPaneDetailsHeader

@@ -1,10 +1,12 @@
 import "./globals.css"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
-import { ClientCountryProvider } from "../context/ClientCountryContext"
 
 // Prevent Font Awesome from adding its CSS since we did it manually above:
 import { config } from "@fortawesome/fontawesome-svg-core"
+
+import { ClientCountryProvider } from "../context/ClientCountryContext"
+
 
 const inter = Inter({ subsets: ["latin"] })
 

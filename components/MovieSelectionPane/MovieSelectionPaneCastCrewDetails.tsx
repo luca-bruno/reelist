@@ -1,39 +1,41 @@
 import { FC } from "react"
 import Image from "next/image"
-import { capitaliseEachWord, getCountryEmoji } from "@/helpers"
-import moment from "moment"
-import MovieSelectionPaneDetailsTypes from "./types/MovieSelectionPaneDetails.interface"
+import { capitaliseEachWord } from "@/helpers"
 import { TMDB_IMAGE_PATH } from "@/constants"
 import fallbackPlaceholderUser from "@/public/fallbackPlaceholderUser.jpg"
+import MovieSelectionPaneCastCrewDetailsTypes from "./types/MovieSelectionPaneCastCrewDetails.interface"
 
-const MovieSelectionPaneCastCrewDetails: FC<MovieSelectionPaneDetailsTypes> = ({ cast, crew }) => {
+const MovieSelectionPaneCastCrewDetails: FC<MovieSelectionPaneCastCrewDetailsTypes> = ({ cast, crew }) => {
   const actors = cast
     ?.filter(item => item.known_for_department === "Acting")
-    .map(({ original_name, character, profile_path: profilePath }) => ({ name: original_name, character, profilePath }))
+    .map(({ original_name, character, profile_path: profilePath, id }) => ({ name: original_name, character, profilePath, id }))
 
-  const groupedByDepartment = crew?.reduce((acc, member) => {
-    const { department, name, job } = member
+  const groupedByDepartment = crew?.reduce(
+    (acc, member) => {
+      const { department, name, job, id } = member
 
-    if (!acc[department]) {
-      acc[department] = {
-        department: department,
-        people: []
+      if (!acc[department]) {
+        acc[department] = {
+          department,
+          people: []
+        }
       }
-    }
 
-    acc[department].people.push({ name, job })
+      acc[department].people.push({ name, job, id })
 
-    return acc
-  }, {})
+      return acc
+    },
+    {} as { [department: string]: { department: string; people: { name: string; job: string, id: number }[] } }
+  )
 
-  const result = Object.values(groupedByDepartment)
+  const result = Object.values(groupedByDepartment || {})
 
   return (
     <>
       <h2 className="text-lg font-semibold mb-1">Cast</h2>
       <div className="grid grid-cols-2 gap-x-4">
-        {actors?.map(({ name, character, profilePath }, index) => (
-          <div key={index} className="mb-3 text-sm">
+        {actors?.map(({ name, character, profilePath, id }) => (
+          <div key={id} className="mb-3 text-sm">
             <div className="grid gap-1">
               <div className="flex justify-between items-center gap-x-4 pl-2 rounded transition duration-200 ease-in-out">
                 <div className="flex items-center">
@@ -56,12 +58,12 @@ const MovieSelectionPaneCastCrewDetails: FC<MovieSelectionPaneDetailsTypes> = ({
       </div>
 
       <div>
-        {result?.map((item, index) => (
-          <div key={index} className="mb-3">
+        {result?.map(item => (
+          <div key={item.department} className="mb-3">
             <h2 className="text-lg font-semibold mb-1">{item.department}</h2>
             <div className="grid grid-cols-2 gap-x-4 text-sm">
-              {item.people?.map(({ name, job }, idx) => (
-                <div key={idx} className="flex justify-between items-center gap-x-4 pl-2 rounded transition duration-200 ease-in-out">
+              {item.people?.map(({ name, job, id }) => (
+                <div key={id} className="flex justify-between items-center gap-x-4 pl-2 rounded transition duration-200 ease-in-out">
                   <div className="flex items-center">
                     <p className="font-semibold">{`${capitaliseEachWord(name)}`}</p>
                   </div>

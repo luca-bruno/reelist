@@ -7,10 +7,10 @@ import { Atkinson_Hyperlegible } from "next/font/google"
 import { getCountryEmoji } from "@/helpers"
 import fetchClientCountry from "@/services/fetchClientCountry/fetchClientCountry"
 import { IS_BROWSER } from "@/constants"
-import { optionTypes } from "../MovieSelectionPane/types/MovieSelectionPaneDropdown.interface"
 import { countriesTypes } from "@/types/movie.interface"
 import useCountries from "@/hooks/useCountries/useCountries"
 import { useClientCountry } from "@/context/ClientCountryContext"
+import { optionTypes } from "../MovieSelectionPane/types/MovieSelectionPaneDropdown.interface"
 
 const atkinsonHyperlegible = Atkinson_Hyperlegible({
   subsets: ["latin"],
@@ -27,10 +27,10 @@ const CountrySelector = () => {
   const animatedComponents = makeAnimated()
   const whiteColourStyle = { color: "white" }
 
-  const { updateClientCountry } = useClientCountry()
 
-  const { data: countriesResponseData, isLoading: isCountriesLoading } = useCountries(false) // Ensure skip condition is properly managed
-  // const { data: countriesResponseData } = useCountries(false)
+  const clientCountryContext = useClientCountry()
+
+  const { data: countriesResponseData, isLoading: isCountriesLoading } = useCountries(false)
 
   useEffect(() => {
     const loadClientCountry = async () => {
@@ -80,12 +80,11 @@ const CountrySelector = () => {
     if (newValue) {
       setValue(newValue)
       localStorage.setItem("client-country", JSON.stringify({ name: newValue.value?.name, code: newValue.value?.code }))
-      updateClientCountry({ name: newValue.value?.name, code: newValue.value?.code })
+      clientCountryContext?.updateClientCountry({ name: newValue.value?.name, code: newValue.value?.code })
     }
   }
 
   useEffect(() => {
-    console.log(clientCountry)
     if (countries && countries?.length > 0) {
       const prioritizedCountry =
         countries?.find(country => country.value.name === clientCountry?.name) ||

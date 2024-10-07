@@ -1,17 +1,19 @@
-import { useEffect, useState } from "react"
+import { FC, Dispatch, SetStateAction, useEffect, useState } from "react"
 import useCountries from "@/hooks/useCountries/useCountries"
-import Select from "react-select"
+import Select, { MultiValue } from "react-select"
 import { getCountryEmoji } from "@/helpers"
 import { countriesTypes } from "@/types/movie.interface"
 import makeAnimated from "react-select/animated"
+import { filterTypes } from "@/types/filter.interface"
+import { optionTypes } from "../MovieSelectionPane/types/MovieSelectionPaneDropdown.interface"
 
-const CountryFilterSelector = ({ setFilter }) => {
+const CountryFilterSelector: FC<{ setFilter: Dispatch<SetStateAction<filterTypes | undefined>> }> = ({ setFilter }) => {
   const [values, setValues] = useState()
 
   const animatedComponents = makeAnimated()
   const whiteColourStyle = { color: "white" }
 
-  const { data: countriesResponseData } = useCountries()
+  const { data: countriesResponseData } = useCountries(false)
 
   useEffect(() => {
     const formattedCountries = countriesResponseData
@@ -27,15 +29,23 @@ const CountryFilterSelector = ({ setFilter }) => {
         englishName: country.english_name, // Adding English name for search
         isoCode: country.iso_3166_1 // Adding ISO code for search
       }))
-      .sort((a, b) => a.nativeName?.localeCompare(b.nativeName))
+      .sort((a: { nativeName: string }, b: { nativeName: string }) => a.nativeName?.localeCompare(b.nativeName))
 
     setValues(formattedCountries)
   }, [countriesResponseData])
 
-  const handleCountryChange = (selectedOption, action) => {
+  const handleCountryChange = (
+    selectedOption: MultiValue<
+      optionTypes<{
+        nativeName: string
+        englishName: string
+        isoCode: string
+      }>
+    >,
+    action: string
+  ) => {
     const delay = 1000
 
-    // TODO: FIX ME AND GENRE MULTI SO TO REMOVE KEYS ON CLEAR
     const debounceTimer = setTimeout(() => {
       if (action === "select-option") {
         // Extract values from selected options for multi-select
@@ -43,15 +53,15 @@ const CountryFilterSelector = ({ setFilter }) => {
         setFilter(prev => ({ ...prev, origin_country: extractValues }))
       } else if (action === "clear") {
         setFilter(prev => {
-          const { origin_country, ...rest } = prev // Destructure to exclude origin_country
+          const { origin_country, ...rest } = prev || {} // Destructure to exclude origin_country
           return { ...rest } // Return the rest of the filter without the origin_country key
         })
       } else if (action === "remove-value") {
         setFilter(prev => {
           const currentCountry = selectedOption.map(option => option.value)
-          const valueToRemove = prev.origin_country.find(country => !currentCountry.includes(country))
+          const valueToRemove = prev?.origin_country?.find(country => !currentCountry.includes(country))
 
-          const filteredCountries = [...prev.origin_country].filter(country => country !== valueToRemove)
+          const filteredCountries = [...(prev?.origin_country || [])].filter(country => country !== valueToRemove)
 
           return { ...prev, origin_country: filteredCountries }
         })
@@ -61,8 +71,17 @@ const CountryFilterSelector = ({ setFilter }) => {
     return () => clearTimeout(debounceTimer)
   }
 
-  const filterOption = (option, inputValue) => {
-    // NOTE: Searchable by country code, native name or English-translated name
+  const filterOption = (
+    // option: FilterOptionOption<{ label: JSX.Element; value: string, data: { nativeName: string; englishName: string; isoCode: string } }>,
+    // option: ((option: FilterOptionOption, inputValue: string) => boolean) | null | undefined,
+    // inputValue: string
+  // ) => {
+    (option: { label: string; data: { nativeName: string; englishName: string; isoCode: string; } }, inputValue: string) => {
+    // (option: { label: JSX.Element; data: { nativeName: string; englishName: string; isoCode: string } }, inputValue: string) => {
+
+  
+
+      // NOTE: Searchable by country code, native name or English-translated name
     const { label, data } = option
     const searchTerm = inputValue.toLowerCase()
 
@@ -73,7 +92,7 @@ const CountryFilterSelector = ({ setFilter }) => {
       (data.englishName?.toLowerCase() || "").includes(searchTerm) ||
       (data.isoCode?.toLowerCase() || "").includes(searchTerm)
     )
-  }
+  })
 
   return (
     <div>
@@ -81,7 +100,18 @@ const CountryFilterSelector = ({ setFilter }) => {
         isMulti
         isSearchable
         components={animatedComponents}
-        onChange={(selectedOption, { action }) => handleCountryChange(selectedOption, action)}
+        onChange={(selectedOption, { action }) =>
+          handleCountryChange(
+            selectedOption as unknown as MultiValue<
+              optionTypes<{
+                nativeName: string
+                englishName: string
+                isoCode: string
+              }>
+            >,
+            action
+          )
+        }
         options={values}
         // isLoading={isLoading}
         placeholder="🔎 Country(ies)"
@@ -100,7 +130,6 @@ const CountryFilterSelector = ({ setFilter }) => {
           }),
           menu: base => ({
             ...base,
-            // zIndex: "20",
             backgroundColor: "#eaeaea",
             borderRadius: "0.75rem",
             boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"

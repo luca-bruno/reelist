@@ -1,11 +1,16 @@
 "use client"
 
-import React, { createContext, useContext, useState } from "react"
+import { createContext, FC, ReactNode, useContext, useState } from "react"
+
+interface ClientCountryContextType {
+  clientCountry: { name: string; code: string } | null
+  updateClientCountry: (country: { name: string; code: string }) => void
+}
 
 // TODO: split into context, provider & custom hook
-const ClientCountryContext = createContext(null)
+const ClientCountryContext = createContext<ClientCountryContextType | null>(null)
 
-export const ClientCountryProvider = ({ children }) => {
+export const ClientCountryProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [clientCountry, setClientCountry] = useState(() => {
     if (typeof window !== "undefined") {
       const storedClientCountry = localStorage.getItem("client-country")
@@ -14,8 +19,8 @@ export const ClientCountryProvider = ({ children }) => {
     return null
   })
 
-  const updateClientCountry = newCountry => {
-    localStorage.setItem("client-country", JSON.stringify(newCountry)) // Update local storage
+  const updateClientCountry = (newCountry: { name: string; code: string }) => {
+    localStorage.setItem("client-country", JSON.stringify(newCountry))
     setClientCountry(newCountry)
   }
 
