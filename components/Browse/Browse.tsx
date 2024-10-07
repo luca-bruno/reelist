@@ -15,6 +15,26 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons/faArrowLeft"
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons/faArrowRight"
 import { buttonStyles, transitionStyles } from "@/helpers"
 
+// Constants & Helper functions
+const alignmentStyles = "flex justify-start items-start"
+const filterWrapperStyles =
+  "laptopM:[&>*:not(:first-child)]:mx-2 mobileXL:[&>*:not(:first-child)]:mx-0 [&>*:not(:first-child)]:mx-2 laptopM:mr-1 mx-0 mr-3"
+
+const buildQueryString = filters => {
+  const params = new URLSearchParams()
+  if (filters.genres) params.append("g", filters.genres)
+  if (filters.origin_country) params.append("oc", filters.origin_country)
+  if (filters.original_language) params.append("l", filters.original_language)
+  if (filters.year) params.append("y", filters.year)
+
+  return params.toString()
+}
+
+const fetchMovies = async url => {
+  const response = await fetch(url, HEADERS_ALLOW_ORIGIN)
+  return await response.json()
+}
+
 const Browse: FC<{ params?: { id?: string; key?: string } }> = ({ params }) => {
   const { id, key } = params || {}
 
@@ -28,102 +48,106 @@ const Browse: FC<{ params?: { id?: string; key?: string } }> = ({ params }) => {
   const formattedCastMembers = defaultMovieDetails?.credits?.cast.map(castMember => castMember.id).join("|")
   const haveFiltersBeenSelected = filter && Object.keys(filter).length > 0
 
-  const alignmentStyles = "flex justify-start items-start"
-  const filterWrapperStyles =
-    "laptopM:[&>*:not(:first-child)]:mx-2 mobileXL:[&>*:not(:first-child)]:mx-0 [&>*:not(:first-child)]:mx-2 laptopM:mr-1 mx-0 mr-3"
-
   useEffect(() => {
     localStorage.setItem("has-user-previously-visited", "true")
   }, [])
 
-  // Effect to handle fetching movies based on query, filters, id, etc.
   useEffect(() => {
-    const fetchMovieById = async () => {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movie?id=${id}`, HEADERS_ALLOW_ORIGIN)
-      const data = await response.json()
-      setDefaultMovieDetails(data)
-    }
+    console.log("Fetching with Query:", query, "Filters:", filter)
 
-    const fetchMoviesByQuery = async () => {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?q=${query}&p=${page}`, HEADERS_ALLOW_ORIGIN)
-      const data = await response.json()
+    const handleFetch = async () => {
+      const hasQuery = query.trim() !== "" // Checks for non-empty query
+      const hasFilters = filter && Object.keys(filter).some(key => filter[key]) // Check if any filter has a truthy value
 
-      if (query !== "") {
-        localStorage.setItem("Latest Search Results", JSON.stringify(data))
+      if (hasFilters && hasQuery) {
+        console.log("HAS FILTERS AND HAS QUERY")
+        // Both filters and query are present
+        await fetchMoviesByFiltersAndQuery()
+      } else if (hasFilters) {
+        console.log("HAS FILTERS")
+        // Only filters are present
+        await fetchMoviesByFiltersOnly()
+      } else if (hasQuery) {
+        console.log("HAS QUERY")
+        // Only query is present
+        await fetchMoviesByQuery()
+      } else if (id) {
+        console.log("HAS ID")
+        // Only fetch by ID if nothing else is present
+        if (query === "" && !hasFilters) {
+          await fetchMovieById()
+        }
+      } else if (IS_BROWSER && key) {
+        console.log("BROWSER ONES")
+        // Fetch stored playlist movies from localStorage
+        const storedMovies = JSON.parse(localStorage.getItem(key) as string)
+        setMovies(storedMovies)
+      } else {
+        console.log("DEFAULTINGS")
+        // If nothing is applied, fetch default or all movies
+        await fetchMoviesByQuery() // Adjust if you have a different endpoint for default movies
       }
-      setMovies(data)
     }
 
-    const fetchMoviesByQueryAndFilters = async () => {
-      const buildQueryString = filters => {
-        const params = new URLSearchParams()
+    handleFetch()
+  }, [filter, id, key, query, page])
 
-        if (filters.genres) params.append("g", filters.genres)
-        if (filters.origin_country) params.append("oc", filters.origin_country)
-        if (filters.original_language) params.append("l", filters.original_language)
-        if (filters.year) params.append("y", filters.year)
-
-        return params.toString()
-      }
-
-      const queryString = buildQueryString(filter)
-
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?${queryString}&p=${page}`, HEADERS_ALLOW_ORIGIN)
-      const data = await response.json()
-
-      localStorage.setItem("Latest Search Results", JSON.stringify(data))
-
-      const filteredMovies = query ? data.filter(movie => movie.title.toLowerCase().includes(query.toLowerCase())) : data
-
-      setMovies(filteredMovies)
-    }
-
-    if (haveFiltersBeenSelected) {
-      fetchMoviesByQueryAndFilters()
-    } else if (query) {
-      fetchMoviesByQuery()
-    } else if (id) {
-      fetchMovieById()
-    } else if (IS_BROWSER && key) {
-      const storedSelectedPlaylistMovies = JSON.parse(localStorage.getItem(key) as string)
-      setMovies(storedSelectedPlaylistMovies)
-    } else {
-      fetchMoviesByQuery()
-    }
-  }, [filter, haveFiltersBeenSelected, id, key, query, page])
-
-  // Effect to reset page when query or filters change (and handle empty query string "")
   useEffect(() => {
-    // Reset the page to 1 if page is greater than 1, query changes, filters are selected, or query is cleared
-    if (page > 1 && (query !== "" || haveFiltersBeenSelected)) {
+    // Reset page to 1 when the query or filters change (or query is cleared)
+    if (page !== 1 && (query !== "" || haveFiltersBeenSelected)) {
       setPage(1)
-    } else if (query === "" && page > 1) {
-      // If query is cleared (""), reset to page 1
+    } else if (query === "" && page !== 1) {
       setPage(1)
     }
   }, [query, filter, haveFiltersBeenSelected])
 
-  // Second useEffect for fetching movies based on genre and cast members
   useEffect(() => {
-    const fetchMoviesByIdAndGenre = async () => {
-      const groqGenreResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/genre?movie=${defaultMovieDetails?.title}`, HEADERS_ALLOW_ORIGIN)
-      const groqGenreResponseData = await groqGenreResponse.json()
+    // Only fetch by ID and genre if the query is empty and no filters are applied
+    const hasFilters = filter && Object.keys(filter).length > 0 // Check if filters are applied
 
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?g=${groqGenreResponseData}&c=${formattedCastMembers}&p=${page}`,
-        HEADERS_ALLOW_ORIGIN
-      )
-      const data = await response.json()
-
-      const isMovieAlreadyInList = data?.some((movie: movieTypes) => movie.id === defaultMovieDetails?.id)
-
-      setMovies(defaultMovieDetails && !isMovieAlreadyInList ? [defaultMovieDetails, ...data] : data)
-    }
-
-    if (defaultMovieDetails && formattedCastMembers && !query) {
+    if (defaultMovieDetails && formattedCastMembers && !query && !hasFilters) {
       fetchMoviesByIdAndGenre()
     }
-  }, [defaultMovieDetails, formattedCastMembers, query, page])
+  }, [defaultMovieDetails, formattedCastMembers, query, page, filter])
+
+  // Fetch Functions
+  const fetchMovieById = async () => {
+    const data = await fetchMovies(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movie?id=${id}`)
+    setDefaultMovieDetails(data)
+  }
+
+  const fetchMoviesByQuery = async () => {
+    const data = await fetchMovies(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?q=${query}&p=${page}`)
+    if (query) localStorage.setItem("Latest Search Results", JSON.stringify(data))
+    setMovies(data)
+  }
+
+  const fetchMoviesByFiltersAndQuery = async () => {
+    const queryString = buildQueryString(filter)
+    const data = await fetchMovies(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?${queryString}&p=${page}`)
+
+    // If there is a query, filter results based on the query term
+    const filteredMovies = query ? data.filter(movie => movie.title.toLowerCase().includes(query.toLowerCase())) : data
+
+    localStorage.setItem("Latest Search Results", JSON.stringify(filteredMovies))
+    setMovies(filteredMovies)
+  }
+
+  const fetchMoviesByFiltersOnly = async () => {
+    const queryString = buildQueryString(filter)
+    console.log("Fetching movies with filters only:", queryString) // Log the query string for filters
+    const data = await fetchMovies(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?${queryString}&p=${page}`)
+    console.log("Fetched movies:", data) // Log the fetched movies
+    localStorage.setItem("Latest Search Results", JSON.stringify(data))
+    setMovies(data) // Set movies based on filter results
+  }
+
+  const fetchMoviesByIdAndGenre = async () => {
+    const genreResponse = await fetchMovies(`${process.env.NEXT_PUBLIC_BASE_URL}/api/genre?movie=${defaultMovieDetails?.title}`)
+    const data = await fetchMovies(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?g=${genreResponse}&c=${formattedCastMembers}&p=${page}`)
+    const isMovieInList = data?.some((movie: movieTypes) => movie.id === defaultMovieDetails?.id)
+    setMovies(defaultMovieDetails && !isMovieInList ? [defaultMovieDetails, ...data] : data)
+  }
 
   return (
     <main className="grid grid-flow-row grid-rows-2 mobileXL:grid-rows-none mobileXL:grid-cols-3">
