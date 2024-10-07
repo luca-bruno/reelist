@@ -4,7 +4,7 @@ import { capitaliseEachWord, getCountryEmoji } from "@/helpers"
 import moment from "moment"
 import MovieSelectionPaneDetailsTypes from "./types/MovieSelectionPaneDetails.interface"
 import { TMDB_IMAGE_PATH } from "@/constants"
-import fallbackPlaceholder from "@/public/fallbackPlaceholder.jpg"
+import fallbackPlaceholderUser from "@/public/fallbackPlaceholderUser.jpg"
 
 const MovieSelectionPaneCastCrewDetails: FC<MovieSelectionPaneDetailsTypes> = ({ cast, crew }) => {
   const actors = cast
@@ -40,7 +40,7 @@ const MovieSelectionPaneCastCrewDetails: FC<MovieSelectionPaneDetailsTypes> = ({
                   <Image
                     unoptimized
                     className="rounded-xl select-none slide_fade_from_left"
-                    src={profilePath ? `${TMDB_IMAGE_PATH}${profilePath}` : fallbackPlaceholder}
+                    src={profilePath ? `${TMDB_IMAGE_PATH}${profilePath}` : fallbackPlaceholderUser}
                     alt={`${name}`}
                     width={30}
                     height={30}
