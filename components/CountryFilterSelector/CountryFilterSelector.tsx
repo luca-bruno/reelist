@@ -53,8 +53,9 @@ const CountryFilterSelector: FC<{ setFilter: Dispatch<SetStateAction<filterTypes
         setFilter(prev => ({ ...prev, origin_country: extractValues }))
       } else if (action === "clear") {
         setFilter(prev => {
-          const { origin_country, ...rest } = prev || {} // Destructure to exclude origin_country
-          return { ...rest } // Return the rest of the filter without the origin_country key
+          const newFilter = { ...prev }
+          delete newFilter.origin_country
+          return newFilter // Return the modified filter without the origin_country key
         })
       } else if (action === "remove-value") {
         setFilter(prev => {
@@ -71,17 +72,8 @@ const CountryFilterSelector: FC<{ setFilter: Dispatch<SetStateAction<filterTypes
     return () => clearTimeout(debounceTimer)
   }
 
-  const filterOption = (
-    // option: FilterOptionOption<{ label: JSX.Element; value: string, data: { nativeName: string; englishName: string; isoCode: string } }>,
-    // option: ((option: FilterOptionOption, inputValue: string) => boolean) | null | undefined,
-    // inputValue: string
-  // ) => {
-    (option: { label: string; data: { nativeName: string; englishName: string; isoCode: string; } }, inputValue: string) => {
-    // (option: { label: JSX.Element; data: { nativeName: string; englishName: string; isoCode: string } }, inputValue: string) => {
-
-  
-
-      // NOTE: Searchable by country code, native name or English-translated name
+  const filterOption = (option: { label: string; data: { nativeName: string; englishName: string; isoCode: string } }, inputValue: string) => {
+    // NOTE: Searchable by country code, native name or English-translated name
     const { label, data } = option
     const searchTerm = inputValue.toLowerCase()
 
@@ -92,7 +84,7 @@ const CountryFilterSelector: FC<{ setFilter: Dispatch<SetStateAction<filterTypes
       (data.englishName?.toLowerCase() || "").includes(searchTerm) ||
       (data.isoCode?.toLowerCase() || "").includes(searchTerm)
     )
-  })
+  }
 
   return (
     <div>
@@ -144,44 +136,23 @@ const CountryFilterSelector: FC<{ setFilter: Dispatch<SetStateAction<filterTypes
             cursor: "pointer",
             borderRadius: "0.5rem",
             backgroundColor: "#eaeaea",
-            // ...whiteColourStyle,
             "&:hover": {
               backgroundColor: "#ec7b69",
               color: "white"
             }
           }),
-          placeholder: base => ({
-            ...base
-            // ...whiteColourStyle
-            // color: "rgb(156 163 175 / 0.5)"
-          }),
-          input: base => ({
-            ...base
-            // ...whiteColourStyle
-            // color: "rgb(156 163 175 / 0.5)"
-          }),
-          noOptionsMessage: base => ({
-            ...base
-            // ...whiteColourStyle
-          }),
           dropdownIndicator: (base, state) => ({
             ...base,
             color: "#808088",
-            // ...whiteColourStyle,
             "&:hover": {
               color: "#808088"
-              // ...whiteColourStyle
             },
             transition: "transform 0.3s ease",
             transform: state.selectProps.menuIsOpen ? "rotate(180deg)" : "rotate(0deg)"
           }),
           singleValue: base => ({
             ...base,
-            // ...whiteColourStyle,
-            text: "black",
-            "&:hover": {
-              // ...whiteColourStyle
-            }
+            text: "black"
           }),
           loadingIndicator: base => ({
             ...base,

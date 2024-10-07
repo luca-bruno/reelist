@@ -33,8 +33,9 @@ const YearFilterSelector: FC<{ setFilter: Dispatch<SetStateAction<filterTypes | 
         setFilter(prev => ({ ...prev, year: selectedOption?.value }))
       } else if (action === "clear") {
         setFilter(prev => {
-          const { year, ...rest } = prev || {}
-          return { ...rest } // Return the rest of the filter without the year key
+          const newFilter = { ...prev }
+          delete newFilter.year
+          return newFilter // Return the modified filter without the year key
         })
       }
     }, delay)
@@ -66,7 +67,6 @@ const YearFilterSelector: FC<{ setFilter: Dispatch<SetStateAction<filterTypes | 
           }),
           menu: base => ({
             ...base,
-            // zIndex: "20",
             backgroundColor: "#eaeaea",
             borderRadius: "0.75rem",
             boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"
@@ -81,44 +81,23 @@ const YearFilterSelector: FC<{ setFilter: Dispatch<SetStateAction<filterTypes | 
             cursor: "pointer",
             borderRadius: "0.5rem",
             backgroundColor: state.isSelected ? "#E64833" : "#eaeaea",
-            // ...whiteColourStyle,
             "&:hover": {
               backgroundColor: "#ec7b69",
               color: "white"
             }
           }),
-          placeholder: base => ({
-            ...base
-            // ...whiteColourStyle
-            // color: "rgb(156 163 175 / 0.5)"
-          }),
-          input: base => ({
-            ...base
-            // ...whiteColourStyle
-            // color: "rgb(156 163 175 / 0.5)"
-          }),
-          noOptionsMessage: base => ({
-            ...base
-            // ...whiteColourStyle
-          }),
           dropdownIndicator: (base, state) => ({
             ...base,
             color: "#808088",
-            // ...whiteColourStyle,
             "&:hover": {
               color: "#808088"
-              // ...whiteColourStyle
             },
             transition: "transform 0.3s ease",
             transform: state.selectProps.menuIsOpen ? "rotate(180deg)" : "rotate(0deg)"
           }),
           singleValue: base => ({
             ...base,
-            // ...whiteColourStyle,
-            text: "black",
-            "&:hover": {
-              // ...whiteColourStyle
-            }
+            text: "black"
           }),
           loadingIndicator: base => ({
             ...base,

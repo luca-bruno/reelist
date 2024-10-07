@@ -8,7 +8,7 @@ interface Tag<T> {
 type directorTagType = Tag<{ name: creditTypes["name"] }[]>
 type starringTagType = Tag<{ name: (creditTypes & castTypes)["name"] }[]>
 type genreTagType = Tag<movieTypes["genres"]>
-type languageTagType = Tag<{ name: spokenLanguageTypes["name"]}[]>
+type languageTagType = Tag<{ name: spokenLanguageTypes["name"] }[]>
 
 export type TagsTypes = directorTagType | starringTagType | genreTagType | languageTagType
 

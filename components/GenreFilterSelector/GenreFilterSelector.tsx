@@ -43,15 +43,16 @@ const GenreFilterSelector: FC<{ setFilter: Dispatch<SetStateAction<filterTypes |
         setFilter(prev => ({ ...prev, genres: extractValues }))
       } else if (action === "clear") {
         setFilter(prev => {
-          const { genres, ...rest } = prev || {} // Destructure to exclude origin_country
-          return { ...rest } // Return the rest of the filter without the origin_country key
+          const newFilter = { ...prev }
+          delete newFilter.genres
+          return newFilter // Return the modified filter without the genre key
         })
       } else if (action === "remove-value") {
         setFilter(prev => {
           const currentGenres = selectedOption.map(option => option.value)
           const valueToRemove = prev?.genres?.find(genre => !currentGenres.includes(genre))
 
-          const filteredGenres = [...prev?.genres || []].filter(genre => genre !== valueToRemove)
+          const filteredGenres = [...(prev?.genres || [])].filter(genre => genre !== valueToRemove)
 
           return { ...prev, genres: filteredGenres }
         })
@@ -95,7 +96,6 @@ const GenreFilterSelector: FC<{ setFilter: Dispatch<SetStateAction<filterTypes |
           }),
           menu: base => ({
             ...base,
-            // zIndex: "20",
             backgroundColor: "#eaeaea",
             borderRadius: "0.75rem",
             boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"
@@ -110,44 +110,23 @@ const GenreFilterSelector: FC<{ setFilter: Dispatch<SetStateAction<filterTypes |
             cursor: "pointer",
             borderRadius: "0.5rem",
             backgroundColor: "#eaeaea",
-            // ...whiteColourStyle,
             "&:hover": {
               backgroundColor: "#ec7b69",
               color: "white"
             }
           }),
-          placeholder: base => ({
-            ...base
-            // ...whiteColourStyle
-            // color: "rgb(156 163 175 / 0.5)"
-          }),
-          input: base => ({
-            ...base
-            // ...whiteColourStyle
-            // color: "rgb(156 163 175 / 0.5)"
-          }),
-          noOptionsMessage: base => ({
-            ...base
-            // ...whiteColourStyle
-          }),
           dropdownIndicator: (base, state) => ({
             ...base,
             color: "#808088",
-            // ...whiteColourStyle,
             "&:hover": {
               color: "#808088"
-              // ...whiteColourStyle
             },
             transition: "transform 0.3s ease",
             transform: state.selectProps.menuIsOpen ? "rotate(180deg)" : "rotate(0deg)"
           }),
           singleValue: base => ({
             ...base,
-            // ...whiteColourStyle,
-            text: "black",
-            "&:hover": {
-              // ...whiteColourStyle
-            }
+            text: "black"
           }),
           loadingIndicator: base => ({
             ...base,

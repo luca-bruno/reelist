@@ -25,7 +25,7 @@ const MovieSelectionPaneCastCrewDetails: FC<MovieSelectionPaneCastCrewDetailsTyp
 
       return acc
     },
-    {} as { [department: string]: { department: string; people: { name: string; job: string, id: number }[] } }
+    {} as { [department: string]: { department: string; people: { name: string; job: string; id: number }[] } }
   )
 
   const result = Object.values(groupedByDepartment || {})

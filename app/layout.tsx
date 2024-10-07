@@ -7,7 +7,6 @@ import { config } from "@fortawesome/fontawesome-svg-core"
 
 import { ClientCountryProvider } from "../context/ClientCountryContext"
 
-
 const inter = Inter({ subsets: ["latin"] })
 
 config.autoAddCss = false
