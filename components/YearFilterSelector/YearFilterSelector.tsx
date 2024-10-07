@@ -31,7 +31,7 @@ const YearFilterSelector = ({ setFilter }) => {
         setFilter(prev => ({ ...prev, year: selectedOption.value }))
       } else if (action === "clear") {
         setFilter(prev => {
-          const { year, ...rest } = prev // Destructure to exclude year
+          const { year, ...rest } = prev
           return { ...rest } // Return the rest of the filter without the year key
         })
       }
