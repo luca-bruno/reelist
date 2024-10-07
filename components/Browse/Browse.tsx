@@ -6,6 +6,14 @@ import { HEADERS_ALLOW_ORIGIN, IS_BROWSER } from "@/constants"
 import Search from "../Search"
 import MovieCardList from "../MovieCardList"
 import MovieSelectionPane from "../MovieSelectionPane"
+import YearFilterSelector from "../YearFilterSelector"
+import GenreFilterSelector from "../GenreFilterSelector"
+import LanguageFilterSelector from "../LanguageFilterSelector"
+import CountryFilterSelector from "../CountryFilterSelector"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons/faArrowLeft"
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons/faArrowRight"
+import { buttonStyles } from "@/helpers"
 
 const Browse: FC<{ params?: { id?: string; key?: string } }> = ({ params }) => {
   const { id, key } = params || {}
@@ -14,8 +22,14 @@ const Browse: FC<{ params?: { id?: string; key?: string } }> = ({ params }) => {
   const [movies, setMovies] = useState<movieTypes[]>()
   const [defaultMovieDetails, setDefaultMovieDetails] = useState<movieTypes | undefined>()
   const [selectedMovieId, setSelectedMovieId] = useState<number>()
+  const [filter, setFilter] = useState<{ genres?: string; origin_country?: string; original_language?: string; year?: string }>()
 
   const formattedCastMembers = defaultMovieDetails?.credits?.cast.map(castMember => castMember.id).join("|")
+  const haveFiltersBeenSelected = filter && Object.keys(filter).length > 0
+
+  const alignmentStyles = "flex justify-start items-start"
+  const filterWrapperStyles =
+    "laptopM:[&>*:not(:first-child)]:mx-2 mobileXL:[&>*:not(:first-child)]:mx-0 [&>*:not(:first-child)]:mx-2 laptopM:mr-1 mx-0 mr-3"
 
   useEffect(() => {
     localStorage.setItem("has-user-previously-visited", "true")
@@ -100,43 +114,18 @@ const Browse: FC<{ params?: { id?: string; key?: string } }> = ({ params }) => {
           </div>
         </div>
 
-        {/* <div
-          className={`ml-3 mt-3 ${alignmentStyles} ${filterWrapperStyles} flex-row mobileXL:flex-col laptopM:flex-row`}
-        >
-          <Filter
-            {...{
-              type: "Providers",
-              selectedFilters: selectedProviderFilters,
-              setSelectedFilters: setSelectedProviderFilters
-            }}
-          />
-          <Filter
-            {...{
-              type: "Categories",
-              selectedFilters: selectedCategoryFilters,
-              setSelectedFilters: setSelectedCategoryFilters
-            }}
-          />
+        <div className={`ml-3 mt-3 ${alignmentStyles} ${filterWrapperStyles} grid grid-cols-2 text-black mobileXL:flex-col laptopM:flex-row`}>
+          <YearFilterSelector {...{ setFilter }} />
+          {/* make note that every genre search is inclusive (OR / |) */}
+          <GenreFilterSelector {...{ setFilter }} />
         </div>
 
-        <div
-          className={`ml-3 mt-0 ${alignmentStyles} ${filterWrapperStyles} flex-row mobileXL:flex-col laptopM:flex-row`}
-        >
-          <Filter
-            {...{
-              type: "Features",
-              selectedFilters: selectedFeatureFilters,
-              setSelectedFilters: setSelectedFeatureFilters
-            }}
-          />
-          <Filter
-            {...{
-              type: "Themes",
-              selectedFilters: selectedThemeFilters,
-              setSelectedFilters: setSelectedThemeFilters
-            }}
-          />
-        </div> */}
+        <div className={`m-3 ${alignmentStyles} grid grid-cols-1 text-black mobileXL:flex-col laptopM:flex-row`}>
+          <LanguageFilterSelector {...{ setFilter }} />
+        </div>
+        <div className={`m-3 my-0 ${alignmentStyles} grid grid-cols-1 text-black mobileXL:flex-col laptopM:flex-row`}>
+          <CountryFilterSelector {...{ setFilter }} />
+        </div>
 
         <MovieCardList
           {...{
