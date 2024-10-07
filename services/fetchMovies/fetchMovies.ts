@@ -31,7 +31,7 @@ const fetchMovies = async (
   }
 
   const url = searchTerm
-    ? `${baseUrl}${searchQuery}`
+    ? `${baseUrl}${searchQuery}${pageQuery}`
     : `${baseUrl}${discoverQuery}${genreQuery}${castQuery}${yearQuery}${originCountryQuery}${originalLanguageQuery}${pageQuery}`
 
   console.log(url)

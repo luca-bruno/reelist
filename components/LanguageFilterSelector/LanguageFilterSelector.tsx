@@ -33,12 +33,15 @@ const LanguageFilterSelector = ({ setFilter }) => {
   }, [])
 
   // Handle change event when a year is selected
-  const handleLanguageChange = selectedOption => {
+  const handleLanguageChange = (selectedOption, action) => {
     const delay = 1000
 
     const debounceTimer = setTimeout(() => {
-      const extractValues = selectedOption.map(option => option.value)
-      setFilter(prev => ({ ...prev, original_language: extractValues }))
+      if (action === "select-option") {
+        setFilter(prev => ({ ...prev, original_language: selectedOption.value }))
+      } else if (action === "clear") {
+        setFilter(prev => ({ ...prev, original_language: null }))
+      }
 
       return () => clearTimeout(debounceTimer)
     }, delay)
@@ -61,10 +64,10 @@ const LanguageFilterSelector = ({ setFilter }) => {
   return (
     <div>
       <Select
-        isMulti
         isSearchable
+        isClearable
         components={animatedComponents}
-        onChange={selectedOption => handleLanguageChange(selectedOption)}
+        onChange={(selectedOption, { action }) => handleLanguageChange(selectedOption, action)}
         options={values}
         // isLoading={isLoading}
         placeholder="🔎 Language(s)"

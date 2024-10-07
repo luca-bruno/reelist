@@ -13,7 +13,7 @@ import CountryFilterSelector from "../CountryFilterSelector"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons/faArrowLeft"
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons/faArrowRight"
-import { buttonStyles } from "@/helpers"
+import { buttonStyles, transitionStyles } from "@/helpers"
 
 const Browse: FC<{ params?: { id?: string; key?: string } }> = ({ params }) => {
   const { id, key } = params || {}
@@ -23,6 +23,7 @@ const Browse: FC<{ params?: { id?: string; key?: string } }> = ({ params }) => {
   const [defaultMovieDetails, setDefaultMovieDetails] = useState<movieTypes | undefined>()
   const [selectedMovieId, setSelectedMovieId] = useState<number>()
   const [filter, setFilter] = useState<{ genres?: string; origin_country?: string; original_language?: string; year?: string }>()
+  const [page, setPage] = useState<number>(1)
 
   const formattedCastMembers = defaultMovieDetails?.credits?.cast.map(castMember => castMember.id).join("|")
   const haveFiltersBeenSelected = filter && Object.keys(filter).length > 0
@@ -125,20 +126,27 @@ const Browse: FC<{ params?: { id?: string; key?: string } }> = ({ params }) => {
           <Search setQuery={setQuery} />
 
           <div className="m-auto mobileL:mr-1 mobileXL:h-10 h-max flex ml-0">
-            {/* <ToggleButton state={isDisplayingGridView} stateSetter={setIsDisplayingGridView} onIcon={faList} offIcon={faGrip} /> */}
-            <button
-              type="button"
-              className={`w-10 ${buttonStyles}`}
-              // onClick={() => stateSetter(prev => !prev)}
-            >
-              <FontAwesomeIcon className="h-5 w-5 text-white flex m-auto" icon={faArrowLeft} aria-hidden="true" />
+            <button type="button" className={`w-10 ${buttonStyles}`} disabled={page === 1} onClick={() => setPage(prev => prev - 1)}>
+              <FontAwesomeIcon
+                className={`h-5 w-5 text-white flex m-auto ${transitionStyles} ${page === 1 ? "opacity-0" : "opacity-100"}`}
+                icon={faArrowLeft}
+                aria-hidden="true"
+              />
             </button>
+
             <button
               type="button"
               className={`w-10 ${buttonStyles}`}
-              // onClick={() => stateSetter(prev => !prev)}
+              disabled={movies && movies.length < 20}
+              onClick={() => setPage(prev => prev + 1)}
             >
-              <FontAwesomeIcon className="h-5 w-5 text-white flex m-auto" icon={faArrowRight} aria-hidden="true" />
+              <FontAwesomeIcon
+                className={`h-5 w-5 text-white flex m-auto ${transitionStyles}
+                   ${movies && movies.length < 20 ? "opacity-0" : "opacity-100"}
+                   `}
+                icon={faArrowRight}
+                aria-hidden="true"
+              />
             </button>
           </div>
         </div>
