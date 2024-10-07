@@ -36,6 +36,7 @@ const Browse: FC<{ params?: { id?: string; key?: string } }> = ({ params }) => {
     localStorage.setItem("has-user-previously-visited", "true")
   }, [])
 
+  // Effect to handle fetching movies based on query, filters, id, etc.
   useEffect(() => {
     const fetchMovieById = async () => {
       const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movie?id=${id}`, HEADERS_ALLOW_ORIGIN)
@@ -44,7 +45,7 @@ const Browse: FC<{ params?: { id?: string; key?: string } }> = ({ params }) => {
     }
 
     const fetchMoviesByQuery = async () => {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?q=${query}`, HEADERS_ALLOW_ORIGIN)
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?q=${query}&p=${page}`, HEADERS_ALLOW_ORIGIN)
       const data = await response.json()
 
       if (query !== "") {
@@ -67,27 +68,21 @@ const Browse: FC<{ params?: { id?: string; key?: string } }> = ({ params }) => {
 
       const queryString = buildQueryString(filter)
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?${queryString}`, HEADERS_ALLOW_ORIGIN)
-
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?${queryString}&p=${page}`, HEADERS_ALLOW_ORIGIN)
       const data = await response.json()
 
-      // if (query !== "") {
       localStorage.setItem("Latest Search Results", JSON.stringify(data))
-      // }
 
       const filteredMovies = query ? data.filter(movie => movie.title.toLowerCase().includes(query.toLowerCase())) : data
 
-      // setMovies(data)
       setMovies(filteredMovies)
     }
 
     if (haveFiltersBeenSelected) {
       fetchMoviesByQueryAndFilters()
     } else if (query) {
-      // If query is not empty, fetch movies by query (this takes precedence)
       fetchMoviesByQuery()
     } else if (id) {
-      // If query is empty but we have an id, fetch the movie by id
       fetchMovieById()
     } else if (IS_BROWSER && key) {
       const storedSelectedPlaylistMovies = JSON.parse(localStorage.getItem(key) as string)
@@ -95,29 +90,40 @@ const Browse: FC<{ params?: { id?: string; key?: string } }> = ({ params }) => {
     } else {
       fetchMoviesByQuery()
     }
-  }, [filter, haveFiltersBeenSelected, id, key, query])
+  }, [filter, haveFiltersBeenSelected, id, key, query, page])
 
+  // Effect to reset page when query or filters change (and handle empty query string "")
+  useEffect(() => {
+    // Reset the page to 1 if page is greater than 1, query changes, filters are selected, or query is cleared
+    if (page > 1 && (query !== "" || haveFiltersBeenSelected)) {
+      setPage(1)
+    } else if (query === "" && page > 1) {
+      // If query is cleared (""), reset to page 1
+      setPage(1)
+    }
+  }, [query, filter, haveFiltersBeenSelected])
+
+  // Second useEffect for fetching movies based on genre and cast members
   useEffect(() => {
     const fetchMoviesByIdAndGenre = async () => {
       const groqGenreResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/genre?movie=${defaultMovieDetails?.title}`, HEADERS_ALLOW_ORIGIN)
       const groqGenreResponseData = await groqGenreResponse.json()
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?g=${groqGenreResponseData}&c=${formattedCastMembers}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?g=${groqGenreResponseData}&c=${formattedCastMembers}&p=${page}`,
         HEADERS_ALLOW_ORIGIN
       )
       const data = await response.json()
 
-      const isMovieAlreadyInList = data.some((movie: movieTypes) => movie.id === defaultMovieDetails?.id)
+      const isMovieAlreadyInList = data?.some((movie: movieTypes) => movie.id === defaultMovieDetails?.id)
 
       setMovies(defaultMovieDetails && !isMovieAlreadyInList ? [defaultMovieDetails, ...data] : data)
     }
 
     if (defaultMovieDetails && formattedCastMembers && !query) {
-      // Only fetch genre-based movies if we have the movie details, cast, and query is empty
       fetchMoviesByIdAndGenre()
     }
-  }, [defaultMovieDetails, formattedCastMembers, query])
+  }, [defaultMovieDetails, formattedCastMembers, query, page])
 
   return (
     <main className="grid grid-flow-row grid-rows-2 mobileXL:grid-rows-none mobileXL:grid-cols-3">
