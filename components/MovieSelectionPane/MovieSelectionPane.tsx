@@ -9,16 +9,13 @@ import MovieSelectionPanePoster from "./MovieSelectionPanePoster"
 import MovieSelectionPaneDetails from "./MovieSelectionPaneDetails"
 import MovieSelectionPaneDropdown from "./MovieSelectionPaneDropdown"
 import { MovieSelectionPaneTypes } from "./types/MovieSelectionPane.interface"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faList } from "@fortawesome/free-solid-svg-icons/faList"
-import { faStream } from "@fortawesome/free-solid-svg-icons/faStream"
 import { transitionStyles } from "@/helpers"
 import MovieSelectionPaneCastCrewDetails from "./MovieSelectionPaneCastCrewDetails"
 import MovieSelectionPaneDetailsHeader from "./MovieSelectionPaneDetailsHeader"
 
 const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) => {
   const [selectedMovie, setSelectedMovie] = useState<movieTypes>()
-  const [bruh, setBruh] = useState(true)
+  const [isDisplayingCastandCrew, setIsDisplayingCastandCrew] = useState(true)
 
   // TODO: CLEAN UP ASAP@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
   // TODO: SWR or react-query + make into custom hook
@@ -100,40 +97,43 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) =>
             hasBackgroundImageReturnedError,
             setHasBackgroundImageReturnedError,
             hasReturnedError,
-            setHasReturnedError
+            setHasReturnedError,
+            blurBackdrop: !isDisplayingCastandCrew
           }}
         />
 
         <div
           className="bg-gradient-to-b from-transparent from-1% to-primary-500 to-50% 
-            p-3 absolute bottom-0 rounded-b-xl z-10 w-full h-full"
+        p-3 absolute bottom-0 rounded-b-xl z-10 w-full h-full"
         >
-          <MovieSelectionPanePoster
-            {...{
-              title,
-              hasImageLoaded,
-              setHasImageLoaded,
-              hasReturnedError,
-              setHasReturnedError,
-              poster,
-              watchProviders
-            }}
-          />
+          {isDisplayingCastandCrew && (
+            <MovieSelectionPanePoster
+              {...{
+                title,
+                hasImageLoaded,
+                setHasImageLoaded,
+                hasReturnedError,
+                setHasReturnedError,
+                poster,
+                watchProviders
+              }}
+            />
+          )}
 
           <div className="flex justify-between">
             {selectedMovie && <MovieSelectionPaneDropdown {...{ selectedMovie }} />}
             {selectedMovie && (
               <button
                 type="button"
-                onClick={() => setBruh(prev => !prev)}
+                onClick={() => setIsDisplayingCastandCrew(prev => !prev)}
                 className={`px-3 flex justify-center items-center h-[38px] rounded-xl opacity-80 hover:opacity-100 bg-[gray] hover:bg-accent-500 ${transitionStyles}`}
               >
-                {bruh ? <>🎬 Full Cast & Crew</> : <>🎥 Summary</>}
+                {isDisplayingCastandCrew ? <>🎬 Full Cast & Crew</> : <>🎥 Summary</>}
               </button>
             )}
           </div>
 
-          {bruh ? (
+          {isDisplayingCastandCrew ? (
             <div className="flex-col h-[600px] p-5 grid grid-rows-3 w-[70%]">
               <div />
               <div />
@@ -153,13 +153,7 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) =>
                     />
                     <MovieSelectionPaneDetails
                       {...{
-                        // originCountry,
-                        // originalTitle,
-                        // runtime,
-                        // releaseDate,
-                        // ageRating,
                         overview,
-                        // title,
                         tags: {
                           directorTags: { title: "Director(s)", payload: directors },
                           starringTags: { title: "Starring", payload: starring },

@@ -6,7 +6,8 @@ import MovieSelectionPaneBackgroundTypes from "./types/MovieSelectionPaneBackgro
 
 const MovieSelectionPaneBackground: FC<MovieSelectionPaneBackgroundTypes> = ({
   title,
-  background
+  background,
+  blurBackdrop
   // ,
   // hasBackgroundImageReturnedError,
   // setHasBackgroundImageReturnedError,
@@ -16,7 +17,7 @@ const MovieSelectionPaneBackground: FC<MovieSelectionPaneBackgroundTypes> = ({
   <>
     <Image
       unoptimized
-      className="select-none filter z-0 mobileXL:block hidden"
+      className={`select-none filter z-0 mobileXL:block hidden ${blurBackdrop ? "blur" : ""}`}
       // TODO: img fallbacks
       // src={hasBackgroundImageReturnedError ? fallbackPlaceholderWide : background || ""}
       src={background ? `${TMDB_IMAGE_PATH}${background}` : fallbackPlaceholderWide}
@@ -30,7 +31,7 @@ const MovieSelectionPaneBackground: FC<MovieSelectionPaneBackgroundTypes> = ({
     />
     <Image
       unoptimized
-      className="select-none filter z-0 mobileXL:hidden block"
+      className={`select-none filter z-0 mobileXL:hidden block ${blurBackdrop ? "blur" : ""}`}
       // TODO: img fallbacks
       // src={hasReturnedError ? fallbackPlaceholderWide : iconLarge || iconSmall || ""}
       src={background ? `${TMDB_IMAGE_PATH}${background}` : fallbackPlaceholderWide}
