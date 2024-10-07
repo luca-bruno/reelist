@@ -35,15 +35,14 @@ const Browse: FC<{ params?: { id?: string; key?: string } }> = ({ params }) => {
     localStorage.setItem("has-user-previously-visited", "true")
   }, [])
 
-
   useEffect(() => {
-    async function fetchMovieById() {
+    const fetchMovieById = async () => {
       const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movie?id=${id}`, HEADERS_ALLOW_ORIGIN)
       const data = await response.json()
       setDefaultMovieDetails(data)
     }
 
-    async function fetchMoviesByQuery() {
+    const fetchMoviesByQuery = async () => {
       const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?q=${query}`, HEADERS_ALLOW_ORIGIN)
       const data = await response.json()
 
@@ -53,7 +52,37 @@ const Browse: FC<{ params?: { id?: string; key?: string } }> = ({ params }) => {
       setMovies(data)
     }
 
-    if (query) {
+    const fetchMoviesByQueryAndFilters = async () => {
+      const buildQueryString = filters => {
+        const params = new URLSearchParams()
+
+        if (filters.genres) params.append("g", filters.genres)
+        if (filters.origin_country) params.append("oc", filters.origin_country)
+        if (filters.original_language) params.append("l", filters.original_language)
+        if (filters.year) params.append("y", filters.year)
+
+        return params.toString()
+      }
+
+      const queryString = buildQueryString(filter)
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?${queryString}`, HEADERS_ALLOW_ORIGIN)
+
+      const data = await response.json()
+
+      // if (query !== "") {
+      localStorage.setItem("Latest Search Results", JSON.stringify(data))
+      // }
+
+      const filteredMovies = query ? data.filter(movie => movie.title.toLowerCase().includes(query.toLowerCase())) : data
+
+      // setMovies(data)
+      setMovies(filteredMovies)
+    }
+
+    if (haveFiltersBeenSelected) {
+      fetchMoviesByQueryAndFilters()
+    } else if (query) {
       // If query is not empty, fetch movies by query (this takes precedence)
       fetchMoviesByQuery()
     } else if (id) {
@@ -65,10 +94,10 @@ const Browse: FC<{ params?: { id?: string; key?: string } }> = ({ params }) => {
     } else {
       fetchMoviesByQuery()
     }
-  }, [id, key, query])
+  }, [filter, haveFiltersBeenSelected, id, key, query])
 
   useEffect(() => {
-    async function fetchMoviesByIdAndGenre() {
+    const fetchMoviesByIdAndGenre = async () => {
       const groqGenreResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/genre?movie=${defaultMovieDetails?.title}`, HEADERS_ALLOW_ORIGIN)
       const groqGenreResponseData = await groqGenreResponse.json()
 
