@@ -24,12 +24,30 @@ const GenreFilterSelector = ({ setFilter }) => {
     loadGenres()
   }, [])
 
-  const handleGenreChange = selectedOption => {
+  const handleGenreChange = (selectedOption, action) => {
     const delay = 1000
+    console.log(action)
 
     const debounceTimer = setTimeout(() => {
-      const extractValues = selectedOption.map(option => option.value)
-      setFilter(prev => ({ ...prev, genres: extractValues }))
+      if (action === "select-option") {
+        // Extract values from selected options for multi-select
+        const extractValues = selectedOption.map(option => option.value)
+        setFilter(prev => ({ ...prev, genres: extractValues }))
+      } else if (action === "clear") {
+        setFilter(prev => {
+          const { genres, ...rest } = prev // Destructure to exclude origin_country
+          return { ...rest } // Return the rest of the filter without the origin_country key
+        })
+      } else if (action === "remove-value") {
+        setFilter(prev => {
+          const currentGenres = selectedOption.map(option => option.value)
+          const valueToRemove = prev.genres.find(genre => !currentGenres.includes(genre))
+
+          const filteredGenres = [...prev.genres].filter(genre => genre !== valueToRemove)
+
+          return { ...prev, genres: filteredGenres }
+        })
+      }
     }, delay)
 
     return () => clearTimeout(debounceTimer)
@@ -41,7 +59,7 @@ const GenreFilterSelector = ({ setFilter }) => {
         isMulti
         isSearchable
         components={animatedComponents}
-        onChange={selectedOption => handleGenreChange(selectedOption)}
+        onChange={(selectedOption, { action }) => handleGenreChange(selectedOption, action)}
         options={genres}
         // isLoading={isLoading}
         placeholder="🔎 Genre(s)"

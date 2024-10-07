@@ -30,7 +30,10 @@ const YearFilterSelector = ({ setFilter }) => {
       if (action === "select-option") {
         setFilter(prev => ({ ...prev, year: selectedOption.value }))
       } else if (action === "clear") {
-        setFilter(prev => ({ ...prev, year: null }))
+        setFilter(prev => {
+          const { year, ...rest } = prev // Destructure to exclude year
+          return { ...rest } // Return the rest of the filter without the year key
+        })
       }
     }, delay)
 

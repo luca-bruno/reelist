@@ -32,7 +32,7 @@ const LanguageFilterSelector = ({ setFilter }) => {
     loadGenres()
   }, [])
 
-  // Handle change event when a year is selected
+  // Handle change event when a language is selected
   const handleLanguageChange = (selectedOption, action) => {
     const delay = 1000
 
@@ -40,7 +40,10 @@ const LanguageFilterSelector = ({ setFilter }) => {
       if (action === "select-option") {
         setFilter(prev => ({ ...prev, original_language: selectedOption.value }))
       } else if (action === "clear") {
-        setFilter(prev => ({ ...prev, original_language: null }))
+        setFilter(prev => {
+          const { original_language, ...rest } = prev // Destructure to exclude original_language
+          return { ...rest } // Return the rest of the filter without the original_language key
+        })
       }
 
       return () => clearTimeout(debounceTimer)

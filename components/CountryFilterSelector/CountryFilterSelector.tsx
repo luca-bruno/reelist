@@ -32,12 +32,30 @@ const CountryFilterSelector = ({ setFilter }) => {
     setValues(formattedCountries)
   }, [countriesResponseData])
 
-  const handleCountryChange = selectedOption => {
+  const handleCountryChange = (selectedOption, action) => {
     const delay = 1000
 
+    // TODO: FIX ME AND GENRE MULTI SO TO REMOVE KEYS ON CLEAR
     const debounceTimer = setTimeout(() => {
-      const extractValues = selectedOption.map(option => option.value)
-      setFilter(prev => ({ ...prev, origin_country: extractValues }))
+      if (action === "select-option") {
+        // Extract values from selected options for multi-select
+        const extractValues = selectedOption.map(option => option.value)
+        setFilter(prev => ({ ...prev, origin_country: extractValues }))
+      } else if (action === "clear") {
+        setFilter(prev => {
+          const { origin_country, ...rest } = prev // Destructure to exclude origin_country
+          return { ...rest } // Return the rest of the filter without the origin_country key
+        })
+      } else if (action === "remove-value") {
+        setFilter(prev => {
+          const currentCountry = selectedOption.map(option => option.value)
+          const valueToRemove = prev.origin_country.find(country => !currentCountry.includes(country))
+
+          const filteredCountries = [...prev.origin_country].filter(country => country !== valueToRemove)
+
+          return { ...prev, origin_country: filteredCountries }
+        })
+      }
     }, delay)
 
     return () => clearTimeout(debounceTimer)
@@ -63,7 +81,7 @@ const CountryFilterSelector = ({ setFilter }) => {
         isMulti
         isSearchable
         components={animatedComponents}
-        onChange={selectedOption => handleCountryChange(selectedOption)}
+        onChange={(selectedOption, { action }) => handleCountryChange(selectedOption, action)}
         options={values}
         // isLoading={isLoading}
         placeholder="🔎 Country(ies)"
