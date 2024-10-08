@@ -8,11 +8,11 @@ interface getCountryEmojiTypes {
 }
 
 const getCountryEmoji = ({ countryCode, width = 16, height = 20, marginRight = "0.25rem" }: getCountryEmojiTypes): JSX.Element | string => {
-  if (countryCode.length !== 2) {
+  if (countryCode?.length !== 2) {
     throw new Error("Country code must be exactly 2 characters.")
   }
 
-  const uppercasedCode = countryCode.toUpperCase()
+  const uppercasedCode = countryCode?.toUpperCase()
 
   const isFormerCountryWithNoEmoji = () => {
     switch (uppercasedCode) {

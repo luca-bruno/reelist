@@ -5,10 +5,10 @@ import makeAnimated from "react-select/animated"
 import Select, { SingleValue } from "react-select"
 import { Atkinson_Hyperlegible } from "next/font/google"
 import { getCountryEmoji } from "@/helpers"
-import fetchClientCountry from "@/services/fetchClientCountry/fetchClientCountry"
 import { IS_BROWSER } from "@/constants"
 import { countriesTypes } from "@/types/movie.interface"
 import useCountries from "@/hooks/useCountries/useCountries"
+import useLocale from "@/hooks/useLocale/useLocale"
 import { useClientCountry } from "@/context/ClientCountryContext"
 import { optionTypes } from "../MovieSelectionPane/types/MovieSelectionPaneDropdown.interface"
 
@@ -18,7 +18,6 @@ const atkinsonHyperlegible = Atkinson_Hyperlegible({
 })
 
 const CountrySelector = () => {
-  const [isLoading, setIsLoading] = useState(true)
   const [value, setValue] = useState<{ label: string; value: { name: string; code: string } }>()
 
   const [countries, setCountries] = useState<{ label: string; value: { name: string; code: string } }[]>()
@@ -30,32 +29,40 @@ const CountrySelector = () => {
   const clientCountryContext = useClientCountry()
 
   const { data: countriesResponseData, isLoading: isCountriesLoading } = useCountries(false)
+  const { data: geoData, isLoading, error } = useLocale(!!localStorage.getItem("client-country"))
 
   useEffect(() => {
-    const loadClientCountry = async () => {
-      const clientCountryData = (await fetchClientCountry()) as { country_name: string; country_code: string }
-      const country = { name: clientCountryData.country_name, code: clientCountryData.country_code }
-
-      // Only update if country changes
-      if (!clientCountry || clientCountry.code !== country.code) {
-        setClientCountry(country)
-        localStorage.setItem("client-country", JSON.stringify(country))
+    if (IS_BROWSER) {
+      const storedClientCountry = JSON.parse(localStorage.getItem("client-country") as string)
+      if (storedClientCountry) {
+        setClientCountry(storedClientCountry)
+        setValue({
+          label: `${getCountryEmoji({ countryCode: storedClientCountry.code })} ${storedClientCountry.name}`,
+          value: { name: storedClientCountry.name, code: storedClientCountry.code }
+        })
       }
-      // setClientCountry({ name: clientCountryData.country_name, code: clientCountryData.country_code })
-      // localStorage.setItem("client-country", JSON.stringify({ name: clientCountryData.country_name, code: clientCountryData.country_code }))
-    }
-
-    const storedClientCountry = JSON.parse(localStorage.getItem("client-country") as string)
-    if (IS_BROWSER && storedClientCountry) {
-      setClientCountry(storedClientCountry)
-      setValue({
-        label: `${getCountryEmoji({ countryCode: storedClientCountry.code })} ${storedClientCountry.name}`,
-        value: { name: storedClientCountry.name, code: storedClientCountry.code }
-      })
-    } else {
-      loadClientCountry()
     }
   }, [])
+
+  useEffect(() => {
+    if (isLoading || !geoData) return
+    if (error) {
+      console.error("Error fetching geolocation:", error)
+      return
+    }
+
+    const country = { name: geoData.country_name, code: geoData.country_code }
+
+    if (!clientCountry || clientCountry.code !== country.code) {
+      setClientCountry(country)
+      localStorage.setItem("client-country", JSON.stringify(country))
+    }
+
+    setValue({
+      label: `${getCountryEmoji({ countryCode: country.code })} ${country.name}`,
+      value: { name: country.name, code: country.code }
+    })
+  }, [geoData, isLoading, error])
 
   useEffect(() => {
     if (countriesResponseData) {
@@ -90,8 +97,6 @@ const CountrySelector = () => {
         countries?.find(country => country.value.name === "United Kingdom") ||
         countries?.find(country => country.value.name === "United States") ||
         countries?.[0]
-
-      setIsLoading(false)
 
       setValue(prioritizedCountry)
     }
