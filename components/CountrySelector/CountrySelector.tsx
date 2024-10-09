@@ -29,7 +29,7 @@ const CountrySelector = () => {
   const clientCountryContext = useClientCountry()
 
   const { data: countriesResponseData, isLoading: isCountriesLoading } = useCountries(false)
-  const { data: geoData, isLoading, error } = useLocale(!!localStorage.getItem("client-country"))
+  const { data: geoData, isLoading, error } = useLocale(!!clientCountry)
 
   useEffect(() => {
     if (IS_BROWSER) {
