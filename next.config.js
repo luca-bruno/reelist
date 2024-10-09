@@ -26,14 +26,6 @@ const nextConfig = {
           ]
         }
       ]
-    },
-    async rewrites() {
-      return [
-        {
-          source: "/api/country",
-          destination: "https://ipapi.co/json/" // Proxy to the external API
-        }
-      ]
     }
   }
 
