@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import makeAnimated from "react-select/animated"
 import Select, { SingleValue } from "react-select"
 import { Atkinson_Hyperlegible } from "next/font/google"
@@ -8,99 +8,112 @@ import { getCountryEmoji } from "@/helpers"
 import { IS_BROWSER } from "@/constants"
 import { countriesTypes } from "@/types/movie.interface"
 import useCountries from "@/hooks/useCountries/useCountries"
-import useLocale from "@/hooks/useLocale/useLocale"
 import { useClientCountry } from "@/context/ClientCountryContext"
 import { optionTypes } from "../MovieSelectionPane/types/MovieSelectionPaneDropdown.interface"
+import getSelectStyles from "./styles"
 
 const atkinsonHyperlegible = Atkinson_Hyperlegible({
   subsets: ["latin"],
   weight: "400"
 })
 
-const CountrySelector = () => {
-  const [value, setValue] = useState<{ label: string; value: { name: string; code: string } }>()
+const fetchCountryData = async () => {
+  const response = await fetch("https://geolocation-db.com/json/")
+  if (!response.ok) {
+    throw new Error("Network response was not ok")
+  }
+  return response.json()
+}
 
-  const [countries, setCountries] = useState<{ label: string; value: { name: string; code: string } }[]>()
-  const [clientCountry, setClientCountry] = useState<{ name: string; code: string }>()
+const CountrySelector = () => {
+  const [value, setValue] = useState<{ label: JSX.Element | string; value: { name: string; code: string } }>()
+  const [error, setError] = useState<null | Error>(null)
+  const [isLoading, setIsLoading] = useState(true)
+
+  const [countries, setCountries] = useState<{ label: JSX.Element | string; value: { name: string; code: string } }[]>([])
+  const [clientLocale, setClientLocale] = useState<{ name: string; code: string } | null>(null)
 
   const animatedComponents = makeAnimated()
-  const whiteColourStyle = { color: "white" }
 
   const clientCountryContext = useClientCountry()
 
   const { data: countriesResponseData, isLoading: isCountriesLoading } = useCountries(false)
-  const { data: geoData, isLoading, error } = useLocale(!!clientCountry)
+
+  const createCountryValue = (country: { name: string; code: string }) => ({
+    label: `${getCountryEmoji({ countryCode: country.code })} ${country.name}`,
+    value: country
+  })
+
+  const formatCountries = (countriesResponse: countriesTypes[]) =>
+    countriesResponse
+      .map(country => ({
+        label: (
+          <span className="flex">
+            {getCountryEmoji({ countryCode: country.iso_3166_1 }) || ""}
+            {` ${country.native_name}`}
+          </span>
+        ),
+        value: { name: country.native_name, code: country.iso_3166_1 }
+      }))
+      .sort((a, b) => a.value.name.localeCompare(b.value.name))
+
+  const getPrioritizedCountry = useCallback(
+    (countryList: typeof countries, clientCountry: { name: string; code: string } | null) =>
+      countryList.find(country => country.value.name === clientCountry?.name) ||
+      countryList.find(country => country.value.name === "United Kingdom") ||
+      countryList.find(country => country.value.name === "United States") ||
+      countryList[0],
+    []
+  )
 
   useEffect(() => {
-    if (IS_BROWSER) {
-      const storedClientCountry = JSON.parse(localStorage.getItem("client-country") as string)
-      if (storedClientCountry) {
-        setClientCountry(storedClientCountry)
-        setValue({
-          label: `${getCountryEmoji({ countryCode: storedClientCountry.code })} ${storedClientCountry.name}`,
-          value: { name: storedClientCountry.name, code: storedClientCountry.code }
-        })
+    const initializeCountry = async () => {
+      setIsLoading(true)
+
+      if (IS_BROWSER && localStorage.getItem("client-country")) {
+        const storedClientCountry = JSON.parse(localStorage.getItem("client-country") as string)
+        setClientLocale(storedClientCountry)
+        setValue(createCountryValue(storedClientCountry))
+        setIsLoading(false)
+        return
+      }
+
+      try {
+        const result = await fetchCountryData()
+        const fetchedCountry = { name: result.country_name, code: result.country_code }
+        setClientLocale(fetchedCountry)
+        localStorage.setItem("client-country", JSON.stringify(fetchedCountry))
+        setValue(createCountryValue(fetchedCountry))
+      } finally {
+        setIsLoading(false)
       }
     }
+
+    initializeCountry()
   }, [])
 
   useEffect(() => {
-    if (isLoading || !geoData) return
-    if (error) {
-      console.error("Error fetching geolocation:", error)
-      return
-    }
-
-    const country = { name: geoData.country_name, code: geoData.country_code }
-
-    if (!clientCountry || clientCountry.code !== country.code) {
-      setClientCountry(country)
-      localStorage.setItem("client-country", JSON.stringify(country))
-    }
-
-    setValue({
-      label: `${getCountryEmoji({ countryCode: country.code })} ${country.name}`,
-      value: { name: country.name, code: country.code }
-    })
-  }, [geoData, isLoading, error])
-
-  useEffect(() => {
     if (countriesResponseData) {
-      const formattedCountries = countriesResponseData
-        .map((country: countriesTypes) => ({
-          label: (
-            <span className="flex">
-              {getCountryEmoji({ countryCode: country.iso_3166_1 }) || ""}
-              {` ${country.native_name}`}
-            </span>
-          ),
-          value: { name: country.native_name, code: country.iso_3166_1 }
-        }))
-        .sort((a: { value: { name: string } }, b: { value: { name: string } }) => a.value.name.localeCompare(b.value.name))
-
+      const formattedCountries = formatCountries(countriesResponseData)
       setCountries(formattedCountries)
     }
   }, [countriesResponseData])
 
-  const handleDropdownClick = (newValue: SingleValue<optionTypes<{ name: string; code: string }>>) => {
-    if (newValue) {
-      setValue(newValue)
-      localStorage.setItem("client-country", JSON.stringify({ name: newValue.value?.name, code: newValue.value?.code }))
-      clientCountryContext?.updateClientCountry({ name: newValue.value?.name, code: newValue.value?.code })
-    }
-  }
-
   useEffect(() => {
     if (countries && countries?.length > 0) {
-      const prioritizedCountry =
-        countries?.find(country => country.value.name === clientCountry?.name) ||
-        countries?.find(country => country.value.name === "United Kingdom") ||
-        countries?.find(country => country.value.name === "United States") ||
-        countries?.[0]
-
+      const prioritizedCountry = getPrioritizedCountry(countries, clientLocale)
       setValue(prioritizedCountry)
     }
-  }, [clientCountry, countries])
+  }, [clientLocale, countries, getPrioritizedCountry])
+
+  const handleDropdownClick = (newValue: SingleValue<optionTypes<{ name: string; code: string }>>) => {
+    if (newValue) {
+      const { name, code } = newValue.value
+      setValue(newValue)
+      localStorage.setItem("client-country", JSON.stringify({ name, code }))
+      clientCountryContext?.updateClientCountry({ name, code })
+    }
+  }
 
   return (
     <Select
@@ -113,77 +126,7 @@ const CountrySelector = () => {
       isLoading={isLoading}
       placeholder=""
       classNamePrefix="movie-selection-pane-dropdown"
-      styles={{
-        control: (base, state) => ({
-          ...base,
-          backgroundColor: state.isFocused ? "#E64833" : "rgba(0, 0, 0, 0.2)",
-          borderRadius: "0.75rem",
-          border: "none",
-          opacity: state.isFocused ? 1 : 0.8,
-          boxShadow: state.isFocused ? "0 0 0 2px rgba(251, 146, 60, 0.5)" : "none",
-          "&:hover": {
-            opacity: 1,
-            backgroundColor: "#E64833"
-          }
-        }),
-        menu: base => ({
-          ...base,
-          zIndex: "20",
-          position: "absolute",
-          right: "0",
-          marginRight: "12px",
-          backgroundColor: "#E64833",
-          borderRadius: "0.75rem",
-          boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"
-        }),
-        menuList: base => ({
-          ...base,
-          borderRadius: "0.75rem",
-          paddingBottom: "10px"
-        }),
-        option: base => ({
-          ...base,
-          cursor: "pointer",
-          borderRadius: "0.5rem",
-          backgroundColor: "#E64833",
-          ...whiteColourStyle,
-          "&:hover": {
-            backgroundColor: "#ec7b69"
-          }
-        }),
-        placeholder: base => ({
-          ...base,
-          ...whiteColourStyle
-        }),
-        input: base => ({
-          ...base,
-          ...whiteColourStyle
-        }),
-        noOptionsMessage: base => ({
-          ...base,
-          ...whiteColourStyle
-        }),
-        dropdownIndicator: (base, state) => ({
-          ...base,
-          ...whiteColourStyle,
-          "&:hover": {
-            ...whiteColourStyle
-          },
-          transition: "transform 0.3s ease",
-          transform: state.selectProps.menuIsOpen ? "rotate(180deg)" : "rotate(0deg)"
-        }),
-        singleValue: base => ({
-          ...base,
-          ...whiteColourStyle,
-          "&:hover": {
-            ...whiteColourStyle
-          }
-        }),
-        loadingIndicator: base => ({
-          ...base,
-          ...whiteColourStyle
-        })
-      }}
+      styles={getSelectStyles()}
     />
   )
 }
