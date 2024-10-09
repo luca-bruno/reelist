@@ -1,7 +1,7 @@
 // eslint-disable-next-line camelcase
 import { Oleo_Script } from "next/font/google"
 import NavbarButton from "./NavbarButton"
-import CountrySelector from "../CountrySelector"
+import CountrySelectorContainer from "../CountrySelector"
 
 const oleoScript = Oleo_Script({
   subsets: ["latin"],
@@ -14,7 +14,7 @@ const Navbar = () => (
       <NavbarButton {...{ label: "Reelist", slug: "/" }} />
     </p>
 
-    <CountrySelector />
+    <CountrySelectorContainer />
 
     {/* <NavbarButtons /> */}
   </header>

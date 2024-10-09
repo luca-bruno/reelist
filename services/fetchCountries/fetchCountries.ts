@@ -18,12 +18,11 @@ const fetchCountries = async () => {
 
   try {
     const response = await fetch(url, options)
-    const data = (await response.json()) as countriesTypes
+    const data = (await response.json())
 
-    return data
+    return (data as countriesTypes[])
   } catch (error) {
-    return error
-    // TODO: Test error handling ruin API key
+    throw new Error("Network response was not ok")
   }
 }
 

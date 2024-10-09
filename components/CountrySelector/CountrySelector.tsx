@@ -1,14 +1,12 @@
 "use client"
 
-import { useCallback, useEffect, useState } from "react"
+import { FC, useCallback, useEffect, useState } from "react"
+import { IS_BROWSER } from "@/constants"
 import makeAnimated from "react-select/animated"
 import Select, { SingleValue } from "react-select"
 import { Atkinson_Hyperlegible } from "next/font/google"
-import { getCountryEmoji } from "@/helpers"
-import { IS_BROWSER } from "@/constants"
-import { countriesTypes } from "@/types/movie.interface"
-import useCountries from "@/hooks/useCountries/useCountries"
 import { useClientCountry } from "@/context/ClientCountryContext"
+import { getCountryEmoji } from "@/helpers"
 import { optionTypes } from "../MovieSelectionPane/types/MovieSelectionPaneDropdown.interface"
 import getSelectStyles from "./styles"
 
@@ -17,7 +15,8 @@ const atkinsonHyperlegible = Atkinson_Hyperlegible({
   weight: "400"
 })
 
-const fetchCountryData = async () => {
+// NOTE: Fetching client's locale client-side (& non-SWR) due to its skip condition being based on localStorage value
+const fetchClientLocale = async () => {
   const response = await fetch("https://geolocation-db.com/json/")
   if (!response.ok) {
     throw new Error("Network response was not ok")
@@ -25,40 +24,26 @@ const fetchCountryData = async () => {
   return response.json()
 }
 
-const CountrySelector = () => {
+interface FormattedCountriesTypes {
+  label: JSX.Element | string
+  value: { name: string; code: string }
+}
+
+const CountrySelector: FC<{ countries: FormattedCountriesTypes[] }> = ({ countries }) => {
   const [value, setValue] = useState<{ label: JSX.Element | string; value: { name: string; code: string } }>()
-  const [error, setError] = useState<null | Error>(null)
   const [isLoading, setIsLoading] = useState(true)
 
-  const [countries, setCountries] = useState<{ label: JSX.Element | string; value: { name: string; code: string } }[]>([])
   const [clientLocale, setClientLocale] = useState<{ name: string; code: string } | null>(null)
 
-  const animatedComponents = makeAnimated()
-
   const clientCountryContext = useClientCountry()
-
-  const { data: countriesResponseData, isLoading: isCountriesLoading } = useCountries(false)
 
   const createCountryValue = (country: { name: string; code: string }) => ({
     label: `${getCountryEmoji({ countryCode: country.code })} ${country.name}`,
     value: country
   })
 
-  const formatCountries = (countriesResponse: countriesTypes[]) =>
-    countriesResponse
-      .map(country => ({
-        label: (
-          <span className="flex">
-            {getCountryEmoji({ countryCode: country.iso_3166_1 }) || ""}
-            {` ${country.native_name}`}
-          </span>
-        ),
-        value: { name: country.native_name, code: country.iso_3166_1 }
-      }))
-      .sort((a, b) => a.value.name.localeCompare(b.value.name))
-
   const getPrioritizedCountry = useCallback(
-    (countryList: typeof countries, clientCountry: { name: string; code: string } | null) =>
+    (countryList: FormattedCountriesTypes[], clientCountry: { name: string; code: string } | null) =>
       countryList.find(country => country.value.name === clientCountry?.name) ||
       countryList.find(country => country.value.name === "United Kingdom") ||
       countryList.find(country => country.value.name === "United States") ||
@@ -79,7 +64,7 @@ const CountrySelector = () => {
       }
 
       try {
-        const result = await fetchCountryData()
+        const result = await fetchClientLocale()
         const fetchedCountry = { name: result.country_name, code: result.country_code }
         setClientLocale(fetchedCountry)
         localStorage.setItem("client-country", JSON.stringify(fetchedCountry))
@@ -91,13 +76,6 @@ const CountrySelector = () => {
 
     initializeCountry()
   }, [])
-
-  useEffect(() => {
-    if (countriesResponseData) {
-      const formattedCountries = formatCountries(countriesResponseData)
-      setCountries(formattedCountries)
-    }
-  }, [countriesResponseData])
 
   useEffect(() => {
     if (countries && countries?.length > 0) {
@@ -114,12 +92,11 @@ const CountrySelector = () => {
       clientCountryContext?.updateClientCountry({ name, code })
     }
   }
-
   return (
     <Select
       isSearchable={false}
       className={`px-3 mt-2 ${atkinsonHyperlegible.className}`}
-      components={animatedComponents}
+      components={makeAnimated()}
       onChange={newValue => handleDropdownClick(newValue as SingleValue<optionTypes<{ name: string; code: string }>>)}
       options={countries}
       value={value}

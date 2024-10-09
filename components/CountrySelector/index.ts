@@ -1,3 +1,3 @@
-import CountrySelector from "./CountrySelector"
+import CountrySelectorContainer from "./CountrySelectorContainer"
 
-export default CountrySelector
+export default CountrySelectorContainer
