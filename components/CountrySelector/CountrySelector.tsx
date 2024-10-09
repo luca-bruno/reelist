@@ -10,6 +10,11 @@ import { getCountryEmoji } from "@/helpers"
 import { optionTypes } from "../MovieSelectionPane/types/MovieSelectionPaneDropdown.interface"
 import getSelectStyles from "./styles"
 
+interface FormattedCountriesTypes {
+  label: JSX.Element | string
+  value: { name: string; code: string }
+}
+
 const atkinsonHyperlegible = Atkinson_Hyperlegible({
   subsets: ["latin"],
   weight: "400"
@@ -22,11 +27,6 @@ const fetchClientLocale = async () => {
     throw new Error("Network response was not ok")
   }
   return response.json()
-}
-
-interface FormattedCountriesTypes {
-  label: JSX.Element | string
-  value: { name: string; code: string }
 }
 
 const CountrySelector: FC<{ countries: FormattedCountriesTypes[] }> = ({ countries }) => {
@@ -67,15 +67,16 @@ const CountrySelector: FC<{ countries: FormattedCountriesTypes[] }> = ({ countri
         const result = await fetchClientLocale()
         const fetchedCountry = { name: result.country_name, code: result.country_code }
         setClientLocale(fetchedCountry)
-        localStorage.setItem("client-country", JSON.stringify(fetchedCountry))
         setValue(createCountryValue(fetchedCountry))
+        clientCountryContext?.updateClientCountry(fetchedCountry)
+
       } finally {
         setIsLoading(false)
       }
     }
 
     initializeCountry()
-  }, [])
+  }, [clientCountryContext])
 
   useEffect(() => {
     if (countries && countries?.length > 0) {
@@ -88,7 +89,6 @@ const CountrySelector: FC<{ countries: FormattedCountriesTypes[] }> = ({ countri
     if (newValue) {
       const { name, code } = newValue.value
       setValue(newValue)
-      localStorage.setItem("client-country", JSON.stringify({ name, code }))
       clientCountryContext?.updateClientCountry({ name, code })
     }
   }
