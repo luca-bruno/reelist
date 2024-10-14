@@ -3,8 +3,9 @@
 import { FC, useState, useEffect } from "react"
 import { movieTypes } from "@/types/movie.interface"
 import useImage from "@/hooks/useImage/useImage"
-import { HEADERS_ALLOW_ORIGIN } from "@/constants"
+import { HEADERS_ALLOW_ORIGIN, SWR_FETCHER } from "@/constants"
 import { transitionStyles } from "@/helpers"
+import useSWR from "swr"
 import MovieSelectionPaneBackground from "./MovieSelectionPaneBackground"
 import MovieSelectionPanePoster from "./MovieSelectionPanePoster"
 import MovieSelectionPaneDetails from "./MovieSelectionPaneDetails"
@@ -14,34 +15,24 @@ import MovieSelectionPaneCastCrewDetails from "./MovieSelectionPaneCastCrewDetai
 import MovieSelectionPaneDetailsHeader from "./MovieSelectionPaneDetailsHeader"
 
 const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) => {
-  const [selectedMovie, setSelectedMovie] = useState<movieTypes>()
+  // const [selectedMovie, setSelectedMovie] = useState<movieTypes>()
   const [isDisplayingCastandCrew, setIsDisplayingCastandCrew] = useState(true)
 
-  // TODO: CLEAN UP ASAP@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-  // TODO: SWR or react-query + make into custom hook
-  useEffect(() => {
-    if (selectedMovieId) {
-      const fetchMovie = async () => {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movie?id=${selectedMovieId}`, HEADERS_ALLOW_ORIGIN)
-        const data = await response.json()
-        setSelectedMovie(data)
-      }
+  // TODO: split off and use this template
+  // const useCountries = (skipCondition: boolean) => {
+  //   const { data, error, isLoading } = useSWR(!skipCondition ? `${process.env.NEXT_PUBLIC_BASE_URL}/api/countries` : null, SWR_FETCHER, {
+  //     revalidateOnMount: true,
+  //     revalidateOnFocus: false
+  //   })
 
-      fetchMovie()
+  const { data: selectedMovie, error } = useSWR(
+    selectedMovieId ? `${process.env.NEXT_PUBLIC_BASE_URL}/api/movie?id=${selectedMovieId}` : null,
+    SWR_FETCHER,
+    {
+      revalidateOnMount: true,
+      revalidateOnFocus: false
     }
-  }, [selectedMovieId])
-
-  // // TODO: CLEAN UP ASAP@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-  // // TODO: SWR or react-query + make into custom hook
-  // useEffect(() => {
-  //   async function fetchMovie() {
-  //     const response = await fetch(`../api/movie?id=${selectedMovieId}`)
-  //     const data = await response.json()
-  //     setSelectedMovie(data)
-  //   }
-
-  //   fetchMovie()
-  // }, [selectedMovieId])
+  )
 
   const {
     hasImageLoaded,
