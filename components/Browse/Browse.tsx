@@ -48,6 +48,12 @@ const Browse: FC<BrowseTypes> = ({ movies, defaultMovieDetails, playlistKey, has
   }, [])
 
   useEffect(() => {
+    if ((hasFilters && hasQuery) || query) {
+      localStorage.setItem("Latest Search Results", JSON.stringify(movies))
+    }
+  }, [hasFilters, hasQuery, movies, query, page])
+
+  useEffect(() => {
     localStorage.setItem("has-user-previously-visited", "true")
   }, [])
 
