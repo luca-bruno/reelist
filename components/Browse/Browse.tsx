@@ -22,8 +22,6 @@ const Browse: FC<BrowseTypes> = ({ movies, defaultMovieDetails, playlistKey, has
   const [selectedMovieId, setSelectedMovieId] = useState<number>()
   const [page, setPage] = useState(1)
   const [playlistMovies, setPlaylistMovies] = useState<movieTypes[] | null>()
-  const [showMoreResults, setShowMoreResults] = useState(false)
-  const [showBroadenFilters, setShowBroadenFilters] = useState(false)
 
   useEffect(() => {
     if (IS_BROWSER && playlistKey && !hasFilters && !hasQuery) {
@@ -39,14 +37,6 @@ const Browse: FC<BrowseTypes> = ({ movies, defaultMovieDetails, playlistKey, has
       setPage(1)
     }
   }, [hasFilters, hasQuery])
-
-
-  useEffect(() => {
-    if (hasFilters && hasQuery && movies?.length < 20) {
-      console.log("SHOW MORE RESULTS")
-      setShowMoreResults(true)
-    }
-  }, [])
 
   useEffect(() => {
     // When the component mounts, check if there is a page param and update currentPage if necessary
@@ -64,7 +54,7 @@ const Browse: FC<BrowseTypes> = ({ movies, defaultMovieDetails, playlistKey, has
   return (
     <main className="grid grid-flow-row grid-rows-2 mobileXL:grid-rows-none mobileXL:grid-cols-3">
       <div className="rounded-xl m-3 mobileL:overflow-x overflow-x-none bg-neutral-500 h-[calc(100vh-75px)] flex flex-col">
-        <BrowseHeader {...{ page, setPage, movies, showMoreResults }} />
+        <BrowseHeader {...{ page, setPage, movies }} />
         <BrowseFilters />
         <MovieCardList
           {...{

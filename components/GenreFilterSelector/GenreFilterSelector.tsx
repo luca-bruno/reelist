@@ -4,14 +4,19 @@ import Select, { MultiValue } from "react-select"
 import makeAnimated from "react-select/animated"
 import { getFilterSelectStyles } from "@/helpers"
 import { useRouter, useSearchParams } from "next/navigation"
+import { useGenres } from "@/context/GenresContext"
 import { optionTypes } from "../MovieSelectionPane/types/MovieSelectionPaneDropdown.interface"
 
 const GenreFilterSelector: FC = () => {
   const searchParams = useSearchParams()
   const query = searchParams.get("genres") || ""
 
+  const { genres } = useGenres()
+
   const [values, setValues] = useState<MultiValue<optionTypes>>([])
-  const [genres, setGenres] = useState()
+  // const [genres, setGenres] = useState()
+
+  // const { formatted } = Bruh()
 
   const router = useRouter()
 
@@ -39,25 +44,25 @@ const GenreFilterSelector: FC = () => {
   }
 
   useEffect(() => {
-    const loadGenres = async () => {
-      const genresResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/genres`, HEADERS_ALLOW_ORIGIN)
-      const { genres: genreResponseData } = await genresResponse.json()
+    // const loadGenres = async () => {
+      // const genresResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/genres`, HEADERS_ALLOW_ORIGIN)
+      // const { genres: genreResponseData } = await genresResponse.json()
 
-      const formatted = genreResponseData.map((genre: { name: string; id: number }) => ({ label: genre.name, value: genre.id }))
+      // const formatted = genreResponseData.map((genre: { name: string; id: number }) => ({ label: genre.name, value: genre.id }))
 
-      setGenres(formatted)
+      // setGenres(formatted)
 
       if (query) {
         const genreIdsFromQuery = query.split(",")
 
-        const matchedGenres = formatted?.filter((genre: { value: number }) => genreIdsFromQuery.includes(genre.value.toString()))
+        const matchedGenres = genres?.filter((genre: { value: number }) => genreIdsFromQuery.includes(genre.value.toString()))
 
         setValues(matchedGenres)
       }
-    }
+    // }
 
-    loadGenres()
-  }, [query])
+    // loadGenres()
+  }, [genres, query])
 
   const handleGenreChange = (selectedOption: MultiValue<optionTypes>, action: string) => {
     const delay = 1000

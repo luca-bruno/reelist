@@ -2,14 +2,13 @@ import { FC, useEffect } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons/faArrowLeft"
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons/faArrowRight"
-import { faRecycle } from "@fortawesome/free-solid-svg-icons/faRecycle"
 import { buttonStyles, transitionStyles } from "@/helpers"
 import { useRouter } from "next/navigation"
 import Search from "../Search"
 
 const alignmentStyles = "flex justify-start items-start"
 
-const BrowseHeader: FC<any> = ({ page, setPage, movies, showMoreResults }) => {
+const BrowseHeader: FC<any> = ({ page, setPage, movies }) => {
   const router = useRouter()
 
   useEffect(() => {
@@ -43,13 +42,6 @@ const BrowseHeader: FC<any> = ({ page, setPage, movies, showMoreResults }) => {
       <Search />
 
       <div className="m-auto mobileL:mr-1 mobileXL:h-10 h-max flex ml-0">
-        <button type="button" className={`w-10 ${buttonStyles}`} disabled={!showMoreResults} onClick={() => setPage(prev => prev - 1)}>
-          <FontAwesomeIcon
-            className={`h-5 w-5 text-white flex m-auto ${transitionStyles} ${!showMoreResults ? "opacity-0" : "opacity-100"}`}
-            icon={faRecycle}
-            aria-hidden="true"
-          />
-        </button>
         <button type="button" className={`w-10 ${buttonStyles}`} disabled={page === 1} onClick={() => setPage(prev => prev - 1)}>
           <FontAwesomeIcon
             className={`h-5 w-5 text-white flex m-auto ${transitionStyles} ${page === 1 ? "opacity-0" : "opacity-100"}`}

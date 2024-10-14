@@ -4,15 +4,17 @@ import { getCountryEmoji, getFilterSelectStyles } from "@/helpers"
 import { countriesTypes } from "@/types/movie.interface"
 import makeAnimated from "react-select/animated"
 import { useRouter, useSearchParams } from "next/navigation"
-import { optionTypes } from "../MovieSelectionPane/types/MovieSelectionPaneDropdown.interface"
 import { HEADERS_ALLOW_ORIGIN } from "@/constants"
+import { useCountries } from "@/context/CountriesContext"
+import { optionTypes } from "../MovieSelectionPane/types/MovieSelectionPaneDropdown.interface"
 
 const CountryFilterSelector: FC = () => {
   const searchParams = useSearchParams()
   const query = searchParams.get("countries") || ""
 
-  const [values, setValues] =
-    useState<(optionTypes<{ nativeName: string; englishName: string; isoCode: string }> | undefined)[]>()
+  const { countries } = useCountries()
+
+  const [values, setValues] = useState<(optionTypes<{ nativeName: string; englishName: string; isoCode: string }> | undefined)[]>()
 
   const [selectedCountries, setSelectedCountries] = useState<
     MultiValue<
@@ -53,39 +55,38 @@ const CountryFilterSelector: FC = () => {
   }
 
   useEffect(() => {
-    const loadCountries = async () => {
-      const countriesResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/countries`, HEADERS_ALLOW_ORIGIN)
-      const countriesResponseData = (await countriesResponse.json()) as countriesTypes[]
+    // const loadCountries = async () => {
+    // const countriesResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/countries`, HEADERS_ALLOW_ORIGIN)
+    // const countriesResponseData = (await countriesResponse.json()) as countriesTypes[]
 
-      const formattedCountries = countriesResponseData
-        ?.map((country: countriesTypes) => ({
-          label: (
-            <span className="flex">
-              {getCountryEmoji({ countryCode: country.iso_3166_1 }) || ""}
-              {` ${country.native_name}`}
-            </span>
-          ),
-          value: country.iso_3166_1,
-          data: {
-            nativeName: country.native_name,
-            englishName: country.english_name,
-            isoCode: country.iso_3166_1
-          }
-        }))
-        .sort((a: { data: { nativeName: string } }, b: { data: { nativeName: string } }) => a.data.nativeName?.localeCompare(b.data.nativeName))
+    // const formattedCountries = countriesResponseData
+    //   ?.map((country: countriesTypes) => ({
+    //     label: (
+    //       <span className="flex">
+    //         {getCountryEmoji({ countryCode: country.iso_3166_1 }) || ""}
+    //         {` ${country.native_name}`}
+    //       </span>
+    //     ),
+    //     value: country.iso_3166_1,
+    //     data: {
+    //       nativeName: country.native_name,
+    //       englishName: country.english_name,
+    //       isoCode: country.iso_3166_1
+    //     }
+    //   }))
+    //   .sort((a: { data: { nativeName: string } }, b: { data: { nativeName: string } }) => a.data.nativeName?.localeCompare(b.data.nativeName))
 
-      setValues(formattedCountries)
+    setValues(countries)
 
-      if (query) {
-        const countriesIdsFromQuery = query.split(",")
-        const matchedCountries = formattedCountries?.filter((country: { value: string }) => countriesIdsFromQuery.includes(country.value))
-        console.log(matchedCountries)
-        setSelectedCountries(matchedCountries)
-      }
+    if (query) {
+      const countriesIdsFromQuery = query.split(",")
+      const matchedCountries = countries?.filter((country: { value: string }) => countriesIdsFromQuery.includes(country.value))
+      setSelectedCountries(matchedCountries)
     }
+    // }
 
-    loadCountries()
-  }, [])
+    // loadCountries()
+  }, [countries, query, setSelectedCountries])
 
   const handleCountryChange = (
     selectedOption: MultiValue<
