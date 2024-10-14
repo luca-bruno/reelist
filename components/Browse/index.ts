@@ -1,3 +1,3 @@
-import Browse from "./Browse"
+import Browse from "./BrowseContainer"
 
 export default Browse

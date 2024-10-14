@@ -1,6 +1,8 @@
 import useSWR from "swr"
 import { SWR_FETCHER } from "@/constants"
 
+// TODO: MARK FOR DELETION
+
 // TODO: undo this bc not to be fetched on client
 // NOTE: For cached calls to route handler
 const useCountries = (skipCondition: boolean) => {

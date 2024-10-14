@@ -8,7 +8,7 @@ interface ClientCountryContextType {
   updateClientCountry: (country: { name: string; code: string }) => void
 }
 
-const ClientCountryContext = createContext<ClientCountryContextType | null>(null)
+const ClientCountryContext = createContext<ClientCountryContextType>()
 
 export const ClientCountryProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [clientCountry, setClientCountry] = useState(() => {

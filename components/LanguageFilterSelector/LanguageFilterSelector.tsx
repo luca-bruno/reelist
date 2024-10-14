@@ -1,155 +1,124 @@
-import { FC, Dispatch, SetStateAction, useEffect, useState } from "react"
+import { FC, useEffect, useState } from "react"
 import { HEADERS_ALLOW_ORIGIN } from "@/constants"
-import { capitalise } from "@/helpers"
-import { filterTypes } from "@/types/filter.interface"
+import { capitalise, getFilterSelectStyles } from "@/helpers"
 import Select, { SingleValue } from "react-select"
-import makeAnimated from "react-select/animated"
 import { spokenLanguageTypes } from "@/types/movie.interface"
+import { useRouter, useSearchParams } from "next/navigation"
+import makeAnimated from "react-select/animated"
 import { optionTypes } from "../MovieSelectionPane/types/MovieSelectionPaneDropdown.interface"
 
-const LanguageFilterSelector: FC<{ setFilter: Dispatch<SetStateAction<filterTypes | undefined>> }> = ({ setFilter }) => {
-  const [values, setValues] = useState()
+const LanguageFilterSelector: FC = () => {
+  const searchParams = useSearchParams()
+  const query = searchParams.get("language") || ""
 
-  const animatedComponents = makeAnimated()
-  const whiteColourStyle = { color: "white" }
+  const [values, setValues] = useState<
+    (optionTypes<{ nativeName: string; englishName: string; isoCode: string }> | undefined)[]
+  >([])
+  const [languageOption, setLanguageOption] = useState<optionTypes<{ nativeName: string; englishName: string; isoCode: string }>>()
 
-  useEffect(() => {
-    const loadGenres = async () => {
-      const languagesResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/languages`, HEADERS_ALLOW_ORIGIN)
-      const languagesResponseData = await languagesResponse.json()
+  const router = useRouter()
 
-      // NOTE: to avoid rendering incomplete/WIP labels (eg. ??????)
-      const formatted = languagesResponseData
-        .map((language: spokenLanguageTypes) => ({
-          label: language.name && !language.name.includes("?") ? capitalise(language.name) : capitalise(language.english_name),
-          value: language.iso_639_1,
-          nativeName: capitalise(language.name), // Adding original name for search
-          englishName: capitalise(language.english_name), // Adding English name for search
-          isoCode: language.iso_639_1 // Adding ISO code for search
-        }))
-        .sort((a: { englishName: string }, b: { englishName: string }) => a.englishName?.localeCompare(b.englishName))
+  const updateQueryParams = (action: string, selectedOption: SingleValue<optionTypes<{ nativeName: string; englishName: string; isoCode: string }>>) => {
+    const currentQueryParams = new URLSearchParams(window.location.search)
 
-      setValues(formatted)
+    if (action === "select-option") {
+      if (selectedOption?.value) {
+        currentQueryParams.set("language", selectedOption?.value)
+        setLanguageOption(selectedOption)
+      }
+    } else if (action === "clear") {
+      currentQueryParams.delete("language")
+      setLanguageOption(undefined)
     }
 
-    loadGenres()
-  }, [])
+    router.push(`?${currentQueryParams.toString()}`)
+  }
+
+  useEffect(() => {
+    const loadLanguages = async () => {
+      const languagesResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/languages`, HEADERS_ALLOW_ORIGIN)
+      const languagesResponseData = await languagesResponse.json() as spokenLanguageTypes[]
+
+      // NOTE: to avoid rendering incomplete/WIP labels (eg. ??????)
+      const formattedLanguages = languagesResponseData
+        ?.map((language: spokenLanguageTypes) => ({
+          label: language.name && !language.name.includes("?") ? capitalise(language.name) : capitalise(language.english_name),
+          value: language.iso_639_1,
+          data: {
+            nativeName: capitalise(language.name), // Adding original name for search
+            englishName: capitalise(language.english_name), // Adding English name for search
+            isoCode: language.iso_639_1 // Adding ISO code for search
+          }
+        }))
+        .sort((a: { data: { englishName: string } }, b: { data: { englishName: string } }) => a.data.englishName?.localeCompare(b.data.englishName))
+
+      // Find the No Language option and remove it from the sorted array
+      const noLanguageOption = formattedLanguages.find(language => language.data.isoCode === "xx")
+      const remainingLanguages = formattedLanguages.filter(language => language.data.isoCode !== "xx")
+
+      // Prepend the No Language option [so it becomes first element]
+      const formatted = [noLanguageOption, ...remainingLanguages]
+
+      if (formatted) {
+        setValues(formatted)
+      }
+
+      if (query) {
+        const matchedLanguage = formatted.find(lang => lang?.value === query)
+        setLanguageOption(matchedLanguage) // Set selected language based on query
+      }
+    }
+
+    loadLanguages()
+  }, [query])
 
   // Handle change event when a language is selected
-  const handleLanguageChange = (
-    selectedOption: SingleValue<
-      optionTypes<{
-        nativeName: string
-        englishName: string
-        isoCode: string
-      }>
-    >,
-    action: string
-  ) => {
+  const handleLanguageChange = (selectedOption: SingleValue<optionTypes<{ nativeName: string; englishName: string; isoCode: string }>>, action: string) => {
     const delay = 1000
 
     const debounceTimer = setTimeout(() => {
-      if (action === "select-option") {
-        setFilter(prev => ({ ...prev, original_language: selectedOption?.value }))
-      } else if (action === "clear") {
-        setFilter(prev => {
-          const newFilter = { ...prev }
-          delete newFilter.original_language
-          return newFilter // Return the modified filter without the original_language key
-        })
-      }
+      updateQueryParams(action, selectedOption)
 
       return () => clearTimeout(debounceTimer)
     }, delay)
   }
 
   const filterOption = (option: { label: string; data: { nativeName: string; englishName: string; isoCode: string } }, inputValue: string) => {
-    // NOTE: Searchable by language code, native name or English-translated name
-    const { label, data } = option
-    const searchTerm = inputValue.toLowerCase()
+    const searchTerm = inputValue?.toLowerCase()
 
-    // Use optional chaining and fallback to empty string to prevent errors
+    // Destructure data from option for better readability
+    const {
+      label,
+      data: { nativeName, englishName, isoCode }
+    } = option
+
+    // Check if the search term matches any of the fields
     return (
-      label.toLowerCase().includes(searchTerm) ||
-      (data.nativeName?.toLowerCase() || "").includes(searchTerm) ||
-      (data.englishName?.toLowerCase() || "").includes(searchTerm) ||
-      (data.isoCode?.toLowerCase() || "").includes(searchTerm)
+      label?.toLowerCase().includes(searchTerm) ||
+      nativeName?.toLowerCase().includes(searchTerm) ||
+      englishName?.toLowerCase().includes(searchTerm) ||
+      isoCode?.toLowerCase().includes(searchTerm)
     )
   }
+
+  console.log(languageOption)
 
   return (
     <div>
       <Select
         isSearchable
         isClearable
-        components={animatedComponents}
-        onChange={(selectedOption, { action }) =>
-          handleLanguageChange(
-            selectedOption as unknown as SingleValue<
-              optionTypes<{
-                nativeName: string
-                englishName: string
-                isoCode: string
-              }>
-            >,
-            action
-          )
-        }
+        components={makeAnimated()}
+        onChange={(selectedOption, { action }) => handleLanguageChange(selectedOption as SingleValue<optionTypes<{ nativeName: string; englishName: string; isoCode: string }>>, action)}
         options={values}
         // isLoading={isLoading}
-        placeholder="🔎 Language(s)"
-        filterOption={filterOption}
+        value={languageOption}
+        placeholder="🔎 Language"
+        filterOption={(option, inputValue) =>
+          filterOption(option as { label: string; data: { nativeName: string; englishName: string; isoCode: string } }, inputValue)
+        }
         classNamePrefix="movie-selection-pane-dropdown"
-        styles={{
-          control: (base, state) => ({
-            ...base,
-            backgroundColor: state.isFocused ? "#eaeaea" : "white",
-            borderRadius: "0.75rem",
-            border: "none",
-            boxShadow: state.isFocused ? "0 0 0 2px #E64833" : "none",
-            "&:hover": {
-              backgroundColor: "#eaeaea"
-            }
-          }),
-          menu: base => ({
-            ...base,
-            backgroundColor: "#eaeaea",
-            borderRadius: "0.75rem",
-            boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"
-          }),
-          menuList: base => ({
-            ...base,
-            borderRadius: "0.75rem",
-            paddingBottom: "10px"
-          }),
-          option: base => ({
-            ...base,
-            cursor: "pointer",
-            borderRadius: "0.5rem",
-            backgroundColor: "#eaeaea",
-            "&:hover": {
-              backgroundColor: "#ec7b69",
-              color: "white"
-            }
-          }),
-          dropdownIndicator: (base, state) => ({
-            ...base,
-            color: "#808088",
-            "&:hover": {
-              color: "#808088"
-            },
-            transition: "transform 0.3s ease",
-            transform: state.selectProps.menuIsOpen ? "rotate(180deg)" : "rotate(0deg)"
-          }),
-          singleValue: base => ({
-            ...base,
-            text: "black"
-          }),
-          loadingIndicator: base => ({
-            ...base,
-            ...whiteColourStyle
-          })
-        }}
+        styles={getFilterSelectStyles()}
       />
     </div>
   )

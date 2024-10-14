@@ -1,5 +1,7 @@
-import Browse from "@/components/Browse"
+import BrowseContainer from "@/components/Browse"
 
-const BrowsePage = ({ params }: { params?: { id: string } }) => <Browse {...{ params }} />
+const BrowsePage = ({ params, searchParams }: { params?: { id: string }; searchParams?: { query: string } }) => (
+  <BrowseContainer {...{ params, searchParams }} />
+)
 
 export default BrowsePage

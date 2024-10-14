@@ -2,7 +2,6 @@
 import { Oleo_Script, Atkinson_Hyperlegible } from "next/font/google"
 import fetchMovies from "@/services/fetchMovies/fetchMovies"
 import CarouselList from "@/components/Carousel/CarouselList"
-import { movieTypes } from "@/types/movie.interface"
 
 const oleoScript = Oleo_Script({
   subsets: ["latin"],
@@ -15,7 +14,7 @@ const atkinsonHyperlegible = Atkinson_Hyperlegible({
 })
 
 const HomePage = async () => {
-  const movies = (await fetchMovies()) as movieTypes[]
+  const movies = await fetchMovies()
 
   return (
     <main className={`${atkinsonHyperlegible.className}`}>

@@ -36,7 +36,7 @@ const MovieSelectionPaneCastCrewDetails: FC<MovieSelectionPaneCastCrewDetailsTyp
         {actors?.map(({ name, character, profilePath, id }) => (
           <div key={id} className="mb-3 text-sm">
             <div className="grid gap-1">
-              <div className="flex justify-between items-center gap-x-4 pl-2 rounded transition duration-200 ease-in-out">
+              <div className="flex justify-between items-center h-[45px] gap-x-4 pl-2 rounded transition duration-200 ease-in-out">
                 <div className="flex items-center">
                   <Image
                     unoptimized

@@ -1,7 +1,7 @@
 import { spokenLanguageTypes } from "@/types/movie.interface"
 
 // NOTE: For fetching from server components
-const fetchLanguages = async () => {
+const fetchLanguages = async (): Promise<spokenLanguageTypes> => {
   const baseUrl = "https://api.themoviedb.org/3/"
 
   const options = {
@@ -18,9 +18,7 @@ const fetchLanguages = async () => {
 
   try {
     const response = await fetch(url, options)
-    const data = (await response.json()) as spokenLanguageTypes
-
-    return data
+    return (await response.json()) as spokenLanguageTypes
   } catch (error) {
     return error
     // TODO: Test error handling ruin API key

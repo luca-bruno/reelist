@@ -1,7 +1,7 @@
 import { genreTypes } from "@/types/movie.interface"
 
 // NOTE: For fetching from server components
-const fetchGenres = async () => {
+const fetchGenres = async (): Promise<genreTypes> => {
   const baseUrl = "https://api.themoviedb.org/3/"
 
   const options = {
@@ -18,9 +18,7 @@ const fetchGenres = async () => {
 
   try {
     const response = await fetch(url, options)
-    const data = (await response.json()) as genreTypes
-
-    return data
+    return (await response.json()) as genreTypes
   } catch (error) {
     return error
     // TODO: Test error handling ruin API key

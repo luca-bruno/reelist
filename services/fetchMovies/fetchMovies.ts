@@ -9,10 +9,12 @@ const fetchMovies = async (
   pageTerm?: string,
   originCountryTerm?: string,
   originalLanguageTerm?: string
-) => {
+): Promise<moviesTypes> => {
   const baseUrl = "https://api.themoviedb.org/3/"
   const discoverQuery = "discover/movie?"
-  const searchQuery = `search/movie?query=${searchTerm}`
+  // NOTE: Legacy (and documented search endpoint from TMDB)
+  // const searchQuery = `search/movie?query=${searchTerm}`
+  const searchQuery = searchTerm ? `&with_text_query=${searchTerm}` : ""
   const genreQuery = genreTerm ? `&with_genres=${genreTerm}` : ""
   const castQuery = castTerm ? `&with_cast=${castTerm}` : ""
   const yearQuery = yearTerm ? `&primary_release_year=${yearTerm}` : ""
@@ -30,21 +32,24 @@ const fetchMovies = async (
     }
   }
 
-  const url = searchTerm
-    ? `${baseUrl}${searchQuery}${pageQuery}`
-    : `${baseUrl}${discoverQuery}${genreQuery}${castQuery}${yearQuery}${originCountryQuery}${originalLanguageQuery}${pageQuery}`
+  // NOTE: Legacy (and documented search endpoint from TMDB)
+  // const url = searchTerm ? `${baseUrl}${searchQuery}${pageQuery}` :
+  const url = `${baseUrl}${discoverQuery}${searchQuery}${genreQuery}${castQuery}${yearQuery}${originCountryQuery}${originalLanguageQuery}${pageQuery}`
 
+  console.log("url@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
   console.log(url)
-
   try {
     const response = await fetch(url, options)
+    if (!response.ok) {
+      throw new Error(`Error fetching movies: ${response.statusText}`)
+    }
     const data = (await response.json()) as moviesTypes
 
-    // Manually sorting by popularity from non-discover (i.e. search) endpoint (since not available natively from API)
-    return data.results.sort((a, b) => b.popularity - a.popularity)
+    // If results are available, sort by popularity (can be customized)
+    return data.results ? data.results.sort((a, b) => b.popularity - a.popularity) : []
   } catch (error) {
-    return error
-    // TODO: Test error handling ruin API key
+    console.error("Error fetching movies:", error)
+    throw new Error("Error fetching movies") // Error handling, can also return empty array
   }
 }
 

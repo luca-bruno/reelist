@@ -1,38 +1,91 @@
-import { FC, Dispatch, SetStateAction, useEffect, useState } from "react"
-import useCountries from "@/hooks/useCountries/useCountries"
+import { FC, useEffect, useState } from "react"
 import Select, { MultiValue } from "react-select"
-import { getCountryEmoji } from "@/helpers"
+import { getCountryEmoji, getFilterSelectStyles } from "@/helpers"
 import { countriesTypes } from "@/types/movie.interface"
 import makeAnimated from "react-select/animated"
-import { filterTypes } from "@/types/filter.interface"
+import { useRouter, useSearchParams } from "next/navigation"
 import { optionTypes } from "../MovieSelectionPane/types/MovieSelectionPaneDropdown.interface"
+import { HEADERS_ALLOW_ORIGIN } from "@/constants"
 
-const CountryFilterSelector: FC<{ setFilter: Dispatch<SetStateAction<filterTypes | undefined>> }> = ({ setFilter }) => {
-  const [values, setValues] = useState()
+const CountryFilterSelector: FC = () => {
+  const searchParams = useSearchParams()
+  const query = searchParams.get("countries") || ""
 
-  const animatedComponents = makeAnimated()
-  const whiteColourStyle = { color: "white" }
+  const [values, setValues] =
+    useState<(optionTypes<{ nativeName: string; englishName: string; isoCode: string }> | undefined)[]>()
 
-  const { data: countriesResponseData } = useCountries(false)
+  const [selectedCountries, setSelectedCountries] = useState<
+    MultiValue<
+      optionTypes<{
+        nativeName: string
+        englishName: string
+        isoCode: string
+      }>
+    >
+  >([])
+
+  const router = useRouter()
+
+  const updateQueryParams = (
+    action: string,
+    selectedOption: MultiValue<
+      optionTypes<{
+        nativeName: string
+        englishName: string
+        isoCode: string
+      }>
+    >
+  ) => {
+    const currentQueryParams = new URLSearchParams(window.location.search)
+    const countryValues = selectedOption.map(option => option.value)
+
+    const updatedCountries = action === "select-option" ? selectedOption : selectedCountries.filter(country => countryValues.includes(country.value))
+
+    if (updatedCountries.length > 0) {
+      currentQueryParams.set("countries", updatedCountries.map(c => c.value).join(","))
+      setSelectedCountries(updatedCountries)
+    } else {
+      currentQueryParams.delete("countries")
+      setSelectedCountries([])
+    }
+
+    router.push(`?${currentQueryParams.toString()}`)
+  }
 
   useEffect(() => {
-    const formattedCountries = countriesResponseData
-      ?.map((country: countriesTypes) => ({
-        label: (
-          <span className="flex">
-            {getCountryEmoji({ countryCode: country.iso_3166_1 }) || ""}
-            {` ${country.native_name}`}
-          </span>
-        ),
-        value: country.iso_3166_1,
-        nativeName: country.native_name, // Adding original name for search
-        englishName: country.english_name, // Adding English name for search
-        isoCode: country.iso_3166_1 // Adding ISO code for search
-      }))
-      .sort((a: { nativeName: string }, b: { nativeName: string }) => a.nativeName?.localeCompare(b.nativeName))
+    const loadCountries = async () => {
+      const countriesResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/countries`, HEADERS_ALLOW_ORIGIN)
+      const countriesResponseData = (await countriesResponse.json()) as countriesTypes[]
 
-    setValues(formattedCountries)
-  }, [countriesResponseData])
+      const formattedCountries = countriesResponseData
+        ?.map((country: countriesTypes) => ({
+          label: (
+            <span className="flex">
+              {getCountryEmoji({ countryCode: country.iso_3166_1 }) || ""}
+              {` ${country.native_name}`}
+            </span>
+          ),
+          value: country.iso_3166_1,
+          data: {
+            nativeName: country.native_name,
+            englishName: country.english_name,
+            isoCode: country.iso_3166_1
+          }
+        }))
+        .sort((a: { data: { nativeName: string } }, b: { data: { nativeName: string } }) => a.data.nativeName?.localeCompare(b.data.nativeName))
+
+      setValues(formattedCountries)
+
+      if (query) {
+        const countriesIdsFromQuery = query.split(",")
+        const matchedCountries = formattedCountries?.filter((country: { value: string }) => countriesIdsFromQuery.includes(country.value))
+        console.log(matchedCountries)
+        setSelectedCountries(matchedCountries)
+      }
+    }
+
+    loadCountries()
+  }, [])
 
   const handleCountryChange = (
     selectedOption: MultiValue<
@@ -47,42 +100,30 @@ const CountryFilterSelector: FC<{ setFilter: Dispatch<SetStateAction<filterTypes
     const delay = 1000
 
     const debounceTimer = setTimeout(() => {
-      if (action === "select-option") {
-        // Extract values from selected options for multi-select
-        const extractValues = selectedOption.map(option => option.value)
-        setFilter(prev => ({ ...prev, origin_country: extractValues }))
-      } else if (action === "clear") {
-        setFilter(prev => {
-          const newFilter = { ...prev }
-          delete newFilter.origin_country
-          return newFilter // Return the modified filter without the origin_country key
-        })
-      } else if (action === "remove-value") {
-        setFilter(prev => {
-          const currentCountry = selectedOption.map(option => option.value)
-          const valueToRemove = prev?.origin_country?.find(country => !currentCountry.includes(country))
-
-          const filteredCountries = [...(prev?.origin_country || [])].filter(country => country !== valueToRemove)
-
-          return { ...prev, origin_country: filteredCountries }
-        })
-      }
+      updateQueryParams(action, selectedOption)
     }, delay)
 
     return () => clearTimeout(debounceTimer)
   }
 
-  const filterOption = (option: { label: string; data: { nativeName: string; englishName: string; isoCode: string } }, inputValue: string) => {
-    // NOTE: Searchable by country code, native name or English-translated name
-    const { label, data } = option
-    const searchTerm = inputValue.toLowerCase()
+  const filterOption = (option: { label: JSX.Element; data: { nativeName: string; englishName: string; isoCode: string } }, inputValue: string) => {
+    // NOTE: Searchable by country code, native name, or English-translated name
+    const searchTerm = inputValue?.toLowerCase()
 
-    // Use optional chaining and fallback to empty string to prevent errors
+    const {
+      label,
+      data: { nativeName, englishName, isoCode }
+    } = option
+
+    // Destructure data from option for better readability
+    // const { label, nativeName, englishName, isoCode } = option.data
+
+    // Perform the search on the labelString, nativeName, englishName, and isoCode
     return (
-      label.toString().toLowerCase().includes(searchTerm) ||
-      (data.nativeName?.toLowerCase() || "").includes(searchTerm) ||
-      (data.englishName?.toLowerCase() || "").includes(searchTerm) ||
-      (data.isoCode?.toLowerCase() || "").includes(searchTerm)
+      label?.props.children[1]?.toString().toLowerCase().includes(searchTerm) ||
+      nativeName?.toLowerCase().includes(searchTerm) ||
+      englishName?.toLowerCase().includes(searchTerm) ||
+      isoCode?.toLowerCase().includes(searchTerm)
     )
   }
 
@@ -91,10 +132,10 @@ const CountryFilterSelector: FC<{ setFilter: Dispatch<SetStateAction<filterTypes
       <Select
         isMulti
         isSearchable
-        components={animatedComponents}
+        components={makeAnimated()}
         onChange={(selectedOption, { action }) =>
           handleCountryChange(
-            selectedOption as unknown as MultiValue<
+            selectedOption as MultiValue<
               optionTypes<{
                 nativeName: string
                 englishName: string
@@ -106,59 +147,13 @@ const CountryFilterSelector: FC<{ setFilter: Dispatch<SetStateAction<filterTypes
         }
         options={values}
         // isLoading={isLoading}
+        value={selectedCountries}
         placeholder="🔎 Country(ies)"
-        filterOption={filterOption}
+        filterOption={(option, inputValue) =>
+          filterOption(option as unknown as { label: JSX.Element; data: { nativeName: string; englishName: string; isoCode: string } }, inputValue)
+        }
         classNamePrefix="movie-selection-pane-dropdown"
-        styles={{
-          control: (base, state) => ({
-            ...base,
-            backgroundColor: state.isFocused ? "#eaeaea" : "white",
-            borderRadius: "0.75rem",
-            border: "none",
-            boxShadow: state.isFocused ? "0 0 0 2px #E64833" : "none",
-            "&:hover": {
-              backgroundColor: "#eaeaea"
-            }
-          }),
-          menu: base => ({
-            ...base,
-            backgroundColor: "#eaeaea",
-            borderRadius: "0.75rem",
-            boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"
-          }),
-          menuList: base => ({
-            ...base,
-            borderRadius: "0.75rem",
-            paddingBottom: "10px"
-          }),
-          option: base => ({
-            ...base,
-            cursor: "pointer",
-            borderRadius: "0.5rem",
-            backgroundColor: "#eaeaea",
-            "&:hover": {
-              backgroundColor: "#ec7b69",
-              color: "white"
-            }
-          }),
-          dropdownIndicator: (base, state) => ({
-            ...base,
-            color: "#808088",
-            "&:hover": {
-              color: "#808088"
-            },
-            transition: "transform 0.3s ease",
-            transform: state.selectProps.menuIsOpen ? "rotate(180deg)" : "rotate(0deg)"
-          }),
-          singleValue: base => ({
-            ...base,
-            text: "black"
-          }),
-          loadingIndicator: base => ({
-            ...base,
-            ...whiteColourStyle
-          })
-        }}
+        styles={getFilterSelectStyles()}
       />
     </div>
   )

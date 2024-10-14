@@ -1,6 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import fetchCountries from "@/services/fetchCountries/fetchCountries"
 
+// TODO: MARK FOR DELETION
 // NOTE: For fetching from SWR custom hook/client components
 export async function GET() {
   try {

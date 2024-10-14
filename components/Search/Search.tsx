@@ -3,10 +3,27 @@
 import { FC, useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faX } from "@fortawesome/free-solid-svg-icons/faX"
-import { SearchTypes } from "./types/Search.interface"
+import { useRouter, useSearchParams } from "next/navigation"
 
-const Search: FC<SearchTypes> = ({ setQuery }) => {
-  const [input, setInput] = useState("")
+const Search: FC = () => {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const query = searchParams.get("query") || ""
+  const [input, setInput] = useState(query)
+
+  // const params = new URLSearchParams()
+
+  const updateQueryParams = () => {
+    const currentQueryParams = new URLSearchParams(window.location.search)
+    // Update the query parameter
+    if (input) {
+      currentQueryParams.set("query", input)
+    } else {
+      currentQueryParams.delete("query") // Remove the query if input is empty
+    }
+
+    router.push(`?${currentQueryParams.toString()}`)
+  }
 
   useEffect(() => {
     if (input !== "") localStorage.setItem("latest-search-term", input)
@@ -17,17 +34,18 @@ const Search: FC<SearchTypes> = ({ setQuery }) => {
     const delay = 1000
 
     const debounceTimer = setTimeout(() => {
-      setQuery(input)
+      updateQueryParams()
     }, delay)
 
     return () => clearTimeout(debounceTimer)
-  }, [input, setQuery])
+  })
 
   return (
     <div className="relative mr-3 w-full">
       <input
         type="text"
         placeholder="Search movies..."
+        // defaultValue={query}
         onChange={e => setInput(e.target.value)}
         maxLength={50}
         value={input}

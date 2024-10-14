@@ -66,14 +66,15 @@ const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, setSelectedMovieI
         unoptimized
         className={`rounded-xl select-none ${transitionStyles}
               ${!isDisplayingGridView ? "my-auto h-full w-auto" : "hover:scale-105"}
-              ${hasImageLoaded ? "opacity-100" : "opacity-0"} 
               ${onCurrentId(id) ? "scale-105" : ""}
-            `}
+              `}
+              // todo: this seems to cause flickering
+              // ${hasImageLoaded ? "opacity-100" : "opacity-0"} 
         // TODO: add img fallbacks
         // src={hasReturnedError ? fallbackPlaceholder : posterPath}
         src={posterPath ? `${TMDB_IMAGE_PATH}${posterPath}` : fallbackPlaceholder}
         onError={() => setHasReturnedError(true)}
-        onLoadingComplete={() => setHasImageLoaded(true)}
+        // onLoadingComplete={() => setHasImageLoaded(true)}
         alt={`${title || "Movie"} icon`}
         width={200}
         height={155}
