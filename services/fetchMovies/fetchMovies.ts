@@ -36,14 +36,14 @@ const fetchMovies = async (
   // const url = searchTerm ? `${baseUrl}${searchQuery}${pageQuery}` :
   const url = `${baseUrl}${discoverQuery}${searchQuery}${genreQuery}${castQuery}${yearQuery}${originCountryQuery}${originalLanguageQuery}${pageQuery}`
 
-  console.log("url@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-  console.log(url)
+  // console.log("url@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+  // console.log(url)
   try {
     const response = await fetch(url, options)
     if (!response.ok) {
       throw new Error(`Error fetching movies: ${response.statusText}`)
     }
-    const data = (await response.json()) as moviesTypes
+    const data = await response.json() as moviesTypes
 
     // If results are available, sort by popularity (can be customized)
     return data.results ? data.results.sort((a, b) => b.popularity - a.popularity) : []
