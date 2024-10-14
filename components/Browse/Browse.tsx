@@ -3,7 +3,6 @@
 import { FC, useEffect, useState } from "react"
 import { IS_BROWSER } from "@/constants"
 import { movieTypes } from "@/types/movie.interface"
-import { filterTypes } from "@/types/filter.interface"
 import BrowseHeader from "./BrowseHeader"
 import MovieCardList from "../MovieCardList"
 import MovieSelectionPane from "../MovieSelectionPane"

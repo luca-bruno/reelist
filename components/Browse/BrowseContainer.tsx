@@ -10,6 +10,7 @@ import {
   fetchMoviesByIdAndGenre
 } from "@/components/Browse/utils/fetchMoviesByCondition"
 import { formatGenres, formatCountries, formatLanguages } from "@/components/Browse/utils/formatFilterPayloads"
+import { filterParamTypes } from "@/types/filter.interface"
 import Browse from "./Browse"
 import { BrowseContainerTypes } from "./types/BrowseContainer.interface"
 
@@ -21,7 +22,7 @@ const BrowseContainer: FC<BrowseContainerTypes> = async ({ params, searchParams 
   const { query, year, genres, language, countries, page } = searchParams || {}
 
   // Build filters dynamically based on searchParams
-  const filters: any = {}
+  const filters: filterParamTypes = {}
 
   if (year) filters.year = year
   if (genres) filters.genres = genres
@@ -45,7 +46,7 @@ const BrowseContainer: FC<BrowseContainerTypes> = async ({ params, searchParams 
   } else if (id) {
     defaultMovieDetails = await fetchMoviesById(id)
 
-    const formattedCastMembers = defaultMovieDetails?.credits?.cast.map((castMember: { id: any }) => castMember.id).join("|")
+    const formattedCastMembers = defaultMovieDetails?.credits?.cast.map((castMember: { id: number }) => castMember.id).join("|")
 
     if (defaultMovieDetails && formattedCastMembers && !query && !hasFilters) {
       movies = await fetchMoviesByIdAndGenre(formattedCastMembers, defaultMovieDetails, page || "1")
@@ -54,26 +55,20 @@ const BrowseContainer: FC<BrowseContainerTypes> = async ({ params, searchParams 
     movies = await fetchMoviesByQuery("", page || "1")
   }
 
-  const genresResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/genres`, {
-    headers: HEADERS_ALLOW_ORIGIN.headers,
-    cache: "force-cache"
-  })
-  const { genres: genreResponseData } = await genresResponse.json()
-  const formattedGenres = formatGenres(genreResponseData)
+  const [genresResponse, countriesResponse, languagesResponse] = await Promise.all([
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/genres`, { headers: HEADERS_ALLOW_ORIGIN.headers, cache: "force-cache" }),
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/countries`, { headers: HEADERS_ALLOW_ORIGIN.headers, cache: "force-cache" }),
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/languages`, { headers: HEADERS_ALLOW_ORIGIN.headers, cache: "force-cache" })
+  ])
 
-  const countriesResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/countries`, {
-    headers: HEADERS_ALLOW_ORIGIN.headers,
-    cache: "force-cache"
-  })
-  const countriesResponseData = await countriesResponse.json()
+  const [{ genres: genresResponseData }, countriesResponseData, languagesResponseData] = await Promise.all([
+    genresResponse.json(),
+    countriesResponse.json(),
+    languagesResponse.json()
+  ])
+
+  const formattedGenres = formatGenres(genresResponseData)
   const formattedCountries = formatCountries(countriesResponseData)
-
-  const languagesResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/languages`, {
-    headers: HEADERS_ALLOW_ORIGIN.headers,
-    cache: "force-cache"
-  })
-  const languagesResponseData = await languagesResponse.json()
-  // NOTE: to avoid rendering incomplete/WIP labels (eg. ??????)
   const formattedLanguages = formatLanguages(languagesResponseData)
 
   return (
