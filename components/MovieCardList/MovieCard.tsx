@@ -9,9 +9,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCheck, faHeart, faHeartCirclePlus, faPlus } from "@fortawesome/free-solid-svg-icons"
 import { HEADERS_ALLOW_ORIGIN, IS_BROWSER, TMDB_IMAGE_PATH } from "@/constants"
 import { movieTypes } from "@/types/movie.interface"
+import Skeleton from "react-loading-skeleton" // Import Skeleton component
 import MovieCardType from "./types/MovieCard.interface"
+import "react-loading-skeleton/dist/skeleton.css" // Optional CSS styles for skeleton
 
-const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, setSelectedMovieId, selectedMovieId, isDisplayingGridView = true }) => {
+const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, setSelectedMovieId, selectedMovieId }) => {
   const [favourites, setFavourites] = useState<movieTypes[]>()
   const [watchlist, setWatchlist] = useState<movieTypes[]>()
 
@@ -54,32 +56,43 @@ const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, setSelectedMovieI
   return (
     <button
       type="button"
-      className={`movie-card__button relative m-auto ${
-        !isDisplayingGridView
-          ? `rounded-xl laptop:h-[80px] h-[40px] flex
-            ${transitionStyles} hover:scale-105 mx-2 bg-gray-50/10`
-          : ""
-      }`}
+      className={`relative grid transition-transform duration-300 ease-in-out ${onCurrentId(id) ? "scale-105" : ""} hover:scale-105`}
       onClick={() => setSelectedMovieId(id)}
     >
-      <Image
-        unoptimized
-        className={`rounded-xl select-none ${transitionStyles}
-              ${!isDisplayingGridView ? "my-auto h-full w-auto" : "hover:scale-105"}
-              ${onCurrentId(id) ? "scale-105" : ""}
-              `}
-              // todo: this seems to cause flickering
-              // ${hasImageLoaded ? "opacity-100" : "opacity-0"} 
-        // TODO: add img fallbacks
-        // src={hasReturnedError ? fallbackPlaceholder : posterPath}
-        src={posterPath ? `${TMDB_IMAGE_PATH}${posterPath}` : fallbackPlaceholder}
-        onError={() => setHasReturnedError(true)}
-        // onLoadingComplete={() => setHasImageLoaded(true)}
-        alt={`${title || "Movie"} icon`}
-        width={200}
-        height={155}
-        draggable={false}
-      />
+      <div
+        className="relative rounded-xl overflow-hidden flex justify-center items-center"
+        style={{ width: "calc(200px - 2rem)", height: "calc(300px - 1.5rem - 1.5rem)" }}
+      >
+        {!hasImageLoaded && (
+          <Skeleton
+            height={300}
+            width={200}
+            enableAnimation
+            className="absolute top-0 left-0 rounded-xl"
+            highlightColor="#d6d6d6"
+            style={{
+              width: "calc(200px - 2rem)",
+              height: "calc(300px - 1.5rem - 1.5rem)"
+            }}
+          />
+        )}
+
+        <Image
+          unoptimized
+          className={`rounded-xl select-none transition-opacity duration-300 ease-in-out ${
+            hasImageLoaded ? "opacity-100" : "opacity-0"
+          } absolute top-0 left-0`}
+          src={posterPath ? `${TMDB_IMAGE_PATH}${posterPath}` : fallbackPlaceholder}
+          onError={() => {
+            // TODO: handle error
+          }}
+          onLoadingComplete={() => setHasImageLoaded(true)}
+          alt={`${title || "Movie"} icon`}
+          width={200}
+          height={300}
+          draggable={false}
+        />
+      </div>
 
       <div className="absolute bottom-[-10px] right-[-5px] flex gap-2">
         <FontAwesomeIcon
@@ -93,8 +106,6 @@ const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, setSelectedMovieI
           onClick={e => handleAddToPlaylist(e, "Watchlist")}
         />
       </div>
-
-      {!isDisplayingGridView && <div className="px-2 m-auto laptopM:text-2xl laptop:text-lg mobileXL:text-sm text-[0.7rem] truncate">{title}</div>}
     </button>
   )
 }
