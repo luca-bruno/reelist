@@ -40,7 +40,7 @@ const MovieSelectionPaneCastCrewDetails: FC<MovieSelectionPaneCastCrewDetailsTyp
       <div className="grid grid-cols-2 gap-x-4">
         {directors?.map(({ name, profilePath, id }) => (
           <Link key={id} href={`/director/${id}`}>
-            <div className="mb-3 text-sm hover:bg-[gray] hover:bg-opacity-70 rounded-xl p-1">
+            <div className="mb-3 text-sm hover:bg-[gray] hover:bg-opacity-70 rounded-xl pr-2 py-1">
               <div className="grid gap-1">
                 <div className="flex justify-between items-center h-[45px] gap-x-4 pl-2 rounded transition duration-200 ease-in-out">
                   <div className="flex items-center">
@@ -65,7 +65,7 @@ const MovieSelectionPaneCastCrewDetails: FC<MovieSelectionPaneCastCrewDetailsTyp
       <div className="grid grid-cols-2 gap-x-4">
         {actors?.map(({ name, character, profilePath, id }) => (
           <Link key={id} href={`/actor/${id}`}>
-            <div className="mb-3 text-sm hover:bg-[gray] hover:bg-opacity-70 rounded-xl p-1">
+            <div className="mb-3 text-sm hover:bg-[gray] hover:bg-opacity-70 rounded-xl pr-2 py-1">
               <div className="grid gap-1">
                 <div className="flex justify-between items-center h-[45px] gap-x-4 pl-2 rounded transition duration-200 ease-in-out">
                   <div className="flex items-center">
