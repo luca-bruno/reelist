@@ -182,15 +182,20 @@ const MovieSelectionPaneProviders: FC<MovieSelectionPaneProviders> = ({ watchPro
       </div>
 
       <div
-        className={`text-end text-xs mt-2 
+        className={`text-end text-xs mt-2
           ${
             Object.keys(watchProviders?.results).length > 0 && isProvidersAvailableInClientCountry ? "opacity-100" : "opacity-0 pointer-events-none"
           }`}
       >
-        <em>
+        <em className="flex gap-2 m-1 justify-end">
           Provided by
           <Link className="cursor-pointer" href="https://www.justwatch.com/" target="_blank" rel="noopener noreferrer">
-            <strong className={`mx-1 hover:text-[#DDAD00] ${transitionStyles}`}>JustWatch</strong>
+            <img
+              alt="JustWatch"
+              draggable="false"
+              className="flex justify-center m-0 mt-0.5 items-center h-[18px] w-[65px] select-none"
+              src="https://widget.justwatch.com/assets/JW_logo_color_10px.svg"
+            />
           </Link>
         </em>
       </div>
