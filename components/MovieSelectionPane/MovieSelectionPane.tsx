@@ -15,7 +15,6 @@ import MovieSelectionPaneCastCrewDetails from "./MovieSelectionPaneCastCrewDetai
 import MovieSelectionPaneDetailsHeader from "./MovieSelectionPaneDetailsHeader"
 
 const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) => {
-  // const [selectedMovie, setSelectedMovie] = useState<movieTypes>()
   const [isDisplayingCastandCrew, setIsDisplayingCastandCrew] = useState(true)
 
   // TODO: split off and use this template
@@ -55,7 +54,6 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) =>
     release_dates: ageRating,
     runtime,
     spoken_languages: spokenLanguages,
-    tagline,
     title,
     "watch/providers": watchProviders
   } = selectedMovie || {}

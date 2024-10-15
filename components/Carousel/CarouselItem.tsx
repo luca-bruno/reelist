@@ -1,30 +1,49 @@
-import { FC } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { transitionStyles } from "@/helpers"
-import { TMDB_IMAGE_PATH } from "@/constants"
-import fallbackPlaceholder from "@/public/fallbackPlaceholder.jpg"
-import { CarouselItemTypes } from "./types/Carousel.interface"
+import { FC } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { transitionStyles } from "@/helpers";
+import { TMDB_IMAGE_PATH } from "@/constants";
+import fallbackPlaceholder from "@/public/fallbackPlaceholder.jpg";
+import { CarouselItemTypes } from "./types/Carousel.interface";
+import useImage from "@/hooks/useImage/useImage";
+import Skeleton from "react-loading-skeleton";
 
-const CarouselItem: FC<CarouselItemTypes> = ({ id, posterPath, title }) => (
-  <Link href="browse/[id]" as={`browse/${id}`} legacyBehavior>
-    <Image
-      unoptimized
-      id={id as unknown as string}
-      className={`rounded-xl ${transitionStyles} hover:scale-105 cursor-pointer m-3 select-none`}
-      // TODO: add image fallbacks
-      //    ${hasImageLoaded ? "opacity-100" : "opacity-0"}
-      //    ${onCurrentId(id) ? "scale-105" : ""}
-      // src={`${TMDB_IMAGE_PATH}${posterPath}`}
-      src={posterPath ? `${TMDB_IMAGE_PATH}${posterPath}` : fallbackPlaceholder}
-      // onError={() => setHasReturnedError(true)}
-      // onLoadingComplete={() => setHasImageLoaded(true)}
-      alt={`${title || "Movie"} icon`}
-      width={200}
-      height={155}
-      draggable={false}
-    />
-  </Link>
-)
+const CarouselItem: FC<CarouselItemTypes> = ({ id, posterPath, title }) => {
+  const {
+    hasImageLoaded,
+    setHasImageLoaded,
+  } = useImage();
 
-export default CarouselItem
+  return (
+    <Link href="browse/[id]" as={`browse/${id}`} legacyBehavior>
+      <div className={`rounded-xl my-3 overflow-hidden w-[200px] h-[300px] flex-shrink-0 relative hover:scale-105 ${transitionStyles}`}>
+        {!hasImageLoaded && (
+          <Skeleton
+            height={300}
+            width={200}
+            enableAnimation
+            className="absolute top-0 left-0 rounded-xl"
+            highlightColor="#d6d6d6"
+          />
+        )}
+
+        <Image
+          unoptimized
+          id={id as unknown as string}
+          className={`rounded-xl cursor-pointer
+            ${hasImageLoaded ? "opacity-100" : "opacity-0"}
+            select-none`}
+          src={posterPath ? `${TMDB_IMAGE_PATH}${posterPath}` : fallbackPlaceholder}
+          onLoadingComplete={() => setHasImageLoaded(true)}
+          alt={`${title || "Movie"} icon`}
+          width={200}
+          height={300}
+          draggable={false}
+        />
+      </div>
+    </Link>
+  );
+};
+
+
+export default CarouselItem;
