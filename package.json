@@ -52,6 +52,8 @@
     "husky": "^9.1.6",
     "postcss": "8.4.29",
     "prettier": "^3.0.3",
+    "react-loader-spinner": "^6.1.6",
+    "react-loading-skeleton": "^3.5.0",
     "sharp": "^0.32.6",
     "stylelint": "^16.9.0",
     "typescript": "5.2.2"
