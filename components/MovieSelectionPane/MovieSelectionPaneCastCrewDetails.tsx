@@ -3,8 +3,13 @@ import Image from "next/image"
 import { TMDB_IMAGE_PATH } from "@/constants"
 import fallbackPlaceholderUser from "@/public/fallbackPlaceholderUser.jpg"
 import MovieSelectionPaneCastCrewDetailsTypes from "./types/MovieSelectionPaneCastCrewDetails.interface"
+import Link from "next/link"
 
 const MovieSelectionPaneCastCrewDetails: FC<MovieSelectionPaneCastCrewDetailsTypes> = ({ cast, crew }) => {
+  const directors = crew
+    ?.filter(item => item.job === "Director")
+    .map(({ original_name, profile_path: profilePath, id }) => ({ name: original_name, profilePath, id }))
+
   const actors = cast
     ?.filter(item => item.known_for_department === "Acting")
     .map(({ original_name, character, profile_path: profilePath, id }) => ({ name: original_name, character, profilePath, id }))
@@ -31,28 +36,55 @@ const MovieSelectionPaneCastCrewDetails: FC<MovieSelectionPaneCastCrewDetailsTyp
 
   return (
     <>
+      <h2 className="text-lg font-semibold mb-1">Director(s)</h2>
+      <div className="grid grid-cols-2 gap-x-4">
+        {directors?.map(({ name, profilePath, id }) => (
+          <Link key={id} href={`/director/${id}`}>
+            <div className="mb-3 text-sm hover:bg-[gray] hover:bg-opacity-70 rounded-xl p-1">
+              <div className="grid gap-1">
+                <div className="flex justify-between items-center h-[45px] gap-x-4 pl-2 rounded transition duration-200 ease-in-out">
+                  <div className="flex items-center">
+                    <Image
+                      unoptimized
+                      className="rounded-xl select-none slide_fade_from_left"
+                      src={profilePath ? `${TMDB_IMAGE_PATH}${profilePath}` : fallbackPlaceholderUser}
+                      alt={name}
+                      width={30}
+                      height={30}
+                      draggable={false}
+                    />
+                    <p className="font-semibold pl-2">{name}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Link>
+        ))}
+      </div>
       <h2 className="text-lg font-semibold mb-1">Cast</h2>
       <div className="grid grid-cols-2 gap-x-4">
         {actors?.map(({ name, character, profilePath, id }) => (
-          <div key={id} className="mb-3 text-sm">
-            <div className="grid gap-1">
-              <div className="flex justify-between items-center h-[45px] gap-x-4 pl-2 rounded transition duration-200 ease-in-out">
-                <div className="flex items-center">
-                  <Image
-                    unoptimized
-                    className="rounded-xl select-none slide_fade_from_left"
-                    src={profilePath ? `${TMDB_IMAGE_PATH}${profilePath}` : fallbackPlaceholderUser}
-                    alt={`${name}`}
-                    width={30}
-                    height={30}
-                    draggable={false}
-                  />
-                  <p className="font-semibold pl-2">{`${name}`}</p>
+          <Link key={id} href={`/actor/${id}`}>
+            <div className="mb-3 text-sm hover:bg-[gray] hover:bg-opacity-70 rounded-xl p-1">
+              <div className="grid gap-1">
+                <div className="flex justify-between items-center h-[45px] gap-x-4 pl-2 rounded transition duration-200 ease-in-out">
+                  <div className="flex items-center">
+                    <Image
+                      unoptimized
+                      className="rounded-xl select-none slide_fade_from_left"
+                      src={profilePath ? `${TMDB_IMAGE_PATH}${profilePath}` : fallbackPlaceholderUser}
+                      alt={`${name}`}
+                      width={30}
+                      height={30}
+                      draggable={false}
+                    />
+                    <p className="font-semibold pl-2">{`${name}`}</p>
+                  </div>
+                  <div>{character && <p className="text-end">{character}</p>}</div>
                 </div>
-                <div>{character && <p className="text-end">{character}</p>}</div>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
 
