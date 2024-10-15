@@ -7,15 +7,7 @@ import BrowseHeader from "./BrowseHeader"
 import MovieCardList from "../MovieCardList"
 import MovieSelectionPane from "../MovieSelectionPane"
 import BrowseFilters from "./BrowseFilters"
-
-interface BrowseTypes {
-  movies: movieTypes[]
-  defaultMovieDetails?: movieTypes
-  playlistKey?: string
-  query?: string
-  hasFilters?: boolean
-  hasQuery?: boolean
-}
+import { BrowseTypes } from "./types/Browse.interface"
 
 const Browse: FC<BrowseTypes> = ({ movies, defaultMovieDetails, playlistKey, hasFilters, query, hasQuery }) => {
   const [selectedMovieId, setSelectedMovieId] = useState<number>()
@@ -59,13 +51,12 @@ const Browse: FC<BrowseTypes> = ({ movies, defaultMovieDetails, playlistKey, has
   return (
     <main className="grid grid-flow-row grid-rows-2 mobileXL:grid-rows-none mobileXL:grid-cols-3">
       <div className="rounded-xl m-3 mobileL:overflow-x overflow-x-none bg-neutral-500 h-[calc(100vh-75px)] flex flex-col">
-        <BrowseHeader {...{ page, setPage, movies }} />
+        <BrowseHeader {...{ page, setPage, movies: playlistMovies || movies }} />
         <BrowseFilters />
         <MovieCardList
           {...{
             setSelectedMovieId,
             selectedMovieId,
-            // genres,
             movies: playlistMovies || movies,
             isDisplayingGridView: true
           }}

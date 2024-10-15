@@ -55,27 +55,6 @@ const CountryFilterSelector: FC = () => {
   }
 
   useEffect(() => {
-    // const loadCountries = async () => {
-    // const countriesResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/countries`, HEADERS_ALLOW_ORIGIN)
-    // const countriesResponseData = (await countriesResponse.json()) as countriesTypes[]
-
-    // const formattedCountries = countriesResponseData
-    //   ?.map((country: countriesTypes) => ({
-    //     label: (
-    //       <span className="flex">
-    //         {getCountryEmoji({ countryCode: country.iso_3166_1 }) || ""}
-    //         {` ${country.native_name}`}
-    //       </span>
-    //     ),
-    //     value: country.iso_3166_1,
-    //     data: {
-    //       nativeName: country.native_name,
-    //       englishName: country.english_name,
-    //       isoCode: country.iso_3166_1
-    //     }
-    //   }))
-    //   .sort((a: { data: { nativeName: string } }, b: { data: { nativeName: string } }) => a.data.nativeName?.localeCompare(b.data.nativeName))
-
     setValues(countries)
 
     if (query) {
@@ -83,9 +62,6 @@ const CountryFilterSelector: FC = () => {
       const matchedCountries = countries?.filter((country: { value: string }) => countriesIdsFromQuery.includes(country.value))
       setSelectedCountries(matchedCountries)
     }
-    // }
-
-    // loadCountries()
   }, [countries, query, setSelectedCountries])
 
   const handleCountryChange = (
@@ -98,13 +74,7 @@ const CountryFilterSelector: FC = () => {
     >,
     action: string
   ) => {
-    const delay = 1000
-
-    const debounceTimer = setTimeout(() => {
-      updateQueryParams(action, selectedOption)
-    }, delay)
-
-    return () => clearTimeout(debounceTimer)
+    updateQueryParams(action, selectedOption)
   }
 
   const filterOption = (option: { label: JSX.Element; data: { nativeName: string; englishName: string; isoCode: string } }, inputValue: string) => {

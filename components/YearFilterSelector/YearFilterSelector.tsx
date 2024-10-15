@@ -43,16 +43,8 @@ const YearFilterSelector: FC = () => {
     router.push(`?${currentQueryParams.toString()}`)
   }
 
-  // Handle change event when a year is selected
-  // TODO: make debounce fn generic across all filter inc search
   const handleYearChange = (selectedOption: SingleValue<optionTypes>, action: string) => {
-    const delay = 1000
-
-    const debounceTimer = setTimeout(() => {
-      updateQueryParams(action, selectedOption)
-    }, delay)
-
-    return () => clearTimeout(debounceTimer)
+    updateQueryParams(action, selectedOption)
   }
 
   return (

@@ -1,5 +1,4 @@
 import { FC, useEffect, useState } from "react"
-import { HEADERS_ALLOW_ORIGIN } from "@/constants"
 import Select, { MultiValue } from "react-select"
 import makeAnimated from "react-select/animated"
 import { getFilterSelectStyles } from "@/helpers"
@@ -10,13 +9,9 @@ import { optionTypes } from "../MovieSelectionPane/types/MovieSelectionPaneDropd
 const GenreFilterSelector: FC = () => {
   const searchParams = useSearchParams()
   const query = searchParams.get("genres") || ""
-
   const { genres } = useGenres()
 
   const [values, setValues] = useState<MultiValue<optionTypes>>([])
-  // const [genres, setGenres] = useState()
-
-  // const { formatted } = Bruh()
 
   const router = useRouter()
 
@@ -44,34 +39,15 @@ const GenreFilterSelector: FC = () => {
   }
 
   useEffect(() => {
-    // const loadGenres = async () => {
-      // const genresResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/genres`, HEADERS_ALLOW_ORIGIN)
-      // const { genres: genreResponseData } = await genresResponse.json()
-
-      // const formatted = genreResponseData.map((genre: { name: string; id: number }) => ({ label: genre.name, value: genre.id }))
-
-      // setGenres(formatted)
-
-      if (query) {
-        const genreIdsFromQuery = query.split(",")
-
-        const matchedGenres = genres?.filter((genre: { value: number }) => genreIdsFromQuery.includes(genre.value.toString()))
-
-        setValues(matchedGenres)
-      }
-    // }
-
-    // loadGenres()
+    if (query) {
+      const genreIdsFromQuery = query.split(",")
+      const matchedGenres = genres?.filter((genre: { value: number }) => genreIdsFromQuery.includes(genre.value.toString()))
+      setValues(matchedGenres)
+    }
   }, [genres, query])
 
   const handleGenreChange = (selectedOption: MultiValue<optionTypes>, action: string) => {
-    const delay = 1000
-
-    const debounceTimer = setTimeout(() => {
-      updateQueryParams(action, selectedOption)
-    }, delay)
-
-    return () => clearTimeout(debounceTimer)
+    updateQueryParams(action, selectedOption)
   }
 
   return (

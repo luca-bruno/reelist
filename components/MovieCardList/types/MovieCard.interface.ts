@@ -7,7 +7,6 @@ interface MovieCardTypes {
   posterPath: movieTypes["poster_path"]
   setSelectedMovieId: MovieCardListTypes["setSelectedMovieId"]
   selectedMovieId: MovieCardListTypes["selectedMovieId"]
-  isDisplayingGridView: MovieCardListTypes["isDisplayingGridView"]
 }
 
 export default MovieCardTypes
