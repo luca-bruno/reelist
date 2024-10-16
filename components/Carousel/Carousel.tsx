@@ -92,8 +92,8 @@ const Carousel: FC<CarouselTypes> = ({ title, subtitle, list, listKey, playlists
           onScroll={handleScroll} // Track manual scrolling
         >
           {overrideList?.map(({ id, poster_path: posterPath, title: movieTitle }) => (
-            <div className="flex-shrink-0">
-            <CarouselItem key={id} {...{ id, posterPath, title: movieTitle }} />
+            <div key={id} className="flex-shrink-0">
+              <CarouselItem {...{ id, posterPath, title: movieTitle }} />
             </div>
           ))}
         </div>

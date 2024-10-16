@@ -2,8 +2,8 @@ import { FC } from "react"
 import Image from "next/image"
 import { TMDB_IMAGE_PATH } from "@/constants"
 import fallbackPlaceholderUser from "@/public/fallbackPlaceholderUser.jpg"
-import MovieSelectionPaneCastCrewDetailsTypes from "./types/MovieSelectionPaneCastCrewDetails.interface"
 import Link from "next/link"
+import MovieSelectionPaneCastCrewDetailsTypes from "./types/MovieSelectionPaneCastCrewDetails.interface"
 
 const MovieSelectionPaneCastCrewDetails: FC<MovieSelectionPaneCastCrewDetailsTypes> = ({ cast, crew }) => {
   const directors = crew

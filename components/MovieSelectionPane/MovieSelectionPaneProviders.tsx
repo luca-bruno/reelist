@@ -23,13 +23,13 @@ const MovieSelectionPaneProviders: FC<MovieSelectionPaneProviders> = ({ watchPro
 
   const [providerPlatforms, setProviderPlatforms] = useState<{ label: string; value: string }[]>()
 
-  const [methodValue, setMethodValue] = useState<{ label: string; value: string }>()
+  const [methodValue, setMethodValue] = useState<optionTypes>()
 
   const countryProviders = clientCountryContext?.clientCountry && watchProviders.results[clientCountryContext?.clientCountry.code]
 
   const isProvidersAvailableInClientCountry = Object.keys(watchProviders.results).some(x => x === clientCountryContext?.clientCountry?.code)
 
-  const handleDropdownClick2 = (newValue: SingleValue<optionTypes<string>>) => {
+  const handleDropdownClick2 = (newValue: SingleValue<optionTypes>) => {
     if (newValue) {
       setMethodValue(newValue)
     }
@@ -190,11 +190,14 @@ const MovieSelectionPaneProviders: FC<MovieSelectionPaneProviders> = ({ watchPro
         <em className="flex gap-2 m-1 justify-end">
           Provided by
           <Link className="cursor-pointer" href="https://www.justwatch.com/" target="_blank" rel="noopener noreferrer">
-            <img
+            <Image
+              unoptimized
               alt="JustWatch"
               draggable="false"
               className="flex justify-center m-0 mt-0.5 items-center h-[18px] w-[65px] select-none"
               src="https://widget.justwatch.com/assets/JW_logo_color_10px.svg"
+              width={65}
+              height={18}
             />
           </Link>
         </em>

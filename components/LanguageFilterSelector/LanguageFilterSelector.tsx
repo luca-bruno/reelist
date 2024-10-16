@@ -1,12 +1,10 @@
 import { FC, useEffect, useState } from "react"
-import { HEADERS_ALLOW_ORIGIN } from "@/constants"
-import { capitalise, getFilterSelectStyles } from "@/helpers"
+import { getFilterSelectStyles } from "@/helpers"
 import Select, { SingleValue } from "react-select"
-import { spokenLanguageTypes } from "@/types/movie.interface"
 import { useRouter, useSearchParams } from "next/navigation"
 import makeAnimated from "react-select/animated"
-import { optionTypes } from "../MovieSelectionPane/types/MovieSelectionPaneDropdown.interface"
 import { useLanguages } from "@/context/LanguagesContext"
+import { optionTypes } from "../MovieSelectionPane/types/MovieSelectionPaneDropdown.interface"
 
 const LanguageFilterSelector: FC = () => {
   const searchParams = useSearchParams()

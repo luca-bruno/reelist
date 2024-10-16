@@ -1,10 +1,8 @@
 import { FC, useEffect, useState } from "react"
 import Select, { MultiValue } from "react-select"
-import { getCountryEmoji, getFilterSelectStyles } from "@/helpers"
-import { countriesTypes } from "@/types/movie.interface"
+import { getFilterSelectStyles } from "@/helpers"
 import makeAnimated from "react-select/animated"
 import { useRouter, useSearchParams } from "next/navigation"
-import { HEADERS_ALLOW_ORIGIN } from "@/constants"
 import { useCountries } from "@/context/CountriesContext"
 import { optionTypes } from "../MovieSelectionPane/types/MovieSelectionPaneDropdown.interface"
 
@@ -86,10 +84,7 @@ const CountryFilterSelector: FC = () => {
       data: { nativeName, englishName, isoCode }
     } = option
 
-    // Destructure data from option for better readability
-    // const { label, nativeName, englishName, isoCode } = option.data
-
-    // Perform the search on the labelString, nativeName, englishName, and isoCode
+    // Search on the labelString, nativeName, englishName, and isoCode
     return (
       label?.props.children[1]?.toString().toLowerCase().includes(searchTerm) ||
       nativeName?.toLowerCase().includes(searchTerm) ||

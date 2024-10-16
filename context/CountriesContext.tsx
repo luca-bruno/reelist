@@ -1,12 +1,10 @@
 "use client"
 
-// contexts/CountriesContext.tsx
 import React, { createContext, useContext, useState } from "react"
 
-// Define the shape of a country
 type CountryData = {
-  label: JSX.Element // For rendering emoji and name
-  value: string // ISO code
+  label: JSX.Element
+  value: string
   data: {
     nativeName: string
     englishName: string
@@ -14,17 +12,12 @@ type CountryData = {
   }
 }
 
-// Define the context type
 type CountriesContextType = {
   countries: CountryData[]
-  selectedCountries: CountryData[]
-  setSelectedCountries: React.Dispatch<React.SetStateAction<CountryData[]>>
 }
 
-// Create the context with an initial undefined value
 const CountriesContext = createContext<CountriesContextType | undefined>(undefined)
 
-// Custom hook to use the CountriesContext
 export const useCountries = () => {
   const context = useContext(CountriesContext)
   if (!context) {
@@ -33,7 +26,6 @@ export const useCountries = () => {
   return context
 }
 
-// Provider component
 export const CountriesProvider: React.FC<{ children: React.ReactNode; countries: CountryData[] }> = ({ children, countries }) => {
   return <CountriesContext.Provider value={{ countries }}>{children}</CountriesContext.Provider>
 }

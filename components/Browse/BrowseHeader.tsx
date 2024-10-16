@@ -1,14 +1,21 @@
-import { FC, useEffect } from "react"
+import { Dispatch, FC, SetStateAction, useEffect } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons/faArrowLeft"
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons/faArrowRight"
 import { buttonStyles, transitionStyles } from "@/helpers"
 import { useRouter } from "next/navigation"
+import { movieTypes } from "@/types/movie.interface"
 import Search from "../Search"
 
 const alignmentStyles = "flex justify-start items-start"
 
-const BrowseHeader: FC<any> = ({ page, setPage, movies }) => {
+interface BrowseHeaderTypes { 
+  page: number
+  setPage: Dispatch<SetStateAction<number>>
+  movies: movieTypes[]
+}
+
+const BrowseHeader: FC<BrowseHeaderTypes> = ({ page, setPage, movies }) => {
   const router = useRouter()
 
   useEffect(() => {
@@ -17,7 +24,7 @@ const BrowseHeader: FC<any> = ({ page, setPage, movies }) => {
 
     if (x) {
       const parsedPage = parseInt(x, 10)
-      if (!isNaN(parsedPage) && parsedPage !== page) {
+      if (!Number.isNaN(parsedPage) && parsedPage !== page) {
         console.log("Page exists in URL and is different:", parsedPage)
         setPage(parsedPage) // Update state only if the page has changed
       }
@@ -27,15 +34,14 @@ const BrowseHeader: FC<any> = ({ page, setPage, movies }) => {
       const newUrl = `${window.location.pathname}?${currentQueryParams.toString()}`
       router.push(newUrl)
     }
-  }, [router]) // Run only on mount
+  }, [router])
 
-  // This effect handles URL updates when the page state changes
   useEffect(() => {
     const currentQueryParams = new URLSearchParams(window.location.search)
     currentQueryParams.set("page", page.toString())
     const newUrl = `${window.location.pathname}?${currentQueryParams.toString()}`
     router.push(newUrl)
-  }, [page, router]) // Run when `page` state changes
+  }, [page, router])
 
   return (
     <div className={`${alignmentStyles} ml-3 mt-3 mr-2`}>

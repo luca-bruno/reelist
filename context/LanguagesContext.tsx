@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useState, ReactNode } from "react"
 
 interface LanguagesContextType {
-  languages: Array<{
+  languages: {
     label: string
     value: string
     data?: {
@@ -11,17 +11,7 @@ interface LanguagesContextType {
       englishName: string
       isoCode: string
     }
-  }>
-  selectedLanguages: Array<{
-    label: string
-    value: string
-    data?: {
-      nativeName: string
-      englishName: string
-      isoCode: string
-    }
-  }>
-  setSelectedLanguages: React.Dispatch<React.SetStateAction<any>>
+  }[]
 }
 
 const LanguagesContext = createContext<LanguagesContextType | undefined>(undefined)

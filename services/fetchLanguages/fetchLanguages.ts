@@ -1,7 +1,7 @@
 import { spokenLanguageTypes } from "@/types/movie.interface"
 
 // NOTE: For fetching from server components
-const fetchLanguages = async (): Promise<spokenLanguageTypes> => {
+const fetchLanguages = async (): Promise<spokenLanguageTypes | unknown> => {
   const baseUrl = "https://api.themoviedb.org/3/"
 
   const options = {

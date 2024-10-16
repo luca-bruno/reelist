@@ -32,9 +32,9 @@ const Browse: FC<BrowseTypes> = ({ movies, defaultMovieDetails, playlistKey, has
   useEffect(() => {
     // When the component mounts, check if there is a page param and update currentPage if necessary
     const currentQueryParams = new URLSearchParams(window.location.search)
-    const page = currentQueryParams.get("page")
-    if (page) {
-      setPage(parseInt(page))
+    const pageInParams = currentQueryParams.get("page")
+    if (pageInParams) {
+      setPage(parseInt(pageInParams, 10))
     }
   }, [])
 

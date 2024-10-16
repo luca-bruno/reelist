@@ -41,7 +41,12 @@ const GenreFilterSelector: FC = () => {
   useEffect(() => {
     if (query) {
       const genreIdsFromQuery = query.split(",")
-      const matchedGenres = genres?.filter((genre: { value: number }) => genreIdsFromQuery.includes(genre.value.toString()))
+      const matchedGenres = genres
+        ?.filter((genre: { value: number }) => genreIdsFromQuery.includes(genre.value.toString()))
+        .map(genre => ({
+          ...genre,
+          value: genre.value.toString()
+        }))
       setValues(matchedGenres)
     }
   }, [genres, query])

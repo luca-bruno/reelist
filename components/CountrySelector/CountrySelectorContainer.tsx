@@ -14,9 +14,10 @@ const CountrySelectorContainer = async () => {
             {` ${country.native_name}`}
           </span>
         ),
-        value: { name: country.native_name, code: country.iso_3166_1 }
+        value: country.iso_3166_1,
+        data: { name: country.native_name, code: country.iso_3166_1 }
       }))
-      .sort((a, b) => a.value.name.localeCompare(b.value.name))
+      .sort((a, b) => a.data.name.localeCompare(b.data.name))
 
   return <CountrySelector {...{ countries: formatCountries() }} />
 }

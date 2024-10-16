@@ -24,7 +24,7 @@ const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, setSelectedMovieI
     hasImageLoaded,
     setHasImageLoaded,
     // hasReturnedError,
-    setHasReturnedError
+    // setHasReturnedError
   } = useImage()
 
   useEffect(() => {

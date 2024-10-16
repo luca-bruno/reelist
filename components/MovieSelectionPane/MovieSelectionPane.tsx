@@ -1,9 +1,8 @@
 "use client"
 
 import { FC, useState, useEffect } from "react"
-import { movieTypes } from "@/types/movie.interface"
 import useImage from "@/hooks/useImage/useImage"
-import { HEADERS_ALLOW_ORIGIN, SWR_FETCHER } from "@/constants"
+import { SWR_FETCHER } from "@/constants"
 import { transitionStyles } from "@/helpers"
 import useSWR from "swr"
 import MovieSelectionPaneBackground from "./MovieSelectionPaneBackground"
@@ -59,16 +58,18 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) =>
   } = selectedMovie || {}
 
   // NOTE: to avoid rendering incomplete/WIP labels (eg. ??????)
-  const formattedSpokenLanguages = spokenLanguages?.map(x => ({
-    name: x.name && !x.name.includes("?") ? x.name : x.english_name
+  const formattedSpokenLanguages = spokenLanguages?.map((spokenLanguage: { name: string; english_name: string }) => ({
+    name: spokenLanguage.name && !spokenLanguage.name.includes("?") ? spokenLanguage.name : spokenLanguage.english_name
   }))
 
   const starring = cast
-    ?.filter(item => item.known_for_department === "Acting")
-    .map(({ original_name }) => ({ name: original_name }))
+    ?.filter((item: { known_for_department: string }) => item.known_for_department === "Acting")
+    .map(({ original_name }: { original_name: string }) => ({ name: original_name }))
     .slice(0, 5)
 
-  const directors = crew?.filter(item => item.job === "Director").map(({ original_name }) => ({ name: original_name }))
+  const directors = crew
+    ?.filter((item: { job: string }) => item.job === "Director")
+    .map(({ original_name }: { original_name: string }) => ({ name: original_name }))
 
   useEffect(() => {
     setHasImageLoaded(false)

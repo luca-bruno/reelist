@@ -12,42 +12,38 @@ const MovieCardList: FC<MovieCardListTypes> = ({ setSelectedMovieId, selectedMov
     }
   }, [movies])
 
-  return (
-    <>
-      {isLoading ? (
-        <LoadingSpinner
-          width={30}
-          height={30}
-          styles={{
-            opacity: "50%",
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center"
-          }}
-        />
-      ) : (
-        <div
-          className={`grid m-3 gap-6 p-2 overflow-y-scroll flex-grow overflow-x-hidden
+  return isLoading ? (
+    <LoadingSpinner
+      width={30}
+      height={30}
+      styles={{
+        opacity: "50%",
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center"
+      }}
+    />
+  ) : (
+    <div
+      className={`grid m-3 gap-6 p-2 overflow-y-scroll flex-grow overflow-x-hidden
         ${isDisplayingGridView ? "mobileL:grid-cols-5 mobileXL:grid-cols-2 grid-cols-2" : "grid-cols-1"}
             `}
-        >
-          {movies?.map(({ id, poster_path: posterPath, title }) => (
-            <MovieCard
-              key={id}
-              {...{
-                id,
-                title,
-                posterPath,
-                setSelectedMovieId,
-                selectedMovieId
-              }}
-            />
-          ))}
-        </div>
-      )}
-    </>
+    >
+      {movies?.map(({ id, poster_path: posterPath, title }) => (
+        <MovieCard
+          key={id}
+          {...{
+            id,
+            title,
+            posterPath,
+            setSelectedMovieId,
+            selectedMovieId
+          }}
+        />
+      ))}
+    </div>
   )
 }
 
