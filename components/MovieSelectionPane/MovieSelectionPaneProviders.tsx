@@ -157,14 +157,14 @@ const MovieSelectionPaneProviders: FC<MovieSelectionPaneProviders> = ({ watchPro
       </div>
 
       <div
-        className={`grid grid-cols-5 h-20 mb-2 
+        className={`grid grid-cols-5 h-[7.5rem] mb-2 
     ${watchProviders?.results && Object.keys(watchProviders.results).length > 0 ? "opacity-100" : "opacity-0 pointer-events-none"}`}
       >
         {methodValue?.value?.toLowerCase() &&
           countryProviders?.[methodValue?.value as "flatrate" | "rent" | "buy"]?.map(
             ({ provider_id: providerId, logo_path: logoPath, provider_name: providerName }: providerTypes) => (
               <Link key={providerId} href={countryProviders?.link || ""} target="_blank" rel="noopener noreferrer" legacyBehavior>
-                <div className="flex justify-center items-center h-full">
+                <div className="flex justify-center items-start h-full">
                   <Image
                     unoptimized
                     id={String(providerId)}
@@ -194,7 +194,7 @@ const MovieSelectionPaneProviders: FC<MovieSelectionPaneProviders> = ({ watchPro
               unoptimized
               alt="JustWatch"
               draggable="false"
-              className="flex justify-center m-0 mt-0.5 items-center h-[18px] w-[65px] select-none"
+              className={`flex justify-center m-0 mt-0.5 items-center h-[18px] w-[65px] select-none grayscale hover:filter-none ${transitionStyles}`}
               src="https://widget.justwatch.com/assets/JW_logo_color_10px.svg"
               width={65}
               height={18}
