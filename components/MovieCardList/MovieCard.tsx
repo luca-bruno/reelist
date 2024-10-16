@@ -56,7 +56,7 @@ const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, setSelectedMovieI
   return (
     <button
       type="button"
-      className={`relative grid transition-transform duration-300 ease-in-out ${onCurrentId(id) ? "scale-105" : ""} hover:scale-105`}
+      className={`relative grid transition-transform duration-300 ease-in-out ${onCurrentId(id) ? "scale-105" : ""} hover:scale-105 h-min`}
       onClick={() => setSelectedMovieId(id)}
     >
       <div
@@ -94,7 +94,7 @@ const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, setSelectedMovieI
         />
       </div>
 
-      <div className="absolute bottom-[-10px] right-[-5px] flex gap-2">
+      <div className="relative bottom-[20px] justify-end w-full flex gap-2">
         <FontAwesomeIcon
           icon={!isMovieInPlaylist(favourites) ? faHeartCirclePlus : faHeart}
           className={`${!isMovieInPlaylist(favourites) ? unaddedStyles : alreadyAddedStyles} rounded-full p-2 ${transitionStyles}`}
