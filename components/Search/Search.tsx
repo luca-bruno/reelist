@@ -4,14 +4,13 @@ import { FC, useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faX } from "@fortawesome/free-solid-svg-icons/faX"
 import { useRouter, useSearchParams } from "next/navigation"
+import { transitionStyles } from "@/helpers"
 
 const Search: FC = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const query = searchParams.get("query") || ""
   const [input, setInput] = useState(query)
-
-  // const params = new URLSearchParams()
 
   const updateQueryParams = () => {
     const currentQueryParams = new URLSearchParams(window.location.search)
@@ -53,8 +52,16 @@ const Search: FC = () => {
           focus:border-accent-500 p-2 rounded-xl laptopXL:w-96 w-full text-sm tablet:text-lg"
       />
       {input && (
-        <button type="button" className="h-full absolute text-black right-4" onClick={() => setInput("")}>
-          <FontAwesomeIcon className="h-4 w-4 text-gray-400/50" icon={faX} aria-hidden="true" />
+        <button
+          type="button"
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 text-black rounded-full p-1 pb-0"
+          onClick={() => setInput("")}
+        >
+          <FontAwesomeIcon
+            className={`h-4 w-4 text-[rgb(144,144,151)] rounded-full bg-gray-200 hover:text-white hover:bg-accent-500 p-1 ${transitionStyles}`}
+            icon={faX}
+            aria-hidden="true"
+          />
         </button>
       )}
     </div>
