@@ -86,14 +86,14 @@ const MovieSelectionPaneDetailsHeader: FC<MovieSelectionPaneDetailsHeaderTypes> 
     <div>
       <h1
         className="laptop:text-4xl tablet:text-4xl text-3xl pr-4 mb-2 laptopL:w-full
-          laptop:w-[70%] tablet:w-[50%] mobileXL:w-[70%] w-full flex-wrap"
+          laptop:w-[70%] tablet:w-[50%] mobileXL:w-[70%] w-full flex-wrap line-clamp-2 border-b-gray-200 border-b-2 pb-1 border-opacity-10"
         style={{ textShadow: "8px 6px 16px rgba(0, 0, 0, 1)" }}
       >
         {title}
       </h1>
 
       {!isAnEnglishMovie && !isTitleIdenticalToOriginalTitle && (
-        <h2 className="text-xl font-semibold" style={truncationStyles}>
+        <h2 className="text-xl font-semibold line-clamp-2" style={truncationStyles}>
           {originalTitle}
         </h2>
       )}
