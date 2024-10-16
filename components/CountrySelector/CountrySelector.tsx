@@ -10,11 +10,6 @@ import { getCountryEmoji } from "@/helpers"
 import { optionTypes } from "../MovieSelectionPane/types/MovieSelectionPaneDropdown.interface"
 import getSelectStyles from "./styles"
 
-// interface FormattedCountriesTypes {
-//   label: JSX.Element | string
-//   value: { name: string; code: string }
-// }
-
 const atkinsonHyperlegible = Atkinson_Hyperlegible({
   subsets: ["latin"],
   weight: "400"
@@ -22,7 +17,7 @@ const atkinsonHyperlegible = Atkinson_Hyperlegible({
 
 // NOTE: Fetching client's locale client-side (& non-SWR) due to its skip condition being based on localStorage value
 const fetchClientLocale = async () => {
-  const response = await fetch("https://geolocation-db.com/json/", HEADERS_ALLOW_ORIGIN)
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/locale`, { headers: HEADERS_ALLOW_ORIGIN.headers, cache: "force-cache" })
   if (!response.ok) {
     throw new Error("Network response was not ok")
   }
