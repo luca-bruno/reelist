@@ -21,20 +21,22 @@ const MovieSelectionPaneCastCrewDetailsItem: FC<MovieSelectionPaneCastCrewDetail
       <div className="mb-3 text-sm hover:bg-[gray] hover:bg-opacity-70 rounded-xl pr-2 py-1">
         <div className="grid gap-1">
           <div className="flex justify-between items-center h-[45px] gap-x-4 pl-2 rounded transition duration-200 ease-in-out">
-            <div className="flex items-center">
-              {!hasImageLoaded && (
-                <Skeleton height={45} width={30} enableAnimation className="absolute top-[-1px] left-0 !rounded-xl" highlightColor="#d6d6d6" />
-              )}
-              <Image
-                unoptimized
-                className={`rounded-xl ${hasImageLoaded ? "opacity-100" : "opacity-0"} select-none`}
-                onLoadingComplete={() => setHasImageLoaded(true)}
-                src={profilePath ? `${TMDB_IMAGE_PATH}${profilePath}` : fallbackPlaceholderUser}
-                alt={name}
-                width={30}
-                height={30}
-                draggable={false}
-              />
+            <div className="flex items-center relative">
+              <div className="relative items-center justify-center h-[45px] w-[30px]">
+                {!hasImageLoaded && (
+                  <Skeleton height={45} width={30} enableAnimation className="absolute left-0 !rounded-xl" highlightColor="#d6d6d6" />
+                )}
+                <Image
+                  unoptimized
+                  className={`relative rounded-xl ${hasImageLoaded ? "opacity-100" : "opacity-0"} select-none`}
+                  onLoadingComplete={() => setHasImageLoaded(true)}
+                  src={profilePath ? `${TMDB_IMAGE_PATH}${profilePath}` : fallbackPlaceholderUser}
+                  alt={name}
+                  width={30}
+                  height={30}
+                  draggable={false}
+                />
+              </div>
               <p className="font-semibold pl-2">{name}</p>
             </div>
             {character && (
