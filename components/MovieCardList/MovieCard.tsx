@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCheck, faHeart, faHeartCirclePlus, faPlus } from "@fortawesome/free-solid-svg-icons"
 import { HEADERS_ALLOW_ORIGIN, IS_BROWSER, TMDB_IMAGE_PATH } from "@/constants"
 import { movieTypes } from "@/types/movie.interface"
-import Skeleton from "react-loading-skeleton" // Import Skeleton component
+import Skeleton from "react-loading-skeleton"
 import MovieCardType from "./types/MovieCard.interface"
 import "react-loading-skeleton/dist/skeleton.css" // Optional CSS styles for skeleton
 
@@ -22,7 +22,7 @@ const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, setSelectedMovieI
 
   const {
     hasImageLoaded,
-    setHasImageLoaded,
+    setHasImageLoaded
     // hasReturnedError,
     // setHasReturnedError
   } = useImage()

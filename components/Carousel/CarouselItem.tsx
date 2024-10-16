@@ -4,9 +4,9 @@ import Link from "next/link"
 import { transitionStyles } from "@/helpers"
 import { TMDB_IMAGE_PATH } from "@/constants"
 import fallbackPlaceholder from "@/public/fallbackPlaceholder.jpg"
-import { CarouselItemTypes } from "./types/Carousel.interface"
 import useImage from "@/hooks/useImage/useImage"
 import Skeleton from "react-loading-skeleton"
+import { CarouselItemTypes } from "./types/Carousel.interface"
 
 const CarouselItem: FC<CarouselItemTypes> = ({ id, posterPath, title }) => {
   const { hasImageLoaded, setHasImageLoaded } = useImage()
