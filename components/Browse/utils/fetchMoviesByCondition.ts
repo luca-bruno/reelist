@@ -77,7 +77,8 @@ export const fetchMoviesByFiltersOnly = async (filters: filterParamTypes, page: 
 // }
 
 export const fetchMoviesByIdAndGenre = async (formattedCastMembers: any, defaultMovieDetails: any, page: any) => {
-  const genreResponse = await fetchMovies(`${process.env.NEXT_PUBLIC_BASE_URL}/api/genre?movie=${defaultMovieDetails?.title}`)
+  const taggedGenres = defaultMovieDetails?.genres.map((genre: {id: number, name: string}) => `${genre.name} (${genre.id})`)
+  const genreResponse = await fetchMovies(`${process.env.NEXT_PUBLIC_BASE_URL}/api/genre?movie=${defaultMovieDetails?.title}&tagged=${taggedGenres.join(", ")}`)
   return fetchMovies(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movies?g=${genreResponse}&c=${formattedCastMembers}&p=${page}`)
 }
 

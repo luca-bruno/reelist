@@ -13,10 +13,11 @@ import { formatGenres, formatCountries, formatLanguages } from "@/components/Bro
 import { filterParamTypes } from "@/types/filter.interface"
 import Browse from "./Browse"
 import { BrowseContainerTypes } from "./types/BrowseContainer.interface"
+import { movieTypes } from "@/types/movie.interface"
 
 const BrowseContainer: FC<BrowseContainerTypes> = async ({ params, searchParams }) => {
   let movies = []
-  let defaultMovieDetails = null
+  let defaultMovieDetails: movieTypes | undefined = undefined
 
   const { id, playlistKey } = params || {}
   const { query, year, genres, language, countries, page } = searchParams || {}
@@ -45,11 +46,12 @@ const BrowseContainer: FC<BrowseContainerTypes> = async ({ params, searchParams 
     movies = await fetchMoviesByQuery(query, page || "1")
   } else if (id) {
     defaultMovieDetails = await fetchMoviesById(id)
-
     const formattedCastMembers = defaultMovieDetails?.credits?.cast.map((castMember: { id: number }) => castMember.id).join("|")
 
     if (defaultMovieDetails && formattedCastMembers && !query && !hasFilters) {
       movies = await fetchMoviesByIdAndGenre(formattedCastMembers, defaultMovieDetails, page || "1")
+      const updatedMovies = movies.filter((movie: movieTypes) => movie.id !== defaultMovieDetails?.id)
+      movies = [defaultMovieDetails, ...updatedMovies]
     }
   } else {
     movies = await fetchMoviesByQuery("", page || "1")

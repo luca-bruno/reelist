@@ -5,9 +5,10 @@ import promptGroq from "@/services/promptGroq/promptGroq"
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const movie = searchParams.get("movie") || ""
+  const taggedGenres = searchParams.get("tagged") || ""
 
   try {
-    const groqResponse = await promptGroq(movie)
+    const groqResponse = await promptGroq(movie, taggedGenres)
 
     return new Response(JSON.stringify(groqResponse))
   } catch (error) {
