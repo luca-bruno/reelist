@@ -11,13 +11,13 @@ import {
 } from "@/components/Browse/utils/fetchMoviesByCondition"
 import { formatGenres, formatCountries, formatLanguages } from "@/components/Browse/utils/formatFilterPayloads"
 import { filterParamTypes } from "@/types/filter.interface"
-import Browse from "./Browse"
-import { BrowseContainerTypes } from "./types/BrowseContainer.interface"
 import { movieTypes } from "@/types/movie.interface"
+import { BrowseContainerTypes } from "./types/BrowseContainer.interface"
+import Browse from "./Browse"
 
 const BrowseContainer: FC<BrowseContainerTypes> = async ({ params, searchParams }) => {
   let movies = []
-  let defaultMovieDetails: movieTypes | undefined = undefined
+  let defaultMovieDetails: movieTypes | undefined
 
   const { id, playlistKey } = params || {}
   const { query, year, genres, language, countries, page } = searchParams || {}

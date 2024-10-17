@@ -35,11 +35,13 @@ const MovieSelectionPaneCastCrewDetails: FC<MovieSelectionPaneCastCrewDetailsTyp
     <>
       <h2 className="text-lg font-semibold mb-1">Director(s)</h2>
       <div className="grid grid-cols-2 gap-x-4">
-        {directors?.map(({ name, profilePath, id }) => <MovieSelectionPaneCastCrewDetailsItem {...{ name, profilePath, id }} />)}
+        {directors?.map(({ name, profilePath, id }) => <MovieSelectionPaneCastCrewDetailsItem key={id} {...{ name, profilePath, id }} />)}
       </div>
       <h2 className="text-lg font-semibold mb-1">Cast</h2>
       <div className="grid grid-cols-2 gap-x-4">
-        {actors?.map(({ name, character, profilePath, id }) => <MovieSelectionPaneCastCrewDetailsItem {...{ name, profilePath, id, character }} />)}
+        {actors?.map(({ name, character, profilePath, id }) => (
+          <MovieSelectionPaneCastCrewDetailsItem key={id} {...{ name, profilePath, id, character }} />
+        ))}
       </div>
 
       <div>
