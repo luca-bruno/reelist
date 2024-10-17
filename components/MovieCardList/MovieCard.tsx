@@ -3,11 +3,12 @@
 import { FC, useEffect, useState } from "react"
 import Image from "next/image"
 import useImage from "@/hooks/useImage/useImage"
-import { addToPlaylist, transitionStyles } from "@/helpers"
+import { transitionStyles } from "@/helpers"
 import fallbackPlaceholder from "@/public/fallbackPlaceholder.jpg"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCheck, faHeart, faHeartCirclePlus, faPlus } from "@fortawesome/free-solid-svg-icons"
 import { HEADERS_ALLOW_ORIGIN, IS_BROWSER, TMDB_IMAGE_PATH } from "@/constants"
+import { usePlaylist } from "@/context/PlaylistContext"
 import { movieTypes } from "@/types/movie.interface"
 import Skeleton from "react-loading-skeleton"
 import MovieCardType from "./types/MovieCard.interface"
@@ -27,15 +28,17 @@ const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, setSelectedMovieI
     // setHasReturnedError
   } = useImage()
 
+  const { playlists, addToPlaylist } = usePlaylist()
+
   useEffect(() => {
     if (IS_BROWSER) {
-      const storedFavourites = localStorage.getItem("Favourites")
-      const storedWatchlist = localStorage.getItem("Watchlist")
+      const storedFavourites = playlists["Favourites"]
+      const storedWatchlist = playlists["Watchlist"]
 
-      if (storedFavourites) setFavourites(JSON.parse(storedFavourites))
-      if (storedWatchlist) setWatchlist(JSON.parse(storedWatchlist))
+      if (storedFavourites) setFavourites(storedFavourites)
+      if (storedWatchlist) setWatchlist(storedWatchlist)
     }
-  }, [])
+  }, [playlists])
 
   const isMovieInPlaylist = (playlist?: movieTypes[]) => playlist && playlist.some(playlistItem => playlistItem?.id === id)
 

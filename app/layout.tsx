@@ -5,7 +5,8 @@ import { Inter } from "next/font/google"
 // Prevent Font Awesome from adding its CSS since we did it manually above:
 import { config } from "@fortawesome/fontawesome-svg-core"
 
-import { ClientCountryProvider } from "../context/ClientCountryContext"
+import { ClientCountryProvider } from "@/context/ClientCountryContext"
+import { PlaylistProvider } from "@/context/PlaylistContext"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -21,9 +22,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <ClientCountryProvider>
-      <html lang="en">
-        <body className={`max-w-[1280px] m-auto w-full h-auto overflow-y-auto overflow-x-hidden ${interFont}`}>{children}</body>
-      </html>
+      <PlaylistProvider>
+        <html lang="en">
+          <body className={`max-w-[1280px] m-auto w-full h-auto overflow-y-auto overflow-x-hidden ${interFont}`}>{children}</body>
+        </html>
+      </PlaylistProvider>
     </ClientCountryProvider>
   )
 }

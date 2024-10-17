@@ -1,14 +1,17 @@
 import { FC, useEffect, useState } from "react"
-import { addToPlaylist, capitalise } from "@/helpers"
+import { capitalise } from "@/helpers"
 import createNewPlaylist from "@/helpers/createNewPlaylist/createNewPlaylist"
 import CreatableSelect from "react-select/creatable"
 import makeAnimated from "react-select/animated"
 import { SingleValue } from "react-select"
 import { MovieSelectionPaneDropdownTypes, optionTypes } from "./types/MovieSelectionPaneDropdown.interface"
+import { usePlaylist } from "@/context/PlaylistContext"
 
 const MovieSelectionPaneDropdown: FC<MovieSelectionPaneDropdownTypes> = ({ selectedMovie }) => {
-  const [playlists, setPlaylists] = useState<string[]>()
+  const [customPlaylists, setCustomPlaylists] = useState<string[]>()
   const [options, setOptions] = useState<optionTypes<string>[]>([])
+
+  const { playlists, addToPlaylist, createCustomPlaylist, customPlaylistNames } = usePlaylist()
 
   const miscKeywords = ["Get Started", "Jump Back In", "Your Latest Search"]
   const favouriteSimilarKeywords = ["Favorite", "Favourite", "Favorites", "Favourites"]
@@ -20,15 +23,29 @@ const MovieSelectionPaneDropdown: FC<MovieSelectionPaneDropdownTypes> = ({ selec
   const whiteColourStyle = { color: "white" }
 
   const isReserved = (value: string) => value === "" || reservedKeywords.some(keyword => capitalise(value.trim()) === keyword)
-  const isDuplicate = (value: string) => playlists?.some(playlist => capitalise(value.trim()) === playlist)
+  const isDuplicate = (value: string) => customPlaylists?.some(playlist => capitalise(value.trim()) === playlist)
 
   useEffect(() => {
-    const savedPlaylists = JSON.parse(localStorage.getItem("custom-playlists") as string) || []
-    setPlaylists(savedPlaylists)
+    setCustomPlaylists(customPlaylistNames)
 
-    const optionsArray = savedPlaylists.map((playlist: string) => ({ label: playlist, value: playlist }))
+    const optionsArray = customPlaylistNames.map((playlist: string) => {
+      const capitalisedPlaylist = capitalise(playlist)
+
+      const alreadyInPlaylist = playlists[capitalisedPlaylist]?.some(movie => movie.id === selectedMovie.id)
+
+      return {
+        label: capitalisedPlaylist,
+        value: capitalisedPlaylist,
+        alreadyInPlaylist
+      }
+    })
+
     setOptions(optionsArray)
-  }, [setPlaylists])
+  }, [options])
+
+  const handleCreatePlaylist = (newPlaylistName: string) => {
+    createCustomPlaylist(newPlaylistName)
+  }
 
   const handleNamePlaylist = (text: string) => {
     const capitalisedInput = capitalise(text)
@@ -36,11 +53,20 @@ const MovieSelectionPaneDropdown: FC<MovieSelectionPaneDropdownTypes> = ({ selec
     const newPlaylist = { label: capitalisedInput, value: capitalisedInput }
     setOptions(prevOptions => [...prevOptions, newPlaylist])
 
-    createNewPlaylist(text, selectedMovie)
+    handleCreatePlaylist(text)
+    addToPlaylist(text, selectedMovie)
   }
 
   const handleDropdownClick = (newValue: SingleValue<optionTypes<string>>) => {
-    addToPlaylist(newValue ? newValue?.value : "", selectedMovie)
+    if (!newValue) return
+    const playlistKey = newValue.value
+
+    // If the movie already exists in the playlist, remove it (undo the addition)
+    if (playlists[playlistKey]?.some(mov => mov.id === selectedMovie.id)) {
+      addToPlaylist(playlistKey, selectedMovie, true)
+    } else {
+      addToPlaylist(playlistKey, selectedMovie)
+    }
   }
 
   return (
@@ -55,7 +81,15 @@ const MovieSelectionPaneDropdown: FC<MovieSelectionPaneDropdownTypes> = ({ selec
               onChange={newValue => handleDropdownClick(newValue as SingleValue<optionTypes<string>>)}
               onCreateOption={handleNamePlaylist}
               createOptionPosition="first"
-              options={[{ label: "Favourites", value: "Favourites" }, { label: "Watchlist", value: "Watchlist" }, ...options]}
+              options={[
+                {
+                  label: "Favourites",
+                  value: "Favourites",
+                  alreadyInPlaylist: playlists["Favourites"]?.some(movie => movie.id === selectedMovie.id)
+                },
+                { label: "Watchlist", value: "Watchlist", alreadyInPlaylist: playlists["Watchlist"]?.some(movie => movie.id === selectedMovie.id) },
+                ...options
+              ]}
               value={null}
               placeholder="🔎 Add to Playlist"
               classNamePrefix="movie-selection-pane-dropdown"
@@ -83,14 +117,14 @@ const MovieSelectionPaneDropdown: FC<MovieSelectionPaneDropdownTypes> = ({ selec
                   maxHeight: "130px",
                   paddingBottom: "10px"
                 }),
-                option: base => ({
+                option: (base, state) => ({
                   ...base,
                   cursor: "pointer",
                   borderRadius: "0.5rem",
-                  backgroundColor: "#E64833",
+                  backgroundColor: (state.data as { alreadyInPlaylist: string }).alreadyInPlaylist ? "#b0b0b0" : "#E64833",
                   ...whiteColourStyle,
                   "&:hover": {
-                    backgroundColor: "#ec7b69"
+                    backgroundColor: (state.data as { alreadyInPlaylist: string }).alreadyInPlaylist ? "#b0b0b0" : "#ec7b69"
                   }
                 }),
                 placeholder: base => ({
