@@ -1,11 +1,10 @@
 import { FC, useEffect, useState } from "react"
 import { capitalise } from "@/helpers"
-import createNewPlaylist from "@/helpers/createNewPlaylist/createNewPlaylist"
 import CreatableSelect from "react-select/creatable"
 import makeAnimated from "react-select/animated"
 import { SingleValue } from "react-select"
-import { MovieSelectionPaneDropdownTypes, optionTypes } from "./types/MovieSelectionPaneDropdown.interface"
 import { usePlaylist } from "@/context/PlaylistContext"
+import { MovieSelectionPaneDropdownTypes, optionTypes } from "./types/MovieSelectionPaneDropdown.interface"
 
 const MovieSelectionPaneDropdown: FC<MovieSelectionPaneDropdownTypes> = ({ selectedMovie }) => {
   const [customPlaylists, setCustomPlaylists] = useState<string[]>()
@@ -85,9 +84,9 @@ const MovieSelectionPaneDropdown: FC<MovieSelectionPaneDropdownTypes> = ({ selec
                 {
                   label: "Favourites",
                   value: "Favourites",
-                  alreadyInPlaylist: playlists["Favourites"]?.some(movie => movie.id === selectedMovie.id)
+                  alreadyInPlaylist: playlists.Favourites?.some(movie => movie.id === selectedMovie.id)
                 },
-                { label: "Watchlist", value: "Watchlist", alreadyInPlaylist: playlists["Watchlist"]?.some(movie => movie.id === selectedMovie.id) },
+                { label: "Watchlist", value: "Watchlist", alreadyInPlaylist: playlists.Watchlist?.some(movie => movie.id === selectedMovie.id) },
                 ...options
               ]}
               value={null}

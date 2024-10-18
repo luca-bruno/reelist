@@ -32,8 +32,8 @@ const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, setSelectedMovieI
 
   useEffect(() => {
     if (IS_BROWSER) {
-      const storedFavourites = playlists["Favourites"]
-      const storedWatchlist = playlists["Watchlist"]
+      const storedFavourites = playlists.Favourites
+      const storedWatchlist = playlists.Watchlist
 
       if (storedFavourites) setFavourites(storedFavourites)
       if (storedWatchlist) setWatchlist(storedWatchlist)

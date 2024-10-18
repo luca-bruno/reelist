@@ -1,6 +1,6 @@
 "use client"
 
-import React, { createContext, useState, useEffect, useContext, ReactNode } from "react"
+import { createContext, useState, useEffect, useContext, ReactNode } from "react"
 import { movieTypes } from "@/types/movie.interface"
 import { capitalise } from "@/helpers"
 
