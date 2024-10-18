@@ -115,7 +115,7 @@ const MovieSelectionPaneDropdown: FC<MovieSelectionPaneDropdownTypes> = ({ selec
                 }),
                 menuList: base => ({
                   ...base,
-                  maxHeight: "130px",
+                  maxHeight: "12rem",
                   paddingBottom: "10px"
                 }),
                 option: (base, state) => ({
