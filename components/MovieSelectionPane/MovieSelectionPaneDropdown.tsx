@@ -72,7 +72,7 @@ const MovieSelectionPaneDropdown: FC<MovieSelectionPaneDropdownTypes> = ({ selec
 
   return (
     selectedMovie && (
-      <span className="relative flex flex-col w-52">
+      <span className="relative flex flex-col w-64">
         <div className="relative">
           <div className="flex flex-col w-full">
             <CreatableSelect
@@ -92,7 +92,7 @@ const MovieSelectionPaneDropdown: FC<MovieSelectionPaneDropdownTypes> = ({ selec
                 ...options
               ]}
               value={null}
-              placeholder="🔎 Add to Playlist"
+              placeholder=""
               classNamePrefix="movie-selection-pane-dropdown"
               styles={{
                 control: (base, state) => ({
@@ -138,8 +138,11 @@ const MovieSelectionPaneDropdown: FC<MovieSelectionPaneDropdownTypes> = ({ selec
                         }
                       : {}
                 }),
-                placeholder: base => ({
+                placeholder: (base, state) => ({
                   ...base,
+                  "::before": {
+                    content: state.isFocused ? '"🔎 Type to search/create"' : '"🔎 Add to Playlist"'
+                  },
                   ...whiteColourStyle
                 }),
                 input: base => ({
