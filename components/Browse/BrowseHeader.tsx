@@ -25,11 +25,9 @@ const BrowseHeader: FC<BrowseHeaderTypes> = ({ page, setPage, movies }) => {
     if (x) {
       const parsedPage = parseInt(x, 10)
       if (!Number.isNaN(parsedPage) && parsedPage !== page) {
-        console.log("Page exists in URL and is different:", parsedPage)
         setPage(parsedPage) // Update state only if the page has changed
       }
     } else {
-      console.log("No page in URL, setting to 1")
       currentQueryParams.set("page", "1")
       const newUrl = `${window.location.pathname}?${currentQueryParams.toString()}`
       router.push(newUrl)

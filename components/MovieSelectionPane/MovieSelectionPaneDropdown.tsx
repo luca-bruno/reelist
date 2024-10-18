@@ -40,7 +40,7 @@ const MovieSelectionPaneDropdown: FC<MovieSelectionPaneDropdownTypes> = ({ selec
     })
 
     setOptions(optionsArray)
-  }, [options])
+  }, [customPlaylistNames, playlists, selectedMovie.id])
 
   const handleCreatePlaylist = (newPlaylistName: string) => {
     createCustomPlaylist(newPlaylistName)

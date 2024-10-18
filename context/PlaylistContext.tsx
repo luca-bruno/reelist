@@ -1,8 +1,9 @@
 "use client"
 
-import { createContext, useState, useEffect, useContext, ReactNode } from "react"
+import { createContext, useState, useEffect, useContext, ReactNode, useMemo } from "react"
 import { movieTypes } from "@/types/movie.interface"
 import { capitalise } from "@/helpers"
+import { IS_BROWSER } from "@/constants"
 
 interface PlaylistContextType {
   playlists: Record<string, movieTypes[]>
@@ -26,54 +27,63 @@ export const PlaylistProvider = ({ children }: { children: ReactNode }) => {
   const [customPlaylistNames, setCustomPlaylistNames] = useState<string[]>([])
 
   useEffect(() => {
-    const keys = Object.keys(localStorage)
-    const initialPlaylists: Record<string, movieTypes[]> = {}
-    const customNames: string[] = []
+    if (IS_BROWSER) {
+      const keys = Object.keys(localStorage)
+      const initialPlaylists: Record<string, movieTypes[]> = {}
+      const customNames: string[] = []
 
-    keys.forEach(key => {
-      const capitalizedKey = capitalise(key)
-      const storedList = localStorage.getItem(capitalizedKey)
-      if (storedList) {
-        initialPlaylists[capitalizedKey] = JSON.parse(storedList)
-        customNames.push(capitalizedKey)
-      }
-    })
-    setPlaylists(initialPlaylists)
+      keys.forEach(key => {
+        const capitalizedKey = capitalise(key)
+        const storedList = localStorage.getItem(capitalizedKey)
+        if (storedList) {
+          initialPlaylists[capitalizedKey] = JSON.parse(storedList)
+          customNames.push(capitalizedKey)
+        }
+      })
+      setPlaylists(initialPlaylists)
 
-    const savedCustomPlaylists = JSON.parse(localStorage.getItem("custom-playlists") || "[]")
-    setCustomPlaylistNames(savedCustomPlaylists)
+      const savedCustomPlaylists = JSON.parse(localStorage.getItem("custom-playlists") || "[]")
+      setCustomPlaylistNames(savedCustomPlaylists)
+    }
   }, [])
 
-  const addToPlaylist = (listKey: string, selectedMovie: movieTypes, toggledAddition: boolean = false) => {
-    const playlistKey = capitalise(listKey)
-    const existingPlaylist = playlists[playlistKey] || []
+  const contextValue = useMemo(() => {
+    const addToPlaylist = (listKey: string, selectedMovie: movieTypes, toggledAddition = false) => {
+      const playlistKey = capitalise(listKey)
+      const existingPlaylist = playlists[playlistKey] || []
 
-    let updatedPlaylist = [...existingPlaylist]
+      let updatedPlaylist = [...existingPlaylist]
 
-    if (existingPlaylist.some(item => item.id === selectedMovie.id)) {
-      if (toggledAddition) {
-        updatedPlaylist = updatedPlaylist.filter(item => item.id !== selectedMovie.id)
+      if (existingPlaylist.some(item => item.id === selectedMovie.id)) {
+        if (toggledAddition) {
+          updatedPlaylist = updatedPlaylist.filter(item => item.id !== selectedMovie.id)
+        }
+      } else {
+        updatedPlaylist.push(selectedMovie)
       }
-    } else {
-      updatedPlaylist.push(selectedMovie)
+
+      localStorage.setItem(playlistKey, JSON.stringify(updatedPlaylist))
+      setPlaylists(prev => ({
+        ...prev,
+        [playlistKey]: updatedPlaylist
+      }))
     }
 
-    localStorage.setItem(playlistKey, JSON.stringify(updatedPlaylist))
-    setPlaylists(prev => ({
-      ...prev,
-      [playlistKey]: updatedPlaylist
-    }))
-  }
-
-  const createCustomPlaylist = (playlistName: string) => {
-    const capitalizedName = capitalise(playlistName)
-    if (!customPlaylistNames.includes(capitalizedName)) {
-      setCustomPlaylistNames(prev => [...prev, capitalizedName])
-      localStorage.setItem("custom-playlists", JSON.stringify([...customPlaylistNames, capitalizedName]))
+    const createCustomPlaylist = (playlistName: string) => {
+      const capitalizedName = capitalise(playlistName)
+      if (!customPlaylistNames.includes(capitalizedName)) {
+        setCustomPlaylistNames(prev => [...prev, capitalizedName])
+        localStorage.setItem("custom-playlists", JSON.stringify([...customPlaylistNames, capitalizedName]))
+      }
     }
-  }
 
-  return (
-    <PlaylistContext.Provider value={{ playlists, customPlaylistNames, addToPlaylist, createCustomPlaylist }}>{children}</PlaylistContext.Provider>
-  )
+    return {
+      playlists,
+      customPlaylistNames,
+      addToPlaylist,
+      createCustomPlaylist
+    }
+  }, [playlists, customPlaylistNames])
+
+  return <PlaylistContext.Provider value={contextValue}>{children}</PlaylistContext.Provider>
 }
