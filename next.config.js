@@ -4,7 +4,8 @@ const nextConfig = {
     domains: ["image.tmdb.org"]
   },
   experimental: {
-    esmExternals: false
+    esmExternals: false,
+    scrollRestoration: true
   },
   async headers() {
     return [
