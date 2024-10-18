@@ -1,9 +1,11 @@
 import { FC, useEffect, useState } from "react"
-import { capitalise } from "@/helpers"
+import { capitalise, transitionStyles } from "@/helpers"
 import CreatableSelect from "react-select/creatable"
 import makeAnimated from "react-select/animated"
 import { SingleValue } from "react-select"
 import { usePlaylist } from "@/context/PlaylistContext"
+import { faX } from "@fortawesome/free-solid-svg-icons/faX"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { MovieSelectionPaneDropdownTypes, optionTypes } from "./types/MovieSelectionPaneDropdown.interface"
 
 const MovieSelectionPaneDropdown: FC<MovieSelectionPaneDropdownTypes> = ({ selectedMovie }) => {
@@ -72,7 +74,7 @@ const MovieSelectionPaneDropdown: FC<MovieSelectionPaneDropdownTypes> = ({ selec
     selectedMovie && (
       <span className="relative flex flex-col w-52">
         <div className="relative">
-          <div className=" flex flex-col w-full">
+          <div className="flex flex-col w-full">
             <CreatableSelect
               isValidNewOption={value => !isDuplicate(value) && !isReserved(value)}
               noOptionsMessage={() => "Sorry, that name is a reserved keyword. Please select a different name to continue."}
@@ -119,12 +121,22 @@ const MovieSelectionPaneDropdown: FC<MovieSelectionPaneDropdownTypes> = ({ selec
                 option: (base, state) => ({
                   ...base,
                   cursor: "pointer",
+                  margin: "3px 0",
                   borderRadius: "0.5rem",
                   backgroundColor: (state.data as { alreadyInPlaylist: string }).alreadyInPlaylist ? "#b0b0b0" : "#E64833",
                   ...whiteColourStyle,
                   "&:hover": {
-                    backgroundColor: (state.data as { alreadyInPlaylist: string }).alreadyInPlaylist ? "#b0b0b0" : "#ec7b69"
-                  }
+                    backgroundColor: (state.data as { alreadyInPlaylist: string }).alreadyInPlaylist ? "#bdbdbd" : "#ec7b69"
+                  },
+                  "::after":
+                    state.isFocused && (state.data as { alreadyInPlaylist: string }).alreadyInPlaylist
+                      ? {
+                          content: '"\\00d7"', // Unicode for "X"
+                          color: "white",
+                          marginLeft: "10px",
+                          fontWeight: "bold"
+                        }
+                      : {}
                 }),
                 placeholder: base => ({
                   ...base,
