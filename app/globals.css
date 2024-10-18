@@ -10,6 +10,9 @@
   --foreground-rgb: 255, 255, 255;
   --background-start-rgb: 0, 0, 0;
   --background-end-rgb: 0, 0, 0;
+
+  scrollbar-width: thin;
+  scrollbar-color: rgba(236, 123, 105, 0.8) rgba(236, 123, 105, 0.3);
 }
 
 body {

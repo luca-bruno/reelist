@@ -29,7 +29,8 @@ const MovieCardList: FC<MovieCardListTypes> = ({ setSelectedMovieId, selectedMov
     <div
       className={`grid m-3 gap-6 p-2 overflow-y-scroll flex-grow overflow-x-hidden
         ${isDisplayingGridView ? "mobileL:grid-cols-5 mobileXL:grid-cols-2 grid-cols-2" : "grid-cols-1"}
-            `}
+      `}
+      style={{ scrollbarWidth: "thin" }}
     >
       {movies?.map(({ id, poster_path: posterPath, title }) => (
         <MovieCard
