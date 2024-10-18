@@ -7,6 +7,7 @@ import { movieTypes } from "@/types/movie.interface"
 import { IS_BROWSER } from "@/constants"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons/faChevronRight"
+import { faPlus } from "@fortawesome/free-solid-svg-icons/faPlus"
 import { faX } from "@fortawesome/free-solid-svg-icons/faX"
 import CarouselItem from "./CarouselItem"
 import { CarouselTypes } from "./types/Carousel.interface"
@@ -89,7 +90,7 @@ const Carousel: FC<CarouselTypes> = ({ title, subtitle, list, listKey, playlists
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           className="flex gap-8 py-[10px] overflow-x-scroll whitespace-nowrap"
-          onScroll={handleScroll} // Track manual scrolling
+          onScroll={handleScroll}
         >
           {overrideList?.map(({ id, poster_path: posterPath, title: movieTitle }) => (
             <div key={id} className="flex-shrink-0">
@@ -98,8 +99,14 @@ const Carousel: FC<CarouselTypes> = ({ title, subtitle, list, listKey, playlists
           ))}
         </div>
         <Link href={listKey ? "browse/playlist/[listKey]" : "browse"} as={listKey ? `browse/playlist/${listKey}` : "browse"}>
-          <button type="button" className={`bg-accent-200 rounded-md h-full w-full mx-5 hover:bg-accent-500 ${transitionStyles}`}>
-            <FontAwesomeIcon className="h-10 w-10 text-background-500 m-auto" icon={faChevronRight} aria-hidden="true" />
+          <button type="button" className={`bg-accent-200 rounded-md h-full w-full mx-5 hover:bg-accent-500 ${transitionStyles}
+            ${overrideList && overrideList?.length > 1 ? "" : "h-[361px] w-[80px] ml-0"}`}
+          >
+            <FontAwesomeIcon
+              className="h-10 w-10 text-background-500 m-auto"
+              icon={overrideList && overrideList?.length > 1 ? faChevronRight : faPlus}
+              aria-hidden="true"
+            />
           </button>
         </Link>
       </div>
