@@ -13,6 +13,7 @@ const Browse: FC<BrowseTypes> = ({ movies, defaultMovieDetails, playlistKey, has
   const [selectedMovieId, setSelectedMovieId] = useState<number>()
   const [page, setPage] = useState(1)
   const [playlistMovies, setPlaylistMovies] = useState<movieTypes[] | null>()
+  const [queryParams, setQueryParams] = useState<string>()
 
   useEffect(() => {
     if (IS_BROWSER && playlistKey && !hasFilters && !hasQuery) {
@@ -30,17 +31,23 @@ const Browse: FC<BrowseTypes> = ({ movies, defaultMovieDetails, playlistKey, has
   }, [hasFilters, hasQuery])
 
   useEffect(() => {
-    // When the component mounts, check if there is a page param and update currentPage if necessary
     const currentQueryParams = new URLSearchParams(window.location.search)
+
     const pageInParams = currentQueryParams.get("page")
     if (pageInParams) {
       setPage(parseInt(pageInParams, 10))
     }
+
+    if (currentQueryParams) {
+      setQueryParams(currentQueryParams.toString())
+    }
   }, [])
 
   useEffect(() => {
-    if ((hasFilters && hasQuery) || query) {
-      localStorage.setItem("Latest Search Results", JSON.stringify(movies))
+    const currentQueryParams = new URLSearchParams(window.location.search)
+
+    if (currentQueryParams) {
+      localStorage.setItem("Latest Search Results", currentQueryParams.toString())
     }
   }, [hasFilters, hasQuery, movies, query, page])
 

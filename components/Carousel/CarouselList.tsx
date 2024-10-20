@@ -11,6 +11,7 @@ const CarouselList: FC<CarouselListTypes> = ({ movies }) => {
   const [hasWatchlist, setHasWatchlist] = useState(false)
   const [latestSearchTerm, setLatestSearchTerm] = useState<string>()
   const [playlists, setPlaylists] = useState<string[]>([])
+  const [queryParams, setQueryParams] = useState<string>()
 
   useEffect(() => {
     if (IS_BROWSER) {
@@ -22,11 +23,14 @@ const CarouselList: FC<CarouselListTypes> = ({ movies }) => {
       const storedLatestSearchTerm = localStorage.getItem("latest-search-term")
       const storedPlaylists = JSON.parse(localStorage.getItem("custom-playlists") as string)
 
+      const storedQueryParams = localStorage.getItem("Latest Search Results")
+
       if (storedHasUserPreviouslyVisited) setHasUserPreviouslyVisited(true)
       if (hasStoredFavourites) setHasFavourites(true)
       if (hasStoredWatchlist) setHasWatchlist(true)
       if (storedLatestSearchTerm) setLatestSearchTerm(storedLatestSearchTerm)
       if (storedPlaylists) setPlaylists(storedPlaylists)
+      if (storedQueryParams) setQueryParams(storedQueryParams)
     }
   }, [])
 
@@ -51,7 +55,8 @@ const CarouselList: FC<CarouselListTypes> = ({ movies }) => {
               {...{
                 title: "Your Latest Search",
                 subtitle: `– "${latestSearchTerm}" 🔍`,
-                listKey: "Latest Search Results"
+                listKey: "Latest Search Results",
+                queryParams
               }}
             />
           )}

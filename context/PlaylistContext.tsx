@@ -28,22 +28,16 @@ export const PlaylistProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (IS_BROWSER) {
-      const keys = Object.keys(localStorage)
       const initialPlaylists: Record<string, movieTypes[]> = {}
-      const customNames: string[] = []
+      const savedCustomPlaylists = JSON.parse(localStorage.getItem("custom-playlists") || "[]")
 
-      keys.forEach(key => {
-        const capitalizedKey = capitalise(key)
-        const storedList = localStorage.getItem(capitalizedKey)
+      const playlistKeys = ["Favourites", "Watchlist", ...savedCustomPlaylists]
+      playlistKeys.forEach(key => {
+        const storedList = localStorage.getItem(key)
         if (storedList) {
-          initialPlaylists[capitalizedKey] = JSON.parse(storedList)
-          customNames.push(capitalizedKey)
+          initialPlaylists[key] = JSON.parse(storedList)
         }
       })
-      setPlaylists(initialPlaylists)
-
-      const savedCustomPlaylists = JSON.parse(localStorage.getItem("custom-playlists") || "[]")
-      setCustomPlaylistNames(savedCustomPlaylists)
     }
   }, [])
 
