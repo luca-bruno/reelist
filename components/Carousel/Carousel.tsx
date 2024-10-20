@@ -1,6 +1,8 @@
+/* eslint-disable no-nested-ternary */
+
 "use client"
 
-import { FC, useEffect, useRef, useState } from "react"
+import { FC, useEffect, useState } from "react"
 import { transitionStyles } from "@/helpers"
 import Link from "next/link"
 import { movieTypes } from "@/types/movie.interface"
@@ -9,9 +11,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons/faChevronRight"
 import { faPlus } from "@fortawesome/free-solid-svg-icons/faPlus"
 import { faX } from "@fortawesome/free-solid-svg-icons/faX"
+import Marquee from "react-fast-marquee"
 import CarouselItem from "./CarouselItem"
 import { CarouselTypes } from "./types/Carousel.interface"
-import Marquee from "react-fast-marquee"
 
 const Carousel: FC<CarouselTypes> = ({ title, subtitle, list, listKey, playlists, setPlaylists, queryParams }) => {
   const isCustomPlaylist =
@@ -73,7 +75,7 @@ const Carousel: FC<CarouselTypes> = ({ title, subtitle, list, listKey, playlists
         )}
 
         <Link
-          href={listKey ? (isLatestSearchCarousel ? `browse` : "browse/playlist/[listKey]") : "browse"}
+          href={listKey ? (isLatestSearchCarousel ? "browse" : "browse/playlist/[listKey]") : "browse"}
           as={listKey ? (isLatestSearchCarousel ? `browse?${queryParams}` : `browse/playlist/${listKey}`) : "browse"}
         >
           <button
