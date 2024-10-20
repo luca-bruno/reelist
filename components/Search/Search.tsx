@@ -25,7 +25,7 @@ const Search: FC = () => {
   }
 
   useEffect(() => {
-    if (input !== "") localStorage.setItem("latest-search-term", input)
+    localStorage.setItem("latest-search-term", input)
   }, [input])
 
   useEffect(() => {

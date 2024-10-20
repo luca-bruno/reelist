@@ -47,7 +47,8 @@ const Browse: FC<BrowseTypes> = ({ movies, defaultMovieDetails, playlistKey, has
     const currentQueryParams = new URLSearchParams(window.location.search)
 
     if (currentQueryParams) {
-      localStorage.setItem("Latest Search Results", currentQueryParams.toString())
+      localStorage.setItem("Latest Search Results", JSON.stringify(movies))
+      localStorage.setItem("latest-search-query", currentQueryParams.toString())
     }
   }, [hasFilters, hasQuery, movies, query, page])
 

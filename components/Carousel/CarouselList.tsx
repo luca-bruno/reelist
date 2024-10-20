@@ -23,7 +23,7 @@ const CarouselList: FC<CarouselListTypes> = ({ movies }) => {
       const storedLatestSearchTerm = localStorage.getItem("latest-search-term")
       const storedPlaylists = JSON.parse(localStorage.getItem("custom-playlists") as string)
 
-      const storedQueryParams = localStorage.getItem("Latest Search Results")
+      const storedQueryParams = localStorage.getItem("latest-search-query")
 
       if (storedHasUserPreviouslyVisited) setHasUserPreviouslyVisited(true)
       if (hasStoredFavourites) setHasFavourites(true)
@@ -50,11 +50,11 @@ const CarouselList: FC<CarouselListTypes> = ({ movies }) => {
 
           {hasWatchlist && <Carousel {...{ title: "Watchlist 🍿", listKey: "Watchlist" }} />}
 
-          {latestSearchTerm && (
+          {queryParams && (
             <Carousel
               {...{
                 title: "Your Latest Search",
-                subtitle: `– "${latestSearchTerm}" 🔍`,
+                subtitle: latestSearchTerm ? `– "${latestSearchTerm}" 🔍` : " 🔍",
                 listKey: "Latest Search Results",
                 queryParams
               }}
