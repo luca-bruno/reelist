@@ -12,6 +12,7 @@ interface CarouselTypes {
   listKey?: string
   playlists?: string[]
   setPlaylists?: Dispatch<SetStateAction<string[]>>
+  queryParams?: string
 }
 
 interface CarouselItemTypes {

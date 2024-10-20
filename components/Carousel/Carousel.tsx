@@ -11,8 +11,9 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons/faPlus"
 import { faX } from "@fortawesome/free-solid-svg-icons/faX"
 import CarouselItem from "./CarouselItem"
 import { CarouselTypes } from "./types/Carousel.interface"
+import Marquee from "react-fast-marquee"
 
-const Carousel: FC<CarouselTypes> = ({ title, subtitle, list, listKey, playlists, setPlaylists }) => {
+const Carousel: FC<CarouselTypes> = ({ title, subtitle, list, listKey, playlists, setPlaylists, queryParams }) => {
   const isCustomPlaylist =
     title !== "Get Started" &&
     title !== "Jump Back In" &&
@@ -21,44 +22,20 @@ const Carousel: FC<CarouselTypes> = ({ title, subtitle, list, listKey, playlists
     title !== "Watchlist 🍿"
 
   const [overrideList, setOverrideList] = useState<movieTypes[] | undefined>(list)
-  const [isHovered, setIsHovered] = useState(false)
-  const [, setScrollAmount] = useState(0)
   const [isHoveringOnCarousel, setIsHoveringOnCarousel] = useState(false)
 
-  const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const isLatestSearchCarousel = title === "Your Latest Search"
+  const shouldScroll = overrideList && overrideList?.length > 5
 
   useEffect(() => {
     if (IS_BROWSER && listKey) {
       const storedSelectedPlaylistMovies = JSON.parse(localStorage.getItem(listKey) as string)
-      setOverrideList(storedSelectedPlaylistMovies)
-    }
-  }, [listKey])
 
-  // This useEffect will make the carousel scroll to the right slowly
-  useEffect(() => {
-    const scrollContainer = scrollContainerRef.current
-
-    const scrollStep = () => {
-      if (!isHovered && scrollContainer) {
-        setScrollAmount(prev => {
-          const newScrollAmount = prev + 1 // Adjust this value for speed
-          scrollContainer.scrollLeft = newScrollAmount
-          return newScrollAmount // Update the scroll amount
-        })
+      if (storedSelectedPlaylistMovies) {
+        setOverrideList(storedSelectedPlaylistMovies)
       }
     }
-
-    const intervalId = setInterval(scrollStep, 50) // Adjust the interval for smoother scrolling
-
-    return () => clearInterval(intervalId) // Clean up on component unmount
-  }, [isHovered])
-
-  // Update scroll amount on manual scroll
-  const handleScroll = () => {
-    if (scrollContainerRef.current) {
-      setScrollAmount(scrollContainerRef.current.scrollLeft)
-    }
-  }
+  }, [listKey])
 
   // TODO: move to helper?
   const deletePlaylist = () => {
@@ -84,22 +61,24 @@ const Carousel: FC<CarouselTypes> = ({ title, subtitle, list, listKey, playlists
           </button>
         )}
       </h3>
-      <div className="flex">
-        <div
-          ref={scrollContainerRef}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          className="flex gap-8 py-[10px] overflow-x-scroll whitespace-nowrap"
-          onScroll={handleScroll}
+      <div className="w-full relative flex h-[361px] gap-4">
+        {overrideList && overrideList?.length > 1 && (
+          <Marquee pauseOnHover play={shouldScroll} speed={30} delay={1} className="py-[10px]">
+            {overrideList?.map(({ id, poster_path: posterPath, title: movieTitle }) => (
+              <div key={id} className="flex-shrink-0 mx-2 first-of-type::ml-0 last-of-type::mr-0">
+                <CarouselItem {...{ id, posterPath, title: movieTitle }} />
+              </div>
+            ))}
+          </Marquee>
+        )}
+
+        <Link
+          href={listKey ? (isLatestSearchCarousel ? `browse` : "browse/playlist/[listKey]") : "browse"}
+          as={listKey ? (isLatestSearchCarousel ? `browse?${queryParams}` : `browse/playlist/${listKey}`) : "browse"}
         >
-          {overrideList?.map(({ id, poster_path: posterPath, title: movieTitle }) => (
-            <div key={id} className="flex-shrink-0">
-              <CarouselItem {...{ id, posterPath, title: movieTitle }} />
-            </div>
-          ))}
-        </div>
-        <Link href={listKey ? "browse/playlist/[listKey]" : "browse"} as={listKey ? `browse/playlist/${listKey}` : "browse"}>
-          <button type="button" className={`bg-accent-200 rounded-md h-full w-full mx-5 hover:bg-accent-500 ${transitionStyles}
+          <button
+            type="button"
+            className={`bg-accent-200 rounded-md h-full w-full px-5 hover:bg-accent-500 ${transitionStyles}
             ${overrideList && overrideList?.length > 1 ? "" : "h-[361px] w-[80px] ml-0"}`}
           >
             <FontAwesomeIcon
