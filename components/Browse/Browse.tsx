@@ -8,8 +8,9 @@ import MovieCardList from "../MovieCardList"
 import MovieSelectionPane from "../MovieSelectionPane"
 import BrowseFilters from "./BrowseFilters"
 import { BrowseTypes } from "./types/Browse.interface"
+import PersonSelectionPane from "../PersonSelectionPane/PersonSelectionPane"
 
-const Browse: FC<BrowseTypes> = ({ movies, defaultMovieDetails, playlistKey, hasFilters, query, hasQuery }) => {
+const Browse: FC<BrowseTypes> = ({ movies, defaultMovieDetails, playlistKey, hasFilters, query, hasQuery, name }) => {
   const [selectedMovieId, setSelectedMovieId] = useState<number>()
   const [page, setPage] = useState(1)
   const [playlistMovies, setPlaylistMovies] = useState<movieTypes[] | null>()
@@ -71,11 +72,19 @@ const Browse: FC<BrowseTypes> = ({ movies, defaultMovieDetails, playlistKey, has
         />
       </div>
 
-      <MovieSelectionPane
-        {...{
-          selectedMovieId: selectedMovieId || defaultMovieDetails?.id || playlistMovies?.[0]?.id || movies?.[0]?.id
-        }}
-      />
+      {!name ? (
+        <MovieSelectionPane
+          {...{
+            selectedMovieId: selectedMovieId || defaultMovieDetails?.id || playlistMovies?.[0]?.id || movies?.[0]?.id
+          }}
+        />
+      ) : (
+        <PersonSelectionPane
+          {...{
+            person: name
+          }}
+        />
+      )}
     </main>
   )
 }

@@ -17,12 +17,12 @@ import Browse from "./Browse"
 
 const BrowseContainer: FC<BrowseContainerTypes> = async ({ params, searchParams }) => {
   let movies = []
+  let name: string | undefined
   let defaultMovieDetails: movieTypes | undefined
 
   const { id, playlistKey } = params || {}
-  const { query, year, genres, language, countries, page } = searchParams || {}
+  const { query, year, genres, language, countries, name: nameId, page } = searchParams || {}
 
-  // Build filters dynamically based on searchParams
   const filters: filterParamTypes = {}
 
   if (year) filters.year = year
@@ -57,6 +57,21 @@ const BrowseContainer: FC<BrowseContainerTypes> = async ({ params, searchParams 
     movies = await fetchMoviesByQuery("", page || "1")
   }
 
+  if (nameId) {
+    try {
+      // TODO: clean-up
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/person?id=${nameId}`, HEADERS_ALLOW_ORIGIN)
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch person data. Status: ${response.status}`)
+      }
+      name = await response.json()
+    } catch (error) {
+      console.error("Error fetching person data:", error)
+      throw error
+    }
+  }
+
   const [genresResponse, countriesResponse, languagesResponse] = await Promise.all([
     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/genres`, { headers: HEADERS_ALLOW_ORIGIN.headers, cache: "force-cache" }),
     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/countries`, { headers: HEADERS_ALLOW_ORIGIN.headers, cache: "force-cache" }),
@@ -77,7 +92,7 @@ const BrowseContainer: FC<BrowseContainerTypes> = async ({ params, searchParams 
     <LanguagesProvider languages={formattedLanguages}>
       <CountriesProvider countries={formattedCountries}>
         <GenresProvider genres={formattedGenres}>
-          <Browse {...{ movies, defaultMovieDetails, playlistKey, hasFilters, query, hasQuery }} />
+          <Browse {...{ movies, defaultMovieDetails, playlistKey, hasFilters, query, hasQuery, name }} />
         </GenresProvider>
       </CountriesProvider>
     </LanguagesProvider>

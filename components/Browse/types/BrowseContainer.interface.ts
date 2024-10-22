@@ -6,6 +6,7 @@ export interface BrowseContainerTypes {
     genres: string
     language: string
     countries: string
+    name: string
     page: string
   }
 }

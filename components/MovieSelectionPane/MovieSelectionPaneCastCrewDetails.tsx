@@ -63,7 +63,6 @@ const MovieSelectionPaneCastCrewDetails: FC<MovieSelectionPaneCastCrewDetailsTyp
         ))}
       </div>
     </>
-  )
-}
+  )}
 
 export default MovieSelectionPaneCastCrewDetails

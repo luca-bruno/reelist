@@ -7,4 +7,5 @@ export interface BrowseTypes {
   query?: string
   hasFilters?: boolean
   hasQuery?: boolean
+  name?: string
 }
