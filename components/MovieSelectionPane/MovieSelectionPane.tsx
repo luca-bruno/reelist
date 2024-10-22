@@ -14,7 +14,7 @@ import MovieSelectionPaneCastCrewDetails from "./MovieSelectionPaneCastCrewDetai
 import MovieSelectionPaneDetailsHeader from "./MovieSelectionPaneDetailsHeader"
 
 const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) => {
-  const [isDisplayingCastandCrew, setIsDisplayingCastandCrew] = useState(true)
+  const [isDisplayingCastandCrew, setIsDisplayingCastandCrew] = useState(false)
 
   // TODO: split off and use this template
   // const useCountries = (skipCondition: boolean) => {
@@ -94,9 +94,9 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) =>
 
         <div
           className="bg-gradient-to-b from-transparent from-1% to-primary-500 to-50% 
-        p-3 absolute bottom-0 rounded-b-xl z-10 w-full h-full"
+            p-3 absolute bottom-0 rounded-b-xl z-10 w-full h-full"
         >
-          {isDisplayingCastandCrew && (
+          {!isDisplayingCastandCrew && (
             <MovieSelectionPanePoster
               {...{
                 title,
@@ -119,12 +119,35 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) =>
                 className={`px-3 flex justify-center items-center h-[38px] rounded-xl opacity-80 
                   hover:opacity-100 bg-[gray] hover:bg-accent-500 ${transitionStyles}`}
               >
-                {isDisplayingCastandCrew ? <>🎬 Full Cast & Crew</> : <>🎥 Summary</>}
+                {isDisplayingCastandCrew ? <>🎥 Summary</> : <>🎬 Full Cast & Crew</>}
               </button>
             )}
           </div>
 
           {isDisplayingCastandCrew ? (
+            <>
+              <div className="p-5 pb-0">
+                <MovieSelectionPaneDetailsHeader
+                  {...{
+                    originCountry,
+                    originalTitle,
+                    runtime,
+                    releaseDate,
+                    ageRating,
+                    title
+                  }}
+                />
+              </div>
+              <div className="p-5 rounded-lg shadow-md overflow-y-auto h-[calc(100%-0.75rem-38px-40px-36px-20px)]">
+                <MovieSelectionPaneCastCrewDetails
+                  {...{
+                    crew,
+                    cast
+                  }}
+                />
+              </div>
+            </>
+          ) : (
             <div className="flex-col h-[510px] p-5 grid grid-rows-3 w-[70%]">
               <div />
               <div />
@@ -160,29 +183,6 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) =>
                 )}
               </div>
             </div>
-          ) : (
-            <>
-              <div className="p-5 pb-0">
-                <MovieSelectionPaneDetailsHeader
-                  {...{
-                    originCountry,
-                    originalTitle,
-                    runtime,
-                    releaseDate,
-                    ageRating,
-                    title
-                  }}
-                />
-              </div>
-              <div className="p-5 rounded-lg shadow-md overflow-y-auto h-[calc(100%-0.75rem-38px-40px-36px-20px)]">
-                <MovieSelectionPaneCastCrewDetails
-                  {...{
-                    crew,
-                    cast
-                  }}
-                />
-              </div>
-            </>
           )}
         </div>
       </div>
