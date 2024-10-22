@@ -1,10 +1,12 @@
-import { FC } from "react"
+import { FC, useEffect, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { TMDB_IMAGE_PATH } from "@/constants"
 import fallbackPlaceholderUser from "@/public/fallbackPlaceholderUser.jpg"
 import useImage from "@/hooks/useImage/useImage"
 import Skeleton from "react-loading-skeleton"
+import { transitionStyles } from "@/helpers"
+import { usePathname } from "next/navigation"
 
 interface MovieSelectionPaneCastCrewDetailsItemTypes {
   id: number
@@ -15,12 +17,23 @@ interface MovieSelectionPaneCastCrewDetailsItemTypes {
 
 const MovieSelectionPaneCastCrewDetailsItem: FC<MovieSelectionPaneCastCrewDetailsItemTypes> = ({ id, name, profilePath, character }) => {
   const { hasImageLoaded, setHasImageLoaded } = useImage()
+  const pathname = usePathname()
+
+  const [queryParams, setQueryParams] = useState<string>()
+
+  useEffect(() => {
+    const currentQueryParams = new URLSearchParams(window.location.search)
+
+    if (currentQueryParams) {
+      setQueryParams(currentQueryParams.toString())
+    }
+  }, [])
 
   return (
-    <Link key={id} href={character ? `/actor/${id}` : `/director/${id}`}>
-      <div className="mb-3 text-sm hover:bg-[gray] hover:bg-opacity-70 rounded-xl pr-2 py-1">
+    <Link key={id} href={`${pathname}?${queryParams}&name=${id}`}>
+      <div className={`text-sm hover:bg-[gray] hover:bg-opacity-70 rounded-xl pr-2 py-1 ${transitionStyles}`}>
         <div className="grid gap-1">
-          <div className="flex justify-between items-center h-[45px] gap-x-4 pl-2 rounded transition duration-200 ease-in-out">
+          <div className="flex justify-between items-center h-[45px] gap-x-4 pl-2 rounded">
             <div className="flex items-center relative">
               <div className="relative items-center justify-center h-[45px] w-[30px]">
                 {!hasImageLoaded && (
