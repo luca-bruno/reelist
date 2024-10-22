@@ -1310,6 +1310,11 @@ cosmiconfig@^9.0.0:
     js-yaml "^4.1.0"
     parse-json "^5.2.0"
 
+country-emoji@^1.5.6:
+  version "1.5.6"
+  resolved "https://registry.yarnpkg.com/country-emoji/-/country-emoji-1.5.6.tgz#cca1e637f3eac8cd2c3f2f910213d9a521b1307e"
+  integrity sha512-pSB8OOROfimFc2bcN+H41DuzXYIod/JQ6SgF4pYXkRCm9f8uF1JAJ0vXPhenug6xkpt3Gv33mdypMXB49CJWRA==
+
 cross-spawn@^7.0.0, cross-spawn@^7.0.2:
   version "7.0.3"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-7.0.3.tgz#f73a85b9d5d41d045551c177e2882d4ac85728a6"
