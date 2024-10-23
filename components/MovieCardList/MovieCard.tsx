@@ -47,6 +47,7 @@ const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, selectedMovieId }
 
   const updatedQueryParams = new URLSearchParams(searchParams.toString())
   updatedQueryParams.set("movie", String(id))
+  updatedQueryParams.delete("name")
 
   const isMovieInPlaylist = (playlist?: movieTypes[]) => playlist && playlist.some(playlistItem => playlistItem?.id === id)
 
@@ -65,7 +66,7 @@ const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, selectedMovieId }
   const onCurrentId = (key: number) => Number(selectedMovieId) === key
 
   return (
-    <Link href={`${pathname}?${updatedQueryParams.toString().replace(/&name=.*?(&|$)/, "")}`}>
+    <Link href={`${pathname}?${updatedQueryParams}`}>
       <button
         type="button"
         className={`relative grid transition-transform duration-300 ease-in-out ${onCurrentId(id) ? "scale-105" : ""} hover:scale-105 h-min`}
