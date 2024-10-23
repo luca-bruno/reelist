@@ -135,10 +135,12 @@ const PersonSelectionPane: FC<any> = ({ person }) => {
                   <span>{placeOfBirth}</span>
                 </div>
 
+                {birthday && (
                 <div className="flex items-start">
                   <span className="pr-1 select-none">👶</span>
                   <span>{birthday}</span>
                 </div>
+                )}
 
                 {deathday && (
                   <div className="flex items-start">
@@ -147,7 +149,7 @@ const PersonSelectionPane: FC<any> = ({ person }) => {
                   </div>
                 )}
               </div>
-              <div className="overflow-y-auto max-h-[10.5rem] pr-2">{biography}</div>
+              <div className="overflow-y-auto max-h-[10.5rem] pr-2">{biography || "No biography available."}</div>
             </div>
           </div>
 
