@@ -156,17 +156,17 @@ const PersonSelectionPane: FC<any> = ({ person }) => {
           <div className="p-5 rounded-lg shadow-md">
             {isPrimarilyDirector ? (
               <>
-                <Showcase title="Director" payload={directed} itemsPerPage={8} />
-                <Showcase title="Actor" payload={cast} itemsPerPage={4} />
+                { directed.length >=1 && <Showcase title="Director" payload={directed} itemsPerPage={8} /> }
+                { cast.length >=1 && <Showcase title="Actor" payload={cast} itemsPerPage={4} /> }
               </>
             ) : (
               <>
-                <Showcase title="Actor" payload={cast} itemsPerPage={8} />
-                <Showcase title="Director" payload={directed} itemsPerPage={4} />
+                { cast.length >=1 && <Showcase title="Actor" payload={cast} itemsPerPage={8} /> }
+                { directed.length >=1 && <Showcase title="Director" payload={directed} itemsPerPage={4} /> }
               </>
             )}
-            <Showcase title="Producer" payload={produced} itemsPerPage={4} />
-            <Showcase title="Writer" payload={written} itemsPerPage={4} />
+            { produced.length >= 1 && <Showcase title="Producer" payload={produced} itemsPerPage={4} /> }
+            { written.length >=1 && <Showcase title="Writer" payload={written} itemsPerPage={4} />}
           </div>
         </div>
       </div>

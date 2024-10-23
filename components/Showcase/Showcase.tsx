@@ -13,29 +13,31 @@ const Showcase = ({ title, payload, itemsPerPage }) => {
     <>
       <div className="flex justify-between w-full my-2">
         <p>{title}</p>
-        <div>
-          <button
-            type="button"
-            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-            disabled={currentPage === 1}
-            className={currentPage === 1 ? "hidden" : ""}
-          >
-            <FontAwesomeIcon icon={faChevronLeft} />
-          </button>
+        {totalPages !== 1 || !totalPages && (
+          <div>
+            <button
+              type="button"
+              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className={currentPage === 1 ? "hidden" : ""}
+            >
+              <FontAwesomeIcon icon={faChevronLeft} />
+            </button>
 
-          <span className="px-2">
-            Page {currentPage} of {totalPages}
-          </span>
+            <span className="px-2">
+              Page {currentPage} of {totalPages}
+            </span>
 
-          <button
-            type="button"
-            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-            disabled={currentPage === totalPages}
-            className={currentPage === totalPages ? "hidden" : ""}
-          >
-            <FontAwesomeIcon icon={faChevronRight} />
-          </button>
-        </div>
+            <button
+              type="button"
+              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages}
+              className={currentPage === totalPages ? "hidden" : ""}
+            >
+              <FontAwesomeIcon icon={faChevronRight} />
+            </button>
+          </div>
+        )}
       </div>
       <div className="flex gap-6 flex-wrap">
         {currentItems?.map(({ id, poster_path: posterPath, title }) => (
