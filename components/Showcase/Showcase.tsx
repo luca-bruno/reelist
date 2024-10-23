@@ -13,7 +13,7 @@ const Showcase = ({ title, payload, itemsPerPage }) => {
     <>
       <div className="flex justify-between w-full my-2">
         <p>{title}</p>
-        {totalPages !== 1 || !totalPages && (
+        {totalPages !== 1 && (
           <div>
             <button
               type="button"
@@ -47,9 +47,6 @@ const Showcase = ({ title, payload, itemsPerPage }) => {
               id,
               title,
               posterPath
-              // ,
-              // setSelectedMovieId,
-              // selectedMovieId
             }}
           />
         ))}

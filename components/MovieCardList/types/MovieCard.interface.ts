@@ -5,7 +5,7 @@ interface MovieCardTypes {
   id: movieTypes["id"]
   title: movieTypes["title"]
   posterPath: movieTypes["poster_path"]
-  selectedMovieId: MovieCardListTypes["selectedMovieId"]
+  selectedMovieId?: MovieCardListTypes["selectedMovieId"]
 }
 
 export default MovieCardTypes

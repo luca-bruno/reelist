@@ -21,7 +21,6 @@ const BrowseContainer: FC<BrowseContainerTypes> = async ({ params, searchParams 
   let defaultMovieDetails: movieTypes | undefined
 
   const { id, playlistKey } = params || {}
-  const { query, year, genres, language, countries, name: nameId, page } = searchParams || {}
   const { query, year, genres, language, countries, name: nameId, page, movie: movieId
    } = searchParams || {}
 
