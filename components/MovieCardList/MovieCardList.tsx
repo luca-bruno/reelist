@@ -1,14 +1,21 @@
-import { FC, useEffect, useState } from "react"
+import { FC, useEffect, useRef, useState } from "react"
 import MovieCardListTypes from "./types/MovieCardList.interface"
 import MovieCard from "./MovieCard"
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner"
 
 const MovieCardList: FC<MovieCardListTypes> = ({ selectedMovieId, movies, isDisplayingGridView = true }) => {
   const [isLoading, setIsLoading] = useState(true)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (movies && movies.length > 0) {
       setIsLoading(false)
+    }
+  }, [movies])
+
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTop = 0
     }
   }, [movies])
 
@@ -27,6 +34,7 @@ const MovieCardList: FC<MovieCardListTypes> = ({ selectedMovieId, movies, isDisp
     />
   ) : (
     <div
+      ref={containerRef}
       className={`grid m-3 gap-6 p-2 overflow-y-scroll flex-grow overflow-x-hidden
         ${isDisplayingGridView ? "mobileL:grid-cols-5 mobileXL:grid-cols-2 grid-cols-2" : "grid-cols-1"}
       `}
