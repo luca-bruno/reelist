@@ -37,7 +37,7 @@ const Showcase = ({ title, payload, itemsPerPage }) => {
           </button>
         </div>
       </div>
-      <div className="flex gap-3 flex-wrap">
+      <div className="flex gap-6 flex-wrap">
         {currentItems?.map(({ id, poster_path: posterPath, title }) => (
           <MovieCard
             key={id}
