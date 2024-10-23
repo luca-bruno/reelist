@@ -32,7 +32,7 @@ const nextConfig = {
     return [
       {
         source: "/api/locale",
-        destination: "https://geolocation-db.com/json/" // Proxy to the external API
+        destination: "https://ipapi.co/json/" // Proxy to the external API
       }
     ]
   }
