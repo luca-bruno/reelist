@@ -88,7 +88,7 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) =>
             setHasBackgroundImageReturnedError,
             hasReturnedError,
             setHasReturnedError,
-            blurBackdrop: !isDisplayingCastandCrew
+            blurBackdrop: isDisplayingCastandCrew
           }}
         />
 
