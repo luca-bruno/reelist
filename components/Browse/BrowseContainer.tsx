@@ -1,7 +1,5 @@
 import { FC } from "react"
 import { HEADERS_ALLOW_ORIGIN } from "@/constants"
-import { GenresProvider } from "@/context/GenresContext"
-import { CountriesProvider, LanguagesProvider } from "@/context"
 import {
   fetchMoviesByFiltersAndQuery,
   fetchMoviesByFiltersOnly,
