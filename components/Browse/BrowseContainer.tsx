@@ -74,30 +74,26 @@ const BrowseContainer: FC<BrowseContainerTypes> = async ({ params, searchParams 
     }
   }
 
-  const [genresResponse, countriesResponse, languagesResponse] = await Promise.all([
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/genres`, { headers: HEADERS_ALLOW_ORIGIN.headers, cache: "force-cache" }),
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/countries`, { headers: HEADERS_ALLOW_ORIGIN.headers, cache: "force-cache" }),
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/languages`, { headers: HEADERS_ALLOW_ORIGIN.headers, cache: "force-cache" })
-  ])
+  // const [genresResponse, countriesResponse, languagesResponse] = await Promise.all([
+  //   fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/genres`, { headers: HEADERS_ALLOW_ORIGIN.headers, cache: "force-cache" }),
+  //   fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/countries`, { headers: HEADERS_ALLOW_ORIGIN.headers, cache: "force-cache" }),
+  //   fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/languages`, { headers: HEADERS_ALLOW_ORIGIN.headers, cache: "force-cache" })
+  // ])
 
-  const [{ genres: genresResponseData }, countriesResponseData, languagesResponseData] = await Promise.all([
-    genresResponse.json(),
-    countriesResponse.json(),
-    languagesResponse.json()
-  ])
+  // const [{ genres: genresResponseData }, countriesResponseData, languagesResponseData] = await Promise.all([
+  //   genresResponse.json(),
+  //   countriesResponse.json(),
+  //   languagesResponse.json()
+  // ])
 
-  const formattedGenres = formatGenres(genresResponseData)
-  const formattedCountries = formatCountries(countriesResponseData)
-  const formattedLanguages = formatLanguages(languagesResponseData)
+  // const formattedGenres = formatGenres(genresResponseData)
+  // const formattedCountries = formatCountries(countriesResponseData)
+  // const formattedLanguages = formatLanguages(languagesResponseData)
 
   return (
-    <LanguagesProvider languages={formattedLanguages}>
-      <CountriesProvider countries={formattedCountries}>
-        <GenresProvider genres={formattedGenres}>
+ 
           <Browse {...{ movies, defaultMovieDetails, playlistKey, hasFilters, query, hasQuery, name, movie: movieId }} />
-        </GenresProvider>
-      </CountriesProvider>
-    </LanguagesProvider>
+       
   )
 }
 
