@@ -12,7 +12,7 @@ const CarouselItem: FC<CarouselItemTypes> = ({ id, posterPath, title }) => {
   const { hasImageLoaded, setHasImageLoaded } = useImage()
 
   return (
-    <Link href="browse/[id]" as={`browse/${id}`} legacyBehavior>
+    <Link href="browse/[id]" as={`browse/${id}`}>
       <div className={`rounded-xl my-3 overflow-hidden w-[200px] h-[300px] flex-shrink-0 relative hover:scale-105 ${transitionStyles}`}>
         {!hasImageLoaded && (
           <Skeleton height={300} width={200} enableAnimation className="absolute top-0 left-0 rounded-xl" highlightColor="#d6d6d6" />

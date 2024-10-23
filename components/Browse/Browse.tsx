@@ -10,8 +10,7 @@ import BrowseFilters from "./BrowseFilters"
 import { BrowseTypes } from "./types/Browse.interface"
 import PersonSelectionPane from "../PersonSelectionPane/PersonSelectionPane"
 
-const Browse: FC<BrowseTypes> = ({ movies, defaultMovieDetails, playlistKey, hasFilters, query, hasQuery, name }) => {
-  const [selectedMovieId, setSelectedMovieId] = useState<number>()
+const Browse: FC<BrowseTypes> = ({ movies, defaultMovieDetails, playlistKey, hasFilters, query, hasQuery, name, movie }) => {
   const [page, setPage] = useState(1)
   const [playlistMovies, setPlaylistMovies] = useState<movieTypes[] | null>()
   const [queryParams, setQueryParams] = useState<string>()
@@ -64,8 +63,7 @@ const Browse: FC<BrowseTypes> = ({ movies, defaultMovieDetails, playlistKey, has
         <BrowseFilters />
         <MovieCardList
           {...{
-            setSelectedMovieId,
-            selectedMovieId,
+            selectedMovieId: movie,
             movies: playlistMovies || movies,
             isDisplayingGridView: true
           }}
@@ -75,7 +73,7 @@ const Browse: FC<BrowseTypes> = ({ movies, defaultMovieDetails, playlistKey, has
       {!name ? (
         <MovieSelectionPane
           {...{
-            selectedMovieId: selectedMovieId || defaultMovieDetails?.id || playlistMovies?.[0]?.id || movies?.[0]?.id
+            selectedMovieId: movie || defaultMovieDetails?.id || playlistMovies?.[0]?.id || movies?.[0]?.id
           }}
         />
       ) : (

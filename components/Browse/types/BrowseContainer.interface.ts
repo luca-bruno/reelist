@@ -8,5 +8,6 @@ export interface BrowseContainerTypes {
     countries: string
     name: string
     page: string
+    movie: string
   }
 }

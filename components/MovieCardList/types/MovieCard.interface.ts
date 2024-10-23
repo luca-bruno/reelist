@@ -5,7 +5,6 @@ interface MovieCardTypes {
   id: movieTypes["id"]
   title: movieTypes["title"]
   posterPath: movieTypes["poster_path"]
-  setSelectedMovieId: MovieCardListTypes["setSelectedMovieId"]
   selectedMovieId: MovieCardListTypes["selectedMovieId"]
 }
 

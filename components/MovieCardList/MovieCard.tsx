@@ -11,12 +11,17 @@ import { HEADERS_ALLOW_ORIGIN, IS_BROWSER, TMDB_IMAGE_PATH } from "@/constants"
 import { usePlaylist } from "@/context/PlaylistContext"
 import { movieTypes } from "@/types/movie.interface"
 import Skeleton from "react-loading-skeleton"
+import "react-loading-skeleton/dist/skeleton.css"
+import Link from "next/link"
+import { usePathname, useSearchParams } from "next/navigation"
 import MovieCardType from "./types/MovieCard.interface"
-import "react-loading-skeleton/dist/skeleton.css" // Optional CSS styles for skeleton
 
-const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, setSelectedMovieId, selectedMovieId }) => {
+const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, selectedMovieId }) => {
   const [favourites, setFavourites] = useState<movieTypes[]>()
   const [watchlist, setWatchlist] = useState<movieTypes[]>()
+
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
 
   const unaddedStyles = "hover:bg-red-300 bg-red-500"
   const alreadyAddedStyles = "hover:bg-gray-300 bg-gray-500"
@@ -40,6 +45,10 @@ const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, setSelectedMovieI
     }
   }, [playlists])
 
+  const updatedQueryParams = new URLSearchParams(searchParams.toString())
+
+  updatedQueryParams.set("movie", String(id))
+
   const isMovieInPlaylist = (playlist?: movieTypes[]) => playlist && playlist.some(playlistItem => playlistItem?.id === id)
 
   const handleAddToPlaylist = async (e: React.MouseEvent<SVGSVGElement, MouseEvent>, listKey: string) => {
@@ -57,59 +66,60 @@ const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, setSelectedMovieI
   const onCurrentId = (key: number) => selectedMovieId === key
 
   return (
-    <button
-      type="button"
-      className={`relative grid transition-transform duration-300 ease-in-out ${onCurrentId(id) ? "scale-105" : ""} hover:scale-105 h-min`}
-      onClick={() => setSelectedMovieId(id)}
-    >
-      <div
-        className="relative rounded-xl overflow-hidden flex justify-center items-center"
-        style={{ width: "calc(200px - 2rem)", height: "calc(300px - 1.5rem - 1.5rem)" }}
+    <Link href={`${pathname}?${updatedQueryParams.toString().replace(/name=.*?(&|$)/, "")}`}>
+      <button
+        type="button"
+        className={`relative grid transition-transform duration-300 ease-in-out ${onCurrentId(id) ? "scale-105" : ""} hover:scale-105 h-min`}
       >
-        {!hasImageLoaded && (
-          <Skeleton
-            height={300}
-            width={200}
-            enableAnimation
-            className="absolute top-0 left-0 rounded-xl"
-            highlightColor="#d6d6d6"
-            style={{
-              width: "calc(200px - 2rem)",
-              height: "calc(300px - 1.5rem - 1.5rem)"
+        <div
+          className="relative rounded-xl overflow-hidden flex justify-center items-center"
+          style={{ width: "calc(200px - 2rem)", height: "calc(300px - 1.5rem - 1.5rem)" }}
+        >
+          {!hasImageLoaded && (
+            <Skeleton
+              height={300}
+              width={200}
+              enableAnimation
+              className="absolute top-0 left-0 rounded-xl"
+              highlightColor="#d6d6d6"
+              style={{
+                width: "calc(200px - 2rem)",
+                height: "calc(300px - 1.5rem - 1.5rem)"
+              }}
+            />
+          )}
+
+          <Image
+            unoptimized
+            className={`rounded-xl select-none transition-opacity duration-300 ease-in-out ${
+              hasImageLoaded ? "opacity-100" : "opacity-0"
+            } absolute top-0 left-0`}
+            src={posterPath ? `${TMDB_IMAGE_PATH}${posterPath}` : fallbackPlaceholder}
+            onError={() => {
+              // TODO: handle error
             }}
+            onLoadingComplete={() => setHasImageLoaded(true)}
+            alt={`${title || "Movie"} icon`}
+            width={200}
+            height={300}
+            draggable={false}
           />
-        )}
+        </div>
 
-        <Image
-          unoptimized
-          className={`rounded-xl select-none transition-opacity duration-300 ease-in-out ${
-            hasImageLoaded ? "opacity-100" : "opacity-0"
-          } absolute top-0 left-0`}
-          src={posterPath ? `${TMDB_IMAGE_PATH}${posterPath}` : fallbackPlaceholder}
-          onError={() => {
-            // TODO: handle error
-          }}
-          onLoadingComplete={() => setHasImageLoaded(true)}
-          alt={`${title || "Movie"} icon`}
-          width={200}
-          height={300}
-          draggable={false}
-        />
-      </div>
-
-      <div className="relative bottom-[20px] justify-end w-full flex gap-2">
-        <FontAwesomeIcon
-          icon={!isMovieInPlaylist(favourites) ? faHeartCirclePlus : faHeart}
-          className={`${!isMovieInPlaylist(favourites) ? unaddedStyles : alreadyAddedStyles} rounded-full p-2 ${transitionStyles}`}
-          onClick={e => handleAddToPlaylist(e, "Favourites")}
-        />
-        <FontAwesomeIcon
-          icon={!isMovieInPlaylist(watchlist) ? faPlus : faCheck}
-          className={`${!isMovieInPlaylist(watchlist) ? unaddedStyles : alreadyAddedStyles} rounded-full p-2 ${transitionStyles}`}
-          onClick={e => handleAddToPlaylist(e, "Watchlist")}
-        />
-      </div>
-    </button>
+        <div className="relative bottom-[20px] justify-end w-full flex gap-2">
+          <FontAwesomeIcon
+            icon={!isMovieInPlaylist(favourites) ? faHeartCirclePlus : faHeart}
+            className={`${!isMovieInPlaylist(favourites) ? unaddedStyles : alreadyAddedStyles} rounded-full p-2 ${transitionStyles}`}
+            onClick={e => handleAddToPlaylist(e, "Favourites")}
+          />
+          <FontAwesomeIcon
+            icon={!isMovieInPlaylist(watchlist) ? faPlus : faCheck}
+            className={`${!isMovieInPlaylist(watchlist) ? unaddedStyles : alreadyAddedStyles} rounded-full p-2 ${transitionStyles}`}
+            onClick={e => handleAddToPlaylist(e, "Watchlist")}
+          />
+        </div>
+      </button>
+    </Link>
   )
 }
 

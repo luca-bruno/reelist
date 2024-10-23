@@ -3,7 +3,7 @@ import MovieCardListTypes from "./types/MovieCardList.interface"
 import MovieCard from "./MovieCard"
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner"
 
-const MovieCardList: FC<MovieCardListTypes> = ({ setSelectedMovieId, selectedMovieId, movies, isDisplayingGridView = true }) => {
+const MovieCardList: FC<MovieCardListTypes> = ({ selectedMovieId, movies, isDisplayingGridView = true }) => {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
@@ -39,7 +39,6 @@ const MovieCardList: FC<MovieCardListTypes> = ({ setSelectedMovieId, selectedMov
             id,
             title,
             posterPath,
-            setSelectedMovieId,
             selectedMovieId
           }}
         />

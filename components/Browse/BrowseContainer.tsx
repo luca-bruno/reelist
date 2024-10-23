@@ -22,6 +22,8 @@ const BrowseContainer: FC<BrowseContainerTypes> = async ({ params, searchParams 
 
   const { id, playlistKey } = params || {}
   const { query, year, genres, language, countries, name: nameId, page } = searchParams || {}
+  const { query, year, genres, language, countries, name: nameId, page, movie: movieId
+   } = searchParams || {}
 
   const filters: filterParamTypes = {}
 
@@ -92,7 +94,7 @@ const BrowseContainer: FC<BrowseContainerTypes> = async ({ params, searchParams 
     <LanguagesProvider languages={formattedLanguages}>
       <CountriesProvider countries={formattedCountries}>
         <GenresProvider genres={formattedGenres}>
-          <Browse {...{ movies, defaultMovieDetails, playlistKey, hasFilters, query, hasQuery, name }} />
+          <Browse {...{ movies, defaultMovieDetails, playlistKey, hasFilters, query, hasQuery, name, movie: movieId }} />
         </GenresProvider>
       </CountriesProvider>
     </LanguagesProvider>
