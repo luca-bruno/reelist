@@ -46,7 +46,6 @@ const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, selectedMovieId }
   }, [playlists])
 
   const updatedQueryParams = new URLSearchParams(searchParams.toString())
-
   updatedQueryParams.set("movie", String(id))
 
   const isMovieInPlaylist = (playlist?: movieTypes[]) => playlist && playlist.some(playlistItem => playlistItem?.id === id)
@@ -63,7 +62,7 @@ const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, selectedMovieId }
     if (listKey === "Watchlist") setWatchlist(JSON.parse(localStorage.getItem(listKey) as string))
   }
 
-  const onCurrentId = (key: number) => selectedMovieId === key
+  const onCurrentId = (key: number) => Number(selectedMovieId) === key
 
   return (
     <Link href={`${pathname}?${updatedQueryParams.toString().replace(/name=.*?(&|$)/, "")}`}>
