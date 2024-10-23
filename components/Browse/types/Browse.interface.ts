@@ -8,4 +8,5 @@ export interface BrowseTypes {
   hasFilters?: boolean
   hasQuery?: boolean
   name?: string
+  movie?: string
 }

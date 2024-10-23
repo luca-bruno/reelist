@@ -1,11 +1,9 @@
 import { FC, useEffect, useState } from "react"
-import { capitalise, transitionStyles } from "@/helpers"
+import { capitalise } from "@/helpers"
 import CreatableSelect from "react-select/creatable"
 import makeAnimated from "react-select/animated"
 import { SingleValue } from "react-select"
 import { usePlaylist } from "@/context/PlaylistContext"
-import { faX } from "@fortawesome/free-solid-svg-icons/faX"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { MovieSelectionPaneDropdownTypes, optionTypes } from "./types/MovieSelectionPaneDropdown.interface"
 
 const MovieSelectionPaneDropdown: FC<MovieSelectionPaneDropdownTypes> = ({ selectedMovie }) => {

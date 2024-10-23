@@ -1,4 +1,4 @@
-const useShowcase = (payload, currentPage, itemsPerPage) => {
+const useShowcase = (payload: any, currentPage: number, itemsPerPage: number) => {
   const startIndex = (currentPage - 1) * itemsPerPage
   const endIndex = startIndex + itemsPerPage
   const totalPages = Math.ceil(payload.length / itemsPerPage)

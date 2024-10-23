@@ -1,14 +1,12 @@
 "use client"
 
-import { FC, useEffect, useState } from "react"
+import { FC, useEffect } from "react"
 import useImage from "@/hooks/useImage/useImage"
-import { flag, code, name, countries } from "country-emoji"
+import { flag } from "country-emoji"
 import Link from "next/link"
 import { transitionStyles } from "@/helpers"
-import MovieSelectionPaneDetailsHeader from "../MovieSelectionPane/MovieSelectionPaneDetailsHeader"
 import PersonSelectionPanePoster from "./PersonSelectionPanePoster"
 import Showcase from "../Showcase"
-import { usePathname } from "next/navigation"
 
 const PersonSelectionPane: FC<any> = ({ person }) => {
   // TODO: split off and use this template
@@ -49,24 +47,24 @@ const PersonSelectionPane: FC<any> = ({ person }) => {
 
   const directed = crew
     ?.filter((item: { job: string }) => item.job === "Director")
-    .map(({ id, poster_path: posterPath, title }: { id: number; posterPath: string; title: string }) => ({
-      id,
+    .map(({ id: directedId, poster_path: posterPath, title }: { id: number; poster_path: string; title: string }) => ({
+      id: directedId,
       poster_path: posterPath,
       title
     }))
 
   const written = crew
     ?.filter((item: { job: string }) => item.job === "Writer")
-    .map(({ id, poster_path: posterPath, title }: { id: number; posterPath: string; title: string }) => ({
-      id,
+    .map(({ id: writtenId, poster_path: posterPath, title }: { id: number; poster_path: string; title: string }) => ({
+      id: writtenId,
       poster_path: posterPath,
       title
     }))
 
   const produced = crew
     ?.filter((item: { job: string }) => item.job.includes("Producer"))
-    .map(({ id, poster_path: posterPath, title }: { id: number; posterPath: string; title: string }) => ({
-      id,
+    .map(({ id: producedId, poster_path: posterPath, title }: { id: number; poster_path: string; title: string }) => ({
+      producedId,
       poster_path: posterPath,
       title
     }))

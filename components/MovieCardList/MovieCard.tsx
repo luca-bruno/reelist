@@ -63,13 +63,14 @@ const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, selectedMovieId }
     if (listKey === "Watchlist") setWatchlist(JSON.parse(localStorage.getItem(listKey) as string))
   }
 
-  const onCurrentId = (key: number) => Number(selectedMovieId) === key
+  const onCurrentId = (key: number) => Number(selectedMovieId) === Number(key)
 
   return (
     <Link href={`${pathname}?${updatedQueryParams}`}>
       <button
         type="button"
-        className={`relative grid transition-transform duration-300 ease-in-out ${onCurrentId(id) ? "scale-105" : ""} hover:scale-105 h-min`}
+        className={`relative grid transition-transform duration-300 ease-in-out 
+          ${onCurrentId(id as number) ? "scale-105" : ""} hover:scale-105 h-min`}
       >
         <div
           className="relative rounded-xl overflow-hidden flex justify-center items-center"

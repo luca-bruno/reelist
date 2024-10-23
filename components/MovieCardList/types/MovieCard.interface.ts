@@ -2,7 +2,7 @@ import MovieCardListTypes from "@/components/MovieCardList/types/MovieCardList.i
 import { movieTypes } from "@/types/movie.interface"
 
 interface MovieCardTypes {
-  id: movieTypes["id"]
+  id: movieTypes["id"] | string
   title: movieTypes["title"]
   posterPath: movieTypes["poster_path"]
   selectedMovieId?: MovieCardListTypes["selectedMovieId"]

@@ -1,3 +1,3 @@
 export interface MovieSelectionPaneTypes {
-  selectedMovieId?: number
+  selectedMovieId?: number | string
 }
