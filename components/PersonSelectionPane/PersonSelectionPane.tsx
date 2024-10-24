@@ -101,8 +101,7 @@ const PersonSelectionPane: FC<any> = ({ person }) => {
                   <Link href={`https://www.themoviedb.org/person/${id}`} target="_blank" rel="noopener noreferrer">
                     <button
                       type="button"
-                      className={`px-3 flex justify-center items-center h-[38px] rounded-xl opacity-80
-                  hover:opacity-100 bg-[gray] hover:bg-accent-500" ${transitionStyles}`}
+                      className={`px-3 flex justify-center items-center h-[38px] rounded-xl bg-black bg-opacity-20 hover:bg-accent-500 ${transitionStyles} select-none gap-x-1.5`}
                     >
                       🔗
                     </button>
@@ -110,8 +109,7 @@ const PersonSelectionPane: FC<any> = ({ person }) => {
                   {/* <Link href={`https://www.themoviedb.org/person/${id}`} target="_blank" rel="noopener noreferrer"> */}
                   <button
                     type="button"
-                    className={`px-3 flex justify-center items-center h-[38px] rounded-xl opacity-80
-                  hover:opacity-100 bg-[gray] hover:bg-accent-500" ${transitionStyles}`}
+                    className={`px-3 flex justify-center items-center h-[38px] rounded-xl bg-black bg-opacity-20 hover:bg-accent-500 ${transitionStyles} select-none gap-x-1.5`}
                   >
                     🥓
                   </button>
@@ -125,10 +123,10 @@ const PersonSelectionPane: FC<any> = ({ person }) => {
                 </div>
 
                 {birthday && (
-                <div className="flex items-start">
-                  <span className="pr-1 select-none">👶</span>
-                  <span>{birthday}</span>
-                </div>
+                  <div className="flex items-start">
+                    <span className="pr-1 select-none">👶</span>
+                    <span>{birthday}</span>
+                  </div>
                 )}
 
                 {deathday && (
@@ -145,17 +143,17 @@ const PersonSelectionPane: FC<any> = ({ person }) => {
           <div className="p-5 rounded-lg shadow-md">
             {isPrimarilyDirector ? (
               <>
-                { directed.length >=1 && <Showcase title="Director" payload={directed} itemsPerPage={8} /> }
-                { cast.length >=1 && <Showcase title="Actor" payload={cast} itemsPerPage={4} /> }
+                {directed.length >= 1 && <Showcase title="Director" payload={directed} itemsPerPage={8} />}
+                {cast.length >= 1 && <Showcase title="Actor" payload={cast} itemsPerPage={4} />}
               </>
             ) : (
               <>
-                { cast.length >=1 && <Showcase title="Actor" payload={cast} itemsPerPage={8} /> }
-                { directed.length >=1 && <Showcase title="Director" payload={directed} itemsPerPage={4} /> }
+                {cast.length >= 1 && <Showcase title="Actor" payload={cast} itemsPerPage={8} />}
+                {directed.length >= 1 && <Showcase title="Director" payload={directed} itemsPerPage={4} />}
               </>
             )}
-            { produced.length >= 1 && <Showcase title="Producer" payload={produced} itemsPerPage={4} /> }
-            { written.length >=1 && <Showcase title="Writer" payload={written} itemsPerPage={4} />}
+            {produced.length >= 1 && <Showcase title="Producer" payload={produced} itemsPerPage={4} />}
+            {written.length >= 1 && <Showcase title="Writer" payload={written} itemsPerPage={4} />}
           </div>
         </div>
       </div>
