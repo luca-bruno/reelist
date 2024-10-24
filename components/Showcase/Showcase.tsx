@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons/faChevronLeft"
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons/faChevronRight"
 import MovieCard from "../MovieCardList/MovieCard"
+import { transitionStyles } from "@/helpers"
 
 const Showcase: FC<any> = ({ title, payload, itemsPerPage }) => {
   const [currentPage, setCurrentPage] = useState(1)
@@ -22,7 +23,7 @@ const Showcase: FC<any> = ({ title, payload, itemsPerPage }) => {
               disabled={currentPage === 1}
               className={currentPage === 1 ? "hidden" : ""}
             >
-              <FontAwesomeIcon icon={faChevronLeft} />
+              <FontAwesomeIcon className={`hover:text-accent-500 ${transitionStyles}`} icon={faChevronLeft} />
             </button>
 
             <span className="px-2">
@@ -35,7 +36,7 @@ const Showcase: FC<any> = ({ title, payload, itemsPerPage }) => {
               disabled={currentPage === totalPages}
               className={currentPage === totalPages ? "hidden" : ""}
             >
-              <FontAwesomeIcon icon={faChevronRight} />
+              <FontAwesomeIcon className={`hover:text-accent-500 ${transitionStyles}`} icon={faChevronRight} />
             </button>
           </div>
         )}

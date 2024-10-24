@@ -48,7 +48,7 @@ const BrowseHeader: FC<BrowseHeaderTypes> = ({ page, setPage, movies }) => {
       <div className="m-auto mobileL:mr-1 mobileXL:h-10 h-max flex ml-0">
         <button type="button" className={`w-10 ${buttonStyles}`} disabled={page === 1} onClick={() => setPage(prev => prev - 1)}>
           <FontAwesomeIcon
-            className={`h-5 w-5 text-white flex m-auto ${transitionStyles} ${page === 1 ? "opacity-0" : "opacity-100"}`}
+            className={`h-5 w-5 text-white hover:text-accent-500 flex m-auto ${transitionStyles} ${page === 1 ? "opacity-0" : "opacity-100"}`}
             icon={faArrowLeft}
             aria-hidden="true"
           />
@@ -56,7 +56,7 @@ const BrowseHeader: FC<BrowseHeaderTypes> = ({ page, setPage, movies }) => {
 
         <button type="button" className={`w-10 ${buttonStyles}`} disabled={movies && movies.length < 20} onClick={() => setPage(prev => prev + 1)}>
           <FontAwesomeIcon
-            className={`h-5 w-5 text-white flex m-auto ${transitionStyles}
+            className={`h-5 w-5 text-white hover:text-accent-500 flex m-auto ${transitionStyles}
               ${movies && movies.length < 20 ? "opacity-0" : "opacity-100"}
               `}
             icon={faArrowRight}
