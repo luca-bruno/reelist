@@ -2,6 +2,7 @@
 import { Oleo_Script } from "next/font/google"
 import NavbarButton from "./NavbarButton"
 import CountrySelectorContainer from "../CountrySelector"
+import BaconScoreContainer from "../BaconScore/BaconScoreContainer"
 
 const oleoScript = Oleo_Script({
   subsets: ["latin"],
@@ -14,7 +15,10 @@ const Navbar = () => (
       <NavbarButton {...{ label: "Reelist", slug: "/" }} />
     </p>
 
-    <CountrySelectorContainer />
+    <div className="flex justify-center items-center">
+      <BaconScoreContainer />
+      <CountrySelectorContainer />
+    </div>
 
     {/* <NavbarButtons /> */}
   </header>
