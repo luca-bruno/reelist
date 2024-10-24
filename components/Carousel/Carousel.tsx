@@ -64,7 +64,7 @@ const Carousel: FC<CarouselTypes> = ({ title, subtitle, list, listKey, playlists
         )}
       </h3>
       <div className="w-full relative flex h-[361px] gap-4">
-        {overrideList && overrideList?.length > 1 && (
+        {overrideList && overrideList?.length > 1 ? (
           <Marquee pauseOnHover play={shouldScroll} speed={30} delay={1} className="py-[10px]">
             {overrideList?.map(({ id, poster_path: posterPath, title: movieTitle }) => (
               <div key={id} className="flex-shrink-0 mx-2 first-of-type::ml-0 last-of-type::mr-0">
@@ -72,6 +72,8 @@ const Carousel: FC<CarouselTypes> = ({ title, subtitle, list, listKey, playlists
               </div>
             ))}
           </Marquee>
+        ) : (
+          <div className="justify-center items-center m-auto text-accent-500">You have no movies in this playlist - browse and add some!</div>
         )}
 
         <Link
