@@ -47,7 +47,7 @@ const Showcase: FC<any> = ({ title, payload, itemsPerPage }) => {
             key={id}
             {...{
               id,
-              title,
+              title: movieTitle,
               posterPath
             }}
           />
