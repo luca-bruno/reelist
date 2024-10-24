@@ -73,7 +73,7 @@ const Carousel: FC<CarouselTypes> = ({ title, subtitle, list, listKey, playlists
             ))}
           </Marquee>
         ) : (
-          <div className="justify-center items-center m-auto text-accent-500">You have no movies in this playlist - browse and add some!</div>
+          <div className="justify-center items-center m-auto text-accent-500 text-xl">You have no movies in this playlist - browse and add some!</div>
         )}
 
         <Link

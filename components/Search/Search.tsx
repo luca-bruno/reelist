@@ -3,29 +3,33 @@
 import { FC, useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faX } from "@fortawesome/free-solid-svg-icons/faX"
-import { useRouter, useSearchParams } from "next/navigation"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { transitionStyles } from "@/helpers"
 
-const Search: FC = () => {
+const Search: FC<{ size?: "medium" | "large" }> = ({ size = "medium" }) => {
   const router = useRouter()
+  const pathname = usePathname()
   const searchParams = useSearchParams()
   const query = searchParams.get("query") || ""
   const [input, setInput] = useState(query)
 
   const updateQueryParams = () => {
     const currentQueryParams = new URLSearchParams(window.location.search)
-    // Update the query parameter
     if (input) {
       currentQueryParams.set("query", input)
     } else {
-      currentQueryParams.delete("query") // Remove the query if input is empty
+      currentQueryParams.delete("query")
     }
 
-    router.push(`?${currentQueryParams.toString()}`)
+    if (input) {
+      router.push(pathname === "/" ? `/browse?${currentQueryParams.toString()}` : `?${currentQueryParams.toString()}`)
+    }
   }
 
   useEffect(() => {
-    localStorage.setItem("latest-search-term", input)
+    if (input !== "" && pathname !== "") {
+      localStorage.setItem("latest-search-term", input)
+    }
   }, [input])
 
   useEffect(() => {
@@ -48,8 +52,8 @@ const Search: FC = () => {
         onChange={e => setInput(e.target.value)}
         maxLength={50}
         value={input}
-        className="text-black focus:outline-none focus:ring-0 border-2 
-          focus:border-accent-500 p-2 rounded-xl laptopXL:w-96 w-full text-sm tablet:text-lg"
+        className={`text-black focus:outline-none focus:ring-0 border-2 ${size === "large" ? "text-4xl" : "text-lg"}
+          focus:border-accent-500 p-2 rounded-xl laptopXL:w-96 w-full`}
       />
       {input && (
         <button

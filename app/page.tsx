@@ -2,6 +2,7 @@
 import { Oleo_Script, Atkinson_Hyperlegible } from "next/font/google"
 import fetchMovies from "@/services/fetchMovies/fetchMovies"
 import CarouselList from "@/components/Carousel/CarouselList"
+import Search from "@/components/Search"
 
 const oleoScript = Oleo_Script({
   subsets: ["latin"],
@@ -31,6 +32,11 @@ const HomePage = async () => {
             interests - powered by the TMDb and JustWatch APIs.
           </h2>
         </div>
+      </div>
+
+      <div className="mb-16">
+        <h3 className="text-3xl font-medium text-accent-500 my-4">Looking for something? 🔎</h3>
+        <Search size="large" />
       </div>
 
       <CarouselList {...{ movies }} />
