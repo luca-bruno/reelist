@@ -25,7 +25,7 @@ const CarouselItem: FC<CarouselItemTypes> = ({ id, posterPath, title }) => {
             ${hasImageLoaded ? "opacity-100" : "opacity-0"}
             select-none`}
           src={posterPath ? `${TMDB_IMAGE_PATH}${posterPath}` : fallbackPlaceholder}
-          onLoadingComplete={() => setHasImageLoaded(true)}
+          onLoad={() => setHasImageLoaded(true)}
           alt={`${title || "Movie"} icon`}
           width={200}
           height={300}

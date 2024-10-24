@@ -25,7 +25,7 @@ const PersonSelectionPanePoster: FC<any> = ({
       // src={`${TMDB_IMAGE_PATH}${poster}`}
       alt={`${title || "Movie"} poster`}
       onError={() => setHasReturnedError(true)}
-      onLoadingComplete={() => setHasImageLoaded(true)}
+      onLoad={() => setHasImageLoaded(true)}
       width={200}
       height={300}
       draggable={false}

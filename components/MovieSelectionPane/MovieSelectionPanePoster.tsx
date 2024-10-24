@@ -29,7 +29,7 @@ const MovieSelectionPanePoster: FC<MovieSelectionPanePosterTypes> = ({
       // src={`${TMDB_IMAGE_PATH}${poster}`}
       alt={`${title || "Movie"} poster`}
       onError={() => setHasReturnedError(true)}
-      onLoadingComplete={() => setHasImageLoaded(true)}
+      onLoad={() => setHasImageLoaded(true)}
       width={228}
       height={315}
       draggable={false}

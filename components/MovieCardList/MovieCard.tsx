@@ -99,7 +99,7 @@ const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, selectedMovieId }
             onError={() => {
               // TODO: handle error
             }}
-            onLoadingComplete={() => setHasImageLoaded(true)}
+            onLoad={() => setHasImageLoaded(true)}
             alt={`${title || "Movie"} icon`}
             width={200}
             height={300}
