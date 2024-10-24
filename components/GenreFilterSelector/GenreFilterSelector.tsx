@@ -13,6 +13,12 @@ const GenreFilterSelector: FC = () => {
 
   const [values, setValues] = useState<MultiValue<optionTypes>>([])
 
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
   const router = useRouter()
 
   const updateQueryParams = (action: string, selectedOption: MultiValue<optionTypes>) => {
@@ -56,8 +62,10 @@ const GenreFilterSelector: FC = () => {
   }
 
   return (
+    isClient &&
     <div>
       <Select
+        instanceId="genreFilter"
         isMulti
         isSearchable
         components={makeAnimated()}

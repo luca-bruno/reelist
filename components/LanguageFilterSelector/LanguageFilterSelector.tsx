@@ -15,6 +15,12 @@ const LanguageFilterSelector: FC = () => {
   const [values, setValues] = useState<(optionTypes<{ nativeName: string; englishName: string; isoCode: string }> | undefined)[]>([])
   const [languageOption, setLanguageOption] = useState<optionTypes<{ nativeName: string; englishName: string; isoCode: string }>>()
 
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
   const router = useRouter()
 
   const updateQueryParams = (
@@ -71,25 +77,28 @@ const LanguageFilterSelector: FC = () => {
   }
 
   return (
-    <div>
-      <Select
-        isSearchable
-        isClearable
-        components={makeAnimated()}
-        onChange={(selectedOption, { action }) =>
-          handleLanguageChange(selectedOption as SingleValue<optionTypes<{ nativeName: string; englishName: string; isoCode: string }>>, action)
-        }
-        options={values}
-        // isLoading={isLoading}
-        value={languageOption}
-        placeholder="🔎 Language"
-        filterOption={(option, inputValue) =>
-          filterOption(option as { label: string; data: { nativeName: string; englishName: string; isoCode: string } }, inputValue)
-        }
-        classNamePrefix="movie-selection-pane-dropdown"
-        styles={getFilterSelectStyles()}
-      />
-    </div>
+    isClient && (
+      <div>
+        <Select
+          instanceId="languageFilter"
+          isSearchable
+          isClearable
+          components={makeAnimated()}
+          onChange={(selectedOption, { action }) =>
+            handleLanguageChange(selectedOption as SingleValue<optionTypes<{ nativeName: string; englishName: string; isoCode: string }>>, action)
+          }
+          options={values}
+          // isLoading={isLoading}
+          value={languageOption}
+          placeholder="🔎 Language"
+          filterOption={(option, inputValue) =>
+            filterOption(option as { label: string; data: { nativeName: string; englishName: string; isoCode: string } }, inputValue)
+          }
+          classNamePrefix="movie-selection-pane-dropdown"
+          styles={getFilterSelectStyles()}
+        />
+      </div>
+    )
   )
 }
 

@@ -14,6 +14,12 @@ const CountryFilterSelector: FC = () => {
 
   const [values, setValues] = useState<(optionTypes<{ nativeName: string; englishName: string; isoCode: string }> | undefined)[]>()
 
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
   const [selectedCountries, setSelectedCountries] = useState<
     MultiValue<
       optionTypes<{
@@ -53,14 +59,15 @@ const CountryFilterSelector: FC = () => {
   }
 
   useEffect(() => {
-    setValues(countries)
-
-    if (query) {
-      const countriesIdsFromQuery = query.split(",")
-      const matchedCountries = countries?.filter((country: { value: string }) => countriesIdsFromQuery.includes(country.value))
-      setSelectedCountries(matchedCountries)
+    if (countries) {
+      setValues(countries)
+      if (query) {
+        const countriesIdsFromQuery = query.split(",")
+        const matchedCountries = countries.filter((country: { value: string }) => countriesIdsFromQuery.includes(country.value))
+        setSelectedCountries(matchedCountries)
+      }
     }
-  }, [countries, query, setSelectedCountries])
+  }, [countries, query])
 
   const handleCountryChange = (
     selectedOption: MultiValue<
@@ -94,8 +101,10 @@ const CountryFilterSelector: FC = () => {
   }
 
   return (
-    <div>
+      isClient &&
+      <div>
       <Select
+        instanceId="countryFilter"
         isMulti
         isSearchable
         components={makeAnimated()}

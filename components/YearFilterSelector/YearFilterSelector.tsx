@@ -1,4 +1,4 @@
-import { FC, useState } from "react"
+import { FC, useEffect, useState } from "react"
 // import { filterTypes } from "@/types/filter.interface"
 import Select, { SingleValue } from "react-select"
 import makeAnimated from "react-select/animated"
@@ -21,6 +21,12 @@ const YearFilterSelector: FC = () => {
   const searchParams = useSearchParams()
   const query = searchParams.get("year") || ""
   const [year, setYear] = useState<string>(query)
+
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
 
   // Generate years between 1888 and the current year
   const currentYear = new Date().getFullYear()
@@ -48,8 +54,10 @@ const YearFilterSelector: FC = () => {
   }
 
   return (
+    isClient &&
     <div>
       <Select
+        instanceId="yearFilter"
         isSearchable
         isClearable
         components={makeAnimated()}

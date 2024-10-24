@@ -91,18 +91,21 @@ const CountrySelector: FC<{ countries: optionTypes<{ name: string; code: string 
     }
   }
   return (
-    <Select
-      isSearchable={false}
-      className={`px-3 mt-2 ${atkinsonHyperlegible.className}`}
-      components={makeAnimated()}
-      onChange={newValue => handleDropdownClick(newValue as SingleValue<optionTypes<{ name: string; code: string }>>)}
-      options={countries}
-      value={value}
-      isLoading={isLoading}
-      placeholder=""
-      classNamePrefix="movie-selection-pane-dropdown"
-      styles={getSelectStyles()}
-    />
+    <div>
+      <Select
+        instanceId="country"
+        isSearchable={false}
+        className={`px-3 mt-2 ${atkinsonHyperlegible.className}`}
+        components={makeAnimated()}
+        onChange={newValue => handleDropdownClick(newValue as SingleValue<optionTypes<{ name: string; code: string }>>)}
+        options={countries}
+        value={value}
+        isLoading={isLoading}
+        placeholder=""
+        classNamePrefix="movie-selection-pane-dropdown"
+        styles={getSelectStyles()}
+      />
+    </div>
   )
 }
 

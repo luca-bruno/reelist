@@ -9,7 +9,7 @@ import Search from "../Search"
 
 const alignmentStyles = "flex justify-start items-start"
 
-interface BrowseHeaderTypes { 
+interface BrowseHeaderTypes {
   page: number
   setPage: Dispatch<SetStateAction<number>>
   movies: movieTypes[]
@@ -25,14 +25,14 @@ const BrowseHeader: FC<BrowseHeaderTypes> = ({ page, setPage, movies }) => {
     if (x) {
       const parsedPage = parseInt(x, 10)
       if (!Number.isNaN(parsedPage) && parsedPage !== page) {
-        setPage(parsedPage) // Update state only if the page has changed
+        setPage(parsedPage)
       }
     } else {
       currentQueryParams.set("page", "1")
       const newUrl = `${window.location.pathname}?${currentQueryParams.toString()}`
       router.push(newUrl)
     }
-  }, [router])
+  }, [page, router, setPage])
 
   useEffect(() => {
     const currentQueryParams = new URLSearchParams(window.location.search)

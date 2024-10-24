@@ -9,6 +9,7 @@ const BrowseFilters: FC = () => {
     "laptopM:[&>*:not(:first-child)]:mx-2 mobileXL:[&>*:not(:first-child)]:mx-0 [&>*:not(:first-child)]:mx-2 laptopM:mr-1 mx-0 mr-3"
 
   const alignmentStyles = "flex justify-between items-start"
+  
   return (
     <>
       <div className={`ml-3 mt-3 ${filterWrapperStyles} ${alignmentStyles} text-black mobileXL:flex-row laptopM:flex-row`}>
