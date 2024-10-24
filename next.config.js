@@ -28,15 +28,6 @@ const nextConfig = {
       }
     ]
   }
-  // ,
-  // async rewrites() {
-  //   return [
-  //     {
-  //       source: "/api/locale",
-  //       destination: "https://ipapi.co/json/" // Proxy to the external API
-  //     }
-  //   ]
-  // }
 }
 
 module.exports = nextConfig
