@@ -32,7 +32,7 @@ const BrowseHeader: FC<BrowseHeaderTypes> = ({ page, setPage, movies }) => {
       const newUrl = `${window.location.pathname}?${currentQueryParams.toString()}`
       router.push(newUrl)
     }
-  }, [page, router, setPage])
+  }, [router])
 
   useEffect(() => {
     const currentQueryParams = new URLSearchParams(window.location.search)
@@ -57,8 +57,8 @@ const BrowseHeader: FC<BrowseHeaderTypes> = ({ page, setPage, movies }) => {
         <button type="button" className={`w-10 ${buttonStyles}`} disabled={movies && movies.length < 20} onClick={() => setPage(prev => prev + 1)}>
           <FontAwesomeIcon
             className={`h-5 w-5 text-white flex m-auto ${transitionStyles}
-                   ${movies && movies.length < 20 ? "opacity-0" : "opacity-100"}
-                   `}
+              ${movies && movies.length < 20 ? "opacity-0" : "opacity-100"}
+              `}
             icon={faArrowRight}
             aria-hidden="true"
           />
