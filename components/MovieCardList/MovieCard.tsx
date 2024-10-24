@@ -107,7 +107,8 @@ const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, selectedMovieId }
           />
           {!posterPath && (
             <div
-              className={`${transitionStyles} absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gray-200 text-gray-800 text-lg font-bold hover:opacity-100 opacity-0`}
+              className={`${transitionStyles} absolute top-0 left-0 w-full h-full flex items-center justify-center 
+                bg-gray-200 text-gray-800 text-lg font-bold hover:opacity-100 opacity-0`}
             >
               {title || "No Title"}
             </div>

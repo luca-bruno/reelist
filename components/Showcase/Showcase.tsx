@@ -4,8 +4,8 @@ import useShowcase from "@/hooks/useShowcase/useShowcase"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons/faChevronLeft"
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons/faChevronRight"
-import MovieCard from "../MovieCardList/MovieCard"
 import { transitionStyles } from "@/helpers"
+import MovieCard from "../MovieCardList/MovieCard"
 
 const Showcase: FC<any> = ({ title, payload, itemsPerPage }) => {
   const [currentPage, setCurrentPage] = useState(1)
