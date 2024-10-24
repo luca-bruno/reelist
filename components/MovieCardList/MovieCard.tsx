@@ -105,11 +105,13 @@ const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, selectedMovieId }
             height={252}
             draggable={false}
           />
-          <div
-            className={`${transitionStyles} absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gray-200 text-gray-800 text-lg font-bold hover:opacity-100 opacity-0`}
-          >
-            {title || "No Title"}
-          </div>
+          {!posterPath && (
+            <div
+              className={`${transitionStyles} absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gray-200 text-gray-800 text-lg font-bold hover:opacity-100 opacity-0`}
+            >
+              {title || "No Title"}
+            </div>
+          )}
         </div>
 
         <span className="absolute bottom-[-12px] justify-end w-full flex gap-2">
