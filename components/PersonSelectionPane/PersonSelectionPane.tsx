@@ -101,7 +101,8 @@ const PersonSelectionPane: FC<any> = ({ person }) => {
                   <Link href={`https://www.themoviedb.org/person/${id}`} target="_blank" rel="noopener noreferrer">
                     <button
                       type="button"
-                      className={`px-3 flex justify-center items-center h-[38px] rounded-xl bg-black bg-opacity-20 hover:bg-accent-500 ${transitionStyles} select-none gap-x-1.5`}
+                      className={`px-3 flex justify-center items-center h-[38px] rounded-xl
+                        bg-black bg-opacity-20 hover:bg-accent-500 ${transitionStyles} select-none gap-x-1.5`}
                     >
                       🔗
                     </button>
@@ -109,7 +110,8 @@ const PersonSelectionPane: FC<any> = ({ person }) => {
                   {/* <Link href={`https://www.themoviedb.org/person/${id}`} target="_blank" rel="noopener noreferrer"> */}
                   <button
                     type="button"
-                    className={`px-3 flex justify-center items-center h-[38px] rounded-xl bg-black bg-opacity-20 hover:bg-accent-500 ${transitionStyles} select-none gap-x-1.5`}
+                    className={`px-3 flex justify-center items-center h-[38px] rounded-xl 
+                      bg-black bg-opacity-20 hover:bg-accent-500 ${transitionStyles} select-none gap-x-1.5`}
                   >
                     🥓
                   </button>

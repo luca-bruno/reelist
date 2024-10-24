@@ -22,9 +22,11 @@ const BaconScoreContainer = () => {
 
   return (
     baconNumber && (
-      <Link href={"https://en.wikipedia.org/wiki/Six_Degrees_of_Kevin_Bacon"} target="_blank" rel="noopener noreferrer">
+      <Link href="https://en.wikipedia.org/wiki/Six_Degrees_of_Kevin_Bacon" target="_blank" rel="noopener noreferrer">
         <button
-          className={`px-3 mt-2 flex justify-center items-center h-[38px] rounded-xl bg-black bg-opacity-20 hover:bg-accent-500 ${transitionStyles} select-none gap-x-1.5`}
+          type="button"
+          className={`px-3 mt-2 flex justify-center items-center h-[38px] rounded-xl bg-black bg-opacity-20
+            hover:bg-accent-500 ${transitionStyles} select-none gap-x-1.5`}
         >
           🥓
           <div className={`${atkinsonHyperlegible.className}`}>{baconNumber}</div>
