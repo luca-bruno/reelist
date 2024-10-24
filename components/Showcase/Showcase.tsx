@@ -13,7 +13,7 @@ const Showcase: FC<any> = ({ title, payload, itemsPerPage }) => {
 
   return (
     <>
-      <div className="flex justify-between w-full my-2">
+      <div className="flex justify-between w-full my-8 first-of-type:mt-2 last-of-type:mb-2">
         <p>{title}</p>
         {totalPages !== 1 && (
           <div>

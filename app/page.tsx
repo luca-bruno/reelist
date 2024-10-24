@@ -35,7 +35,7 @@ const HomePage = async () => {
       </div>
 
       <div className="mb-16">
-        <h3 className="text-3xl font-medium text-accent-500 my-4">Looking for something? 🔎</h3>
+        <h3 className="text-3xl font-medium text-accent-500 my-4 select-none">Looking for something? 🔎</h3>
         <Search size="large" />
       </div>
 
