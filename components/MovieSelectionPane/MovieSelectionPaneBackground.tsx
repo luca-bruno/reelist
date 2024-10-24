@@ -17,7 +17,7 @@ const MovieSelectionPaneBackground: FC<MovieSelectionPaneBackgroundTypes> = ({
   <>
     <Image
       unoptimized
-      className={`select-none filter z-0 mobileXL:block hidden ${blurBackdrop ? "blur" : ""}`}
+      className={`select-none w-auto h-auto filter z-0 mobileXL:block hidden ${blurBackdrop ? "blur" : ""}`}
       // TODO: img fallbacks
       // src={hasBackgroundImageReturnedError ? fallbackPlaceholderWide : background || ""}
       src={background ? `${TMDB_IMAGE_PATH}${background}` : fallbackPlaceholderWide}
@@ -31,7 +31,7 @@ const MovieSelectionPaneBackground: FC<MovieSelectionPaneBackgroundTypes> = ({
     />
     <Image
       unoptimized
-      className={`select-none filter z-0 mobileXL:hidden block ${blurBackdrop ? "blur" : ""}`}
+      className={`select-none w-auto h-auto filter z-0 mobileXL:hidden block ${blurBackdrop ? "blur" : ""}`}
       // TODO: img fallbacks
       // src={hasReturnedError ? fallbackPlaceholderWide : iconLarge || iconSmall || ""}
       src={background ? `${TMDB_IMAGE_PATH}${background}` : fallbackPlaceholderWide}

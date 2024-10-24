@@ -41,12 +41,12 @@ const MovieSelectionPaneCastCrewDetailsItem: FC<MovieSelectionPaneCastCrewDetail
                 )}
                 <Image
                   unoptimized
-                  className={`relative rounded-xl ${hasImageLoaded ? "opacity-100" : "opacity-0"} select-none`}
+                  className={`relative w-[30px] h-[45px] rounded-xl ${hasImageLoaded ? "opacity-100" : "opacity-0"} select-none`}
                   onLoad={() => setHasImageLoaded(true)}
                   src={profilePath ? `${TMDB_IMAGE_PATH}${profilePath}` : fallbackPlaceholderUser}
                   alt={name}
                   width={30}
-                  height={30}
+                  height={45}
                   draggable={false}
                 />
               </div>

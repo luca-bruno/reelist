@@ -168,7 +168,7 @@ const MovieSelectionPaneProviders: FC<MovieSelectionPaneProviders> = ({ watchPro
                   <Image
                     unoptimized
                     id={String(providerId)}
-                    className={`rounded-lg ${transitionStyles} cursor-pointer m-1 select-none`}
+                    className={`rounded-lg ${transitionStyles} w-[36px] h-[36px] cursor-pointer m-1 select-none`}
                     src={`${TMDB_IMAGE_PATH}${logoPath}`}
                     alt={`${providerName || "Provider"} icon`}
                     width={36}

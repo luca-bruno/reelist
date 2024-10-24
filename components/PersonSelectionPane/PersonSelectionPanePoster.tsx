@@ -19,7 +19,7 @@ const PersonSelectionPanePoster: FC<any> = ({
   >
     <Image
       unoptimized
-      className="rounded-xl select-none slide_fade_from_left"
+      className="rounded-xl w-[200px] h-[300px] select-none slide_fade_from_left"
       // src={hasReturnedError ? "" : iconLarge || iconSmall || ""}
       src={poster ? `${TMDB_IMAGE_PATH}${poster}` : fallbackPlaceholderUser}
       // src={`${TMDB_IMAGE_PATH}${poster}`}

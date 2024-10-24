@@ -21,7 +21,7 @@ const CarouselItem: FC<CarouselItemTypes> = ({ id, posterPath, title }) => {
         <Image
           unoptimized
           id={id as unknown as string}
-          className={`rounded-xl cursor-pointer
+          className={`rounded-xl cursor-pointer w-[200px] h-[300px]
             ${hasImageLoaded ? "opacity-100" : "opacity-0"}
             select-none`}
           src={posterPath ? `${TMDB_IMAGE_PATH}${posterPath}` : fallbackPlaceholder}

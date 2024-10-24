@@ -69,8 +69,8 @@ const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, selectedMovieId }
     <Link href={`${pathname}?${updatedQueryParams}`}>
       <button
         type="button"
-        className={`relative grid transition-transform duration-300 ease-in-out 
-          ${onCurrentId(id as number) ? "scale-105" : ""} hover:scale-105 h-min`}
+        className={`h-auto w-auto relative transition-transform duration-300 ease-in-out 
+          ${onCurrentId(id as number) ? "scale-105" : ""} hover:scale-105`}
       >
         <div
           className="relative rounded-xl overflow-hidden flex justify-center items-center"
@@ -78,8 +78,8 @@ const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, selectedMovieId }
         >
           {!hasImageLoaded && (
             <Skeleton
-              height={300}
-              width={200}
+              height={252}
+              width={168}
               enableAnimation
               className="absolute top-0 left-0 rounded-xl"
               highlightColor="#d6d6d6"
@@ -92,7 +92,7 @@ const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, selectedMovieId }
 
           <Image
             unoptimized
-            className={`rounded-xl select-none transition-opacity duration-300 ease-in-out ${
+            className={`rounded-xl w-[168px] h-[252px] select-none transition-opacity duration-300 ease-in-out ${
               hasImageLoaded ? "opacity-100" : "opacity-0"
             } absolute top-0 left-0`}
             src={posterPath ? `${TMDB_IMAGE_PATH}${posterPath}` : fallbackPlaceholder}
@@ -101,13 +101,13 @@ const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, selectedMovieId }
             }}
             onLoad={() => setHasImageLoaded(true)}
             alt={`${title || "Movie"} icon`}
-            width={200}
-            height={300}
+            width={168}
+            height={252}
             draggable={false}
           />
         </div>
 
-        <div className="relative bottom-[20px] justify-end w-full flex gap-2">
+        <span className="absolute bottom-[-12px] justify-end w-full flex gap-2">
           <FontAwesomeIcon
             icon={!isMovieInPlaylist(favourites) ? faHeartCirclePlus : faHeart}
             className={`${!isMovieInPlaylist(favourites) ? unaddedStyles : alreadyAddedStyles} rounded-full p-2 ${transitionStyles}`}
@@ -118,7 +118,7 @@ const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, selectedMovieId }
             className={`${!isMovieInPlaylist(watchlist) ? unaddedStyles : alreadyAddedStyles} rounded-full p-2 ${transitionStyles}`}
             onClick={e => handleAddToPlaylist(e, "Watchlist")}
           />
-        </div>
+        </span>
       </button>
     </Link>
   )
