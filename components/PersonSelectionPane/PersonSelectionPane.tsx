@@ -16,15 +16,6 @@ const PersonSelectionPane: FC<any> = ({ person }) => {
   //     revalidateOnFocus: false
   //   })
 
-  // const { data: selectedMovie, error } = useSWR(
-  //   selectedMovieId ? `${process.env.NEXT_PUBLIC_BASE_URL}/api/movie?id=${selectedMovieId}` : null,
-  //   SWR_FETCHER,
-  //   {
-  //     revalidateOnMount: true,
-  //     revalidateOnFocus: false
-  //   }
-  // )
-
   const {
     hasImageLoaded,
     setHasImageLoaded,
