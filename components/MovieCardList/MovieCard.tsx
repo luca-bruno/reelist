@@ -122,7 +122,7 @@ const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, selectedMovieId }
 
         <span
           className={`absolute bottom-[-12px] justify-end w-full flex gap-2 ${transitionStyles} 
-            ${isMobile ? "" : "opacity-0 transform translate-y-4 transition-all duration-300 ease-in-out group-hover:opacity-100 group-hover:translate-y-0"}`}
+            ${isMobile ? "" : "opacity-0 transform translate-y-4 transition-all group-hover:opacity-100 group-hover:translate-y-0"}`}
         >
           <FontAwesomeIcon
             icon={!isMovieInPlaylist(favourites) ? faHeartCirclePlus : faHeart}
