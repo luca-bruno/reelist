@@ -2,6 +2,7 @@
 
 import { FC, useEffect, useState } from "react"
 import Image from "next/image"
+// import { headers } from "next/headers"
 import useImage from "@/hooks/useImage/useImage"
 import { transitionStyles } from "@/helpers"
 import fallbackPlaceholder from "@/public/fallbackPlaceholder.jpg"
@@ -17,6 +18,10 @@ import { usePathname, useSearchParams } from "next/navigation"
 import MovieCardType from "./types/MovieCard.interface"
 
 const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, selectedMovieId }) => {
+  // const userAgent = headers().get("user-agent") || ""
+  // const isMobile = /iPhone|iPad|iPod|Android/i.test(userAgent)
+  const isMobile = false
+
   const [favourites, setFavourites] = useState<movieTypes[]>()
   const [watchlist, setWatchlist] = useState<movieTypes[]>()
 
@@ -69,7 +74,7 @@ const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, selectedMovieId }
     <Link href={`${pathname}?${updatedQueryParams}`}>
       <button
         type="button"
-        className={`h-auto w-auto relative transition-transform duration-300 ease-in-out 
+        className={`h-auto w-auto relative transition-transform duration-300 ease-in-out ${isMobile ? "" : "group"}
           ${onCurrentId(id as number) ? "scale-105" : ""} hover:scale-105`}
       >
         <div
@@ -115,7 +120,10 @@ const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, selectedMovieId }
           )}
         </div>
 
-        <span className="absolute bottom-[-12px] justify-end w-full flex gap-2">
+        <span
+          className={`absolute bottom-[-12px] justify-end w-full flex gap-2 ${transitionStyles} 
+            ${isMobile ? "" : "opacity-0 transform translate-y-4 transition-all duration-300 ease-in-out group-hover:opacity-100 group-hover:translate-y-0"}`}
+        >
           <FontAwesomeIcon
             icon={!isMovieInPlaylist(favourites) ? faHeartCirclePlus : faHeart}
             className={`${!isMovieInPlaylist(favourites) ? unaddedStyles : alreadyAddedStyles} rounded-full p-2 ${transitionStyles}`}
