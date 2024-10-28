@@ -10,6 +10,7 @@ interface PlaylistContextType {
   customPlaylistNames: string[]
   addToPlaylist: (listKey: string, selectedMovie: movieTypes, toggledAddition?: boolean) => void
   createCustomPlaylist: (playlistName: string) => void
+  deletePlaylist: (playlistName: string) => void
 }
 
 const PlaylistContext = createContext<PlaylistContextType | undefined>(undefined)
@@ -75,11 +76,22 @@ export const PlaylistProvider = ({ children }: { children: ReactNode }) => {
       }
     }
 
+    const deletePlaylist = (playlistName: string) => {
+      const updatedPlaylists = customPlaylistNames.filter(item => item !== playlistName)
+    
+      setCustomPlaylistNames?.(updatedPlaylists)
+    
+      const savedPlaylists = JSON.parse(localStorage.getItem("custom-playlists") || "[]")
+      const playlistsAfterDeletion = savedPlaylists.filter((item: string) => item !== playlistName)
+      localStorage.setItem("custom-playlists", JSON.stringify(playlistsAfterDeletion))
+    }
+
     return {
       playlists,
       customPlaylistNames,
       addToPlaylist,
-      createCustomPlaylist
+      createCustomPlaylist,
+      deletePlaylist
     }
   }, [playlists, customPlaylistNames])
 

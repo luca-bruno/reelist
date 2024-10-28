@@ -12,6 +12,7 @@ import { faChevronRight } from "@fortawesome/free-solid-svg-icons/faChevronRight
 import { faPlus } from "@fortawesome/free-solid-svg-icons/faPlus"
 import { faX } from "@fortawesome/free-solid-svg-icons/faX"
 import Marquee from "react-fast-marquee"
+import { usePlaylist } from "@/context/PlaylistContext"
 import CarouselItem from "./CarouselItem"
 import { CarouselTypes } from "./types/Carousel.interface"
 
@@ -25,6 +26,8 @@ const Carousel: FC<CarouselTypes> = ({ title, subtitle, list, listKey, playlists
 
   const [overrideList, setOverrideList] = useState<movieTypes[] | undefined>(list)
   const [isHoveringOnCarousel, setIsHoveringOnCarousel] = useState(false)
+
+  const { deletePlaylist: purgePlaylist } = usePlaylist()
 
   const isLatestSearchCarousel = title === "Your Latest Search"
   const shouldScroll = overrideList && overrideList?.length > 5
@@ -58,7 +61,7 @@ const Carousel: FC<CarouselTypes> = ({ title, subtitle, list, listKey, playlists
       <h3 className="text-3xl font-medium text-accent-500 my-4">
         {title} {subtitle}
         {isCustomPlaylist && isHoveringOnCarousel && (
-          <button type="button" onClick={() => deletePlaylist()}>
+          <button type="button" onClick={() => { deletePlaylist(); purgePlaylist(title) } }>
             <FontAwesomeIcon icon={faX} className={`text-lg mx-4 flex items-center hover:text-accent-300 ${transitionStyles}`} />
           </button>
         )}
