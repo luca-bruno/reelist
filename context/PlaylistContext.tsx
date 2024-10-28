@@ -38,6 +38,8 @@ export const PlaylistProvider = ({ children }: { children: ReactNode }) => {
           initialPlaylists[key] = JSON.parse(storedList)
         }
       })
+
+      setCustomPlaylistNames(savedCustomPlaylists)
     }
   }, [])
 
@@ -67,7 +69,9 @@ export const PlaylistProvider = ({ children }: { children: ReactNode }) => {
       const capitalizedName = capitalise(playlistName)
       if (!customPlaylistNames.includes(capitalizedName)) {
         setCustomPlaylistNames(prev => [...prev, capitalizedName])
-        localStorage.setItem("custom-playlists", JSON.stringify([...customPlaylistNames, capitalizedName]))
+        const savedCustomPlaylists = JSON.parse(localStorage.getItem("custom-playlists") || "[]")
+
+        localStorage.setItem("custom-playlists", JSON.stringify([...savedCustomPlaylists, capitalizedName]))
       }
     }
 
