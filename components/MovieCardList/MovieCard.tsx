@@ -57,7 +57,8 @@ const MovieCard: FC<MovieCardType> = ({ id, title, posterPath, selectedMovieId }
   const isMovieInPlaylist = (playlist?: movieTypes[]) => playlist && playlist.some(playlistItem => playlistItem?.id === id)
 
   const handleAddToPlaylist = async (e: React.MouseEvent<SVGSVGElement, MouseEvent>, listKey: string) => {
-    // e.stopPropagation()
+    e.stopPropagation()
+    e.preventDefault()
 
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/movie?id=${id}`, HEADERS_ALLOW_ORIGIN)
     const movieDetails = await response.json()
