@@ -148,9 +148,7 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) =>
               </div>
             </>
           ) : (
-            <div className="flex-col h-[510px] p-5 grid grid-rows-3 w-[70%]">
-              <div />
-              <div />
+            <div className="flex-col flex p-5 mt-[58%] w-[70%]">
               <div>
                 {title && (
                   <>
