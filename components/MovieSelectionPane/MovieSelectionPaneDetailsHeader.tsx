@@ -93,7 +93,7 @@ const MovieSelectionPaneDetailsHeader: FC<MovieSelectionPaneDetailsHeaderTypes> 
       </h1>
 
       {!isAnEnglishMovie && !isTitleIdenticalToOriginalTitle && (
-        <h2 className="text-xl font-semibold line-clamp-2" style={truncationStyles}>
+        <h2 className="text-xl font-semibold line-clamp-2 pr-4" style={truncationStyles}>
           {originalTitle}
         </h2>
       )}
