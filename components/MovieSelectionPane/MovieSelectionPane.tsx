@@ -150,7 +150,7 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) =>
           ) : (
             // <div className="absolute bottom-[3.5rem] h-[469px] p-5 w-[70%]">
             // <div className="absolute bottom-2 h-[469px] p-5 w-[70%]">
-            <div className="absolute bottom-2 max-h-[516px] p-5 w-[70%]">
+            <div className="absolute bottom-2 min-h-[469px] max-h-[516px] p-5 w-[70%]">
               <div>
                 {title && (
                   <>
