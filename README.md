@@ -1,9 +1,13 @@
 # Reelist
 
+<div align = center>
 ~~Cross-platform~~ Movie discovery hub 🍿💻~~📱~~
 <br>
 
+<br>
+
 Discover new films, build custom watchlists, and instantly locate streaming options — personalised just for you!
+</div>
 
 ## Features  
 
