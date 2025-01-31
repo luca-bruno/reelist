@@ -8,19 +8,23 @@ Discover new films, build custom watchlists, and instantly locate streaming opti
 ## Features  
 
 ### Smart Movie Discovery
-- ✅ **Filtered Search** 🔍 – Discover films based on genre, rating, year, and more  
-- ✅ **Personalised AI Recommendations**🧵 – Get suggestions tailored to your tastes  
-- ✅ **Trending & New Releases** ✨ – Stay updated on the latest must-watch titles  
+- ✅ **Filtered Search** 🔍 – Discover films based on genre, rating, year, and more
+- ✅ **Personalised AI Recommendations**🧵 – Get suggestions tailored to your tastes
+- ✅ **Trending & New Releases** ✨ – Stay updated on the latest must-watch titles
 
 
 ### Customisable Watchlists
-- ✅ **Create & Manage Lists** ✔️ – Organise your watchlist your way 
-- ✅ **Tailored Collections** 🥂 – Build theme-based lists for any occasion  
+- ✅ **Create & Manage Lists** ✔️ – Organise your watchlist your way
+- ✅ **Tailored Collections** 🥂 – Build theme-based lists for any occasion
 
 
-### Seamless Streaming Integration  
+### Seamless Streaming Integration
 - ✅ **Instant Streaming Options** 🎥 – Find out where to watch any movie **(Buy, Rent, Stream 📺)**
 - ✅ **Global & Local Availability** 🌍 – Get streaming data from various providers, from any country
+
+<br>
+
+**⚡ Powered by the TMDb and JustWatch APIs.**
 
 
 ## Instructions
