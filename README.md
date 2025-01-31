@@ -1,7 +1,7 @@
 # Reelist
 
 <div align = center>
-<del>Cross-platform</del> Movie discovery hub 🍿💻 <del>📱</del>
+<del>Cross-platform</del> Movie discovery hub 🍿💻 (🔜📱)
 <br>
 
 <br>
