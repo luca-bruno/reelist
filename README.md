@@ -1,10 +1,11 @@
-# Reelist
-
 <div align = center>
-<del>Cross-platform</del> Movie discovery hub 🍿💻 (🔜📱)
-<br>
+  
+<img src="https://raw.githubusercontent.com/luca-bruno/reelist/main/public/logo.png" width="342" height="123" alt="Reelist">
 
 <br>
+<br>
+  
+<del>Cross-platform</del> Movie discovery hub 🍿💻 (🔜📱)
 
 Discover new films, build custom watchlists, and instantly locate streaming options — personalised just for you!
 </div>
