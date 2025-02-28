@@ -7,7 +7,7 @@ const MovieSelectionPaneDetails: FC<MovieSelectionPaneDetailsTypes> = ({ overvie
 
   return (
     <>
-      <div className="overflow-y-auto max-h-[9rem] pr-2 w-[33rem]">{overview}</div>
+      <div className="overflow-y-auto max-h-[5rem] mobileXL:max-h-[9rem] pr-2 w-auto mobileXL:w-[33rem]">{overview}</div>
 
       <div className="laptop:block pt-2 hidden">
         {directorTags && <Tags {...{ tags: directorTags }} />}

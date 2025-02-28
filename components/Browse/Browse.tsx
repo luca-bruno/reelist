@@ -57,10 +57,16 @@ const Browse: FC<BrowseTypes> = ({ movies, defaultMovieDetails, playlistKey, has
   }, [])
 
   return (
-    <main className="grid grid-flow-row grid-rows-2 mobileXL:grid-rows-none mobileXL:grid-cols-3">
-      <div className="rounded-xl m-3 mobileL:overflow-x overflow-x-none bg-neutral-500 h-[calc(100vh-75px)] flex flex-col">
-        <BrowseHeader {...{ page, setPage, movies: playlistMovies || movies }} />
-        <BrowseFilters />
+    <main className="grid grid-flow-row grid-rows-none mobileXL:grid-cols-3">
+      <div className="rounded-xl order-last mobileXL:order-first 
+        m-3 mobileL:overflow-x overflow-x-none bg-neutral-500
+        mobileXL:h-[calc(100vh-75px)] flex flex-col w-[94vw]"
+      >
+        <div className="hidden mobileXL:block">
+          <BrowseHeader {...{ page, setPage, movies: playlistMovies || movies }} />
+          <BrowseFilters />
+        </div>
+
         <MovieCardList
           {...{
             selectedMovieId: movie,

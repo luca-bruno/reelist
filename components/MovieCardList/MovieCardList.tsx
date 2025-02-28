@@ -35,8 +35,8 @@ const MovieCardList: FC<MovieCardListTypes> = ({ selectedMovieId, movies, isDisp
   ) : (
     <div
       ref={containerRef}
-      className={`grid m-3 gap-6 p-2 overflow-y-scroll flex-grow overflow-x-hidden
-        ${isDisplayingGridView ? "mobileL:grid-cols-5 mobileXL:grid-cols-2 grid-cols-2" : "grid-cols-1"}
+      className={`w-100 flex mobileXL:grid m-3 gap-6 p-2 overflow-x-scroll mobileXL:overflow-y-scroll flex-grow mobileXL:overflow-x-hidden
+        ${isDisplayingGridView ? "mobileXL:grid-cols-2" : "grid-cols-1"}
       `}
       style={{ scrollbarWidth: "thin" }}
     >

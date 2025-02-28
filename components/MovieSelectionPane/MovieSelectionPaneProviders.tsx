@@ -157,7 +157,7 @@ const MovieSelectionPaneProviders: FC<MovieSelectionPaneProviders> = ({ watchPro
       </div>
 
       <div
-        className={`grid grid-cols-5 h-[7.5rem] mb-2 
+        className={`flex mobileXL:grid mobileXL:grid-cols-5 mobileXL:h-[7.5rem] mb-2 
     ${watchProviders?.results && Object.keys(watchProviders.results).length > 0 ? "opacity-100" : "opacity-0 pointer-events-none"}`}
       >
         {methodValue?.value?.toLowerCase() &&

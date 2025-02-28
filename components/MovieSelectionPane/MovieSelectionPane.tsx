@@ -12,6 +12,7 @@ import MovieSelectionPaneDropdown from "./MovieSelectionPaneDropdown"
 import { MovieSelectionPaneTypes } from "./types/MovieSelectionPane.interface"
 import MovieSelectionPaneCastCrewDetails from "./MovieSelectionPaneCastCrewDetails"
 import MovieSelectionPaneDetailsHeader from "./MovieSelectionPaneDetailsHeader"
+import MovieSelectionPaneProviders from "./MovieSelectionPaneProviders"
 
 const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) => {
   const [isDisplayingCastandCrew, setIsDisplayingCastandCrew] = useState(false)
@@ -78,8 +79,8 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) =>
   }, [setHasBackgroundImageReturnedError, setHasImageLoaded, setHasReturnedError])
 
   return (
-    <div className="flex justify-center col-span-1 mobileXL:col-span-2 rounded-xl m-3 overflow-hidden">
-      <div className="relative h-full w-full">
+    <div className="flex mobileXL:h-auto h-full justify-center col-span-1 mobileXL:col-span-2 rounded-xl m-3 overflow-hidden">
+      <div className="relative w-full h-[55vh] mobileXL:h-full">
         <MovieSelectionPaneBackground
           {...{
             title,
@@ -150,7 +151,7 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) =>
           ) : (
             // <div className="absolute bottom-[3.5rem] h-[469px] p-5 w-[70%]">
             // <div className="absolute bottom-2 h-[469px] p-5 w-[70%]">
-            <div className="absolute bottom-2 min-h-[469px] max-h-[516px] p-5 w-[70%]">
+            <div className="absolute bottom-2 min-h-0 max-h-[516px] p-5 w-[70%] mobileXL:min-h-[469px]">
               <div>
                 {title && (
                   <>
@@ -184,6 +185,12 @@ const MovieSelectionPane: FC<MovieSelectionPaneTypes> = ({ selectedMovieId }) =>
               </div>
             </div>
           )}
+
+{watchProviders && (
+      <div className="mobileXL:hidden block">
+        <MovieSelectionPaneProviders {...{ watchProviders }} />
+      </div>
+    )}
         </div>
       </div>
     </div>
