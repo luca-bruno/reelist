@@ -39,7 +39,7 @@ To run **Next.js** front-end:
 
 
 ## Powered by
-<a href="#"><img title="Next.js" src="https://img.shields.io/badge/Next.JS-black?style=for-the-badge&logo=next.js&logoColor=white"></a>
+<a href="#"><img title="Next.js" src="https://img.shields.io/badge/Next.js%2013+-black?style=for-the-badge&logo=next.js&logoColor=white"></a>
 <a href="#"><img title="TypeScript" src="https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white"></a>
 <a href="#"><img title="SWR" src="https://img.shields.io/badge/swr-black.svg?style=for-the-badge&logo=swr&logoColor=white"></a>
 <a href="#"><img title="Tailwind CSS" src="https://img.shields.io/badge/tailwind%20css-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white"></a>
