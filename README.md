@@ -37,7 +37,7 @@ To run **Next.js** front-end local development server:
 <code>yarn dev</code>
 <br>
 To run **Next.js** front-end hosted build:
-<code>yarn build</code> or visit the live site <a rel="noopener noreferrer" target="_blank" href="https://luca-bruno-reelist.vercel.app/">here</a>.
+<code>yarn build</code> or visit the live site <a href="https://luca-bruno-reelist.vercel.app/">here</a>.
 <br>
 
 
